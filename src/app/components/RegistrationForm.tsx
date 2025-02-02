@@ -162,7 +162,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData, onSucc
         />
         <TextField
           id="outlined-disabled"
-          label="Maternal GRandfathers Gothram"
+          label="Maternal Grandfathers Gothram"
           value={phoneNumber}
           placeholder='Grand Fathers Gothram..'
           onChange={(e) => setPhoneNumber(e.target.value)}
