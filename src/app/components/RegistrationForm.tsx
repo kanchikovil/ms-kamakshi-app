@@ -204,9 +204,30 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData, onSucc
         />
         <TextField
           id="outlined-disabled"
-          label="Referred By"
+          label="Husband's Name"
           value={phoneNumber}
-          placeholder='Referred By...'
+          placeholder='Husbands name...'
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+        <TextField
+          id="outlined-disabled"
+          label="Husband's Gothram"
+          value={phoneNumber}
+          placeholder='Husbands Gothram...'
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+        <TextField
+          id="outlined-disabled"
+          label="Husband''s Profession"
+          value={phoneNumber}
+          placeholder='Husbands profession...'
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+        <TextField
+          id="outlined-disabled"
+          label="Husband's vedam"
+          value={phoneNumber}
+          placeholder='Husbands vedam...'
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
       </div>
