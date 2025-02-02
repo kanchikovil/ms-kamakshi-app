@@ -1,6 +1,7 @@
-// src/app/layout.tsx
-import React from 'react';
-import './globals.css'; // You can add global styles here
+"use client";
+import { baselightTheme } from "@/utils/theme/DefaultColors";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 export default function RootLayout({
   children,
@@ -10,13 +11,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header>
-          <h1>Registration Management</h1>
-        </header>
-        <main>{children}</main>
-        <footer>
-          <p>&copy; 2025 Registration App</p>
-        </footer>
+        <ThemeProvider theme={baselightTheme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

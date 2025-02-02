@@ -1,6 +1,8 @@
+'use client'
 // src/components/RegistrationForm.tsx
 import React, { useState, useEffect } from 'react';
 import { createRegistration, editRegistration } from '../services/registrationService';
+import { Box, TextField, Typography,Button } from '@mui/material';
 
 interface RegistrationFormProps {
   initialData?: { user_name: string, user_phone: string, id?: number };
@@ -31,7 +33,37 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData, onSucc
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Box
+      component="form"
+      sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } }}
+      noValidate
+      autoComplete="off"
+      onSubmit={handleSubmit}
+    >
+      <div>
+        <Typography variant="h2" component="h2">Registration Form</Typography>
+      </div>
+
+      {/* <form onSubmit={handleSubmit}> */}
+      <div>
+        <TextField
+          required
+          id="outlined-required"
+          label="Registration Name"
+          placeholder='Your Name here...'
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
+        <TextField
+          
+          id="outlined-disabled"
+          label="Phone Number"
+          value={phoneNumber}
+          placeholder='phoneNumber here...'
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+      </div>
+      {/* <h1>Registration Form</h1>
       <div>
         <label>Registration Name</label>
         <input
@@ -49,9 +81,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData, onSucc
           onChange={(e) => setPhoneNumber(e.target.value)}
           required
         />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+      </div> */}
+      <Button variant="contained" type="submit">Register</Button>
+      {/* <button type="submit">Submit</button> */}
+      {/* </form> */}
+
+    </Box>
   );
 };
 

@@ -18,14 +18,24 @@ const RegistrationList: React.FC<RegistrationListProps> = ({ registrations }) =>
   return (
     <div>
       <h2>Registrations</h2>
-      <ul>
-        {registrations.map((registration) => (
-          <li key={registration.id}>
-            {registration.user_name} - {registration.user_phone}
-            {<RegistrationActions id={registration.id} />}
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {registrations.map((registration) => (
+            <tr key={registration.id}>
+              <td>{registration.user_name}</td>
+              <td>{registration.user_phone}</td>
+              <td>{<RegistrationActions id={registration.id} />}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
