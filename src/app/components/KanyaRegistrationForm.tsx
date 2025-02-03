@@ -8,12 +8,12 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
-interface RegistrationFormProps {
+interface KanyaRegistrationFormProps {
   initialData?: { user_name: string, user_phone: string, id?: number };
   onSuccess: () => void;
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData, onSuccess }) => {
+const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialData, onSuccess }) => {
   const [userName, setUserName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [userType, setUserType] = React.useState({
@@ -348,4 +348,4 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData, onSucc
   );
 };
 
-export default RegistrationForm;
+export default KanyaRegistrationForm;
