@@ -30,8 +30,8 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserType({
-      ...userType,
-      [event.target.name]: event.target.checked,
+      kanya:  event.target.checked,
+      suvashini: event.target.checked
     });
   };
 
@@ -55,12 +55,12 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
       autoComplete="off"
       onSubmit={handleSubmit}
     >
-      <div>
+      {/* <div>
         <Typography variant="h2" component="h2">Registration Form</Typography>
         <FormGroup>
           <FormControlLabel control={<Switch checked={userType.kanya} onChange={handleChange} name="kanya" />} label="Kanya" />
         </FormGroup>
-      </div>
+      </div> */}
 
       <Grid container spacing={2}>
         <Grid size={12}>
@@ -224,34 +224,6 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
               label="Residential Address"
               value={phoneNumber}
               placeholder='Address..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Husband's Name"
-              value={phoneNumber}
-              placeholder='Husbands name...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Husband's Gothram"
-              value={phoneNumber}
-              placeholder='Husbands Gothram...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Husband''s Profession"
-              value={phoneNumber}
-              placeholder='Husbands profession...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Husband's vedam"
-              value={phoneNumber}
-              placeholder='Husbands vedam...'
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </div>

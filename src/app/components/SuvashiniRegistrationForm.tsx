@@ -55,12 +55,12 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
       autoComplete="off"
       onSubmit={handleSubmit}
     >
-      <div>
+      {/* <div>
         <Typography variant="h2" component="h2">Registration Form</Typography>
         <FormGroup>
           <FormControlLabel control={<Switch checked={userType.kanya} onChange={handleChange} name="kanya" />} label="Kanya" />
         </FormGroup>
-      </div>
+      </div> */}
 
       <Grid container spacing={2}>
         <Grid size={12}>
@@ -82,7 +82,7 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
             <TextField
               required
               id="outlined-required"
-              label="Name of the Girl"
+              label="Name"
               placeholder='Your Name here...'
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
@@ -100,39 +100,6 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
               label="Age"
               value={phoneNumber}
               placeholder='Your Age here...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            {
-              userType.kanya && (
-                <TextField
-                  id="outlined-disabled"
-                  label="Name of School"
-                  value={phoneNumber}
-                  placeholder='Your SChool here...'
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-              )
-            }
-
-            <TextField
-              id="outlined-disabled"
-              label="Std Studying"
-              value={phoneNumber}
-              placeholder='Your Std...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Stotram / Slogan"
-              value={phoneNumber}
-              placeholder='Stotram / Slogan known...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Classical Music Known"
-              value={phoneNumber}
-              placeholder='Vocal / Instruments...'
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
             <TextField
@@ -177,56 +144,7 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
               placeholder='Fathers Profession..'
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
-            <TextField
-              id="outlined-disabled"
-              label="Mother's Name"
-              value={phoneNumber}
-              placeholder='Mothers Name..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Maternal Grandfathers Gothram"
-              value={phoneNumber}
-              placeholder='Grand Fathers Gothram..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Mother's Vedam"
-              value={phoneNumber}
-              placeholder='Mothers Vedam..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Mother's Profession"
-              value={phoneNumber}
-              placeholder='Mothers Profession..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Kula Devatha"
-              value={phoneNumber}
-              placeholder='Kula Devatha..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Place"
-              value={phoneNumber}
-              placeholder='Place..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
-              id="outlined-disabled"
-              label="Residential Address"
-              value={phoneNumber}
-              placeholder='Address..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <TextField
+                        <TextField
               id="outlined-disabled"
               label="Husband's Name"
               value={phoneNumber}
@@ -254,86 +172,29 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
               placeholder='Husbands vedam...'
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
+            <TextField
+              id="outlined-disabled"
+              label="Kula Devatha"
+              value={phoneNumber}
+              placeholder='Kula Devatha..'
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+            <TextField
+              id="outlined-disabled"
+              label="Place"
+              value={phoneNumber}
+              placeholder='Place..'
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+            <TextField
+              id="outlined-disabled"
+              label="Residential Address"
+              value={phoneNumber}
+              placeholder='Address..'
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
           </div>
         </Grid>
-        {
-          userType.kanya && (
-            <div>
-              <Grid size={4}>
-                <div>
-                  Dress Size
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </Grid>
-              <Grid size={4}>
-                <div>
-                  Kolusu Size
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </Grid>
-              <Grid size={4}>
-                <div>
-                  Bangle Size
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </Grid>
-            </div>
-          )
-        }
       </Grid>
 
       {/* <form onSubmit={handleSubmit}> */}
