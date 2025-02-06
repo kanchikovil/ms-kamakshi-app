@@ -2,11 +2,8 @@
 // src/components/RegistrationForm.tsx
 import React, { useState, useEffect } from 'react';
 import { createRegistration, editRegistration } from '../services/registrationService';
-import { Box, TextField, Typography, Button } from '@mui/material';
+import { Box, TextField, Typography, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 
 interface KanyaRegistrationFormProps {
   initialData?: { user_name: string, user_phone: string, id?: number };
@@ -16,10 +13,9 @@ interface KanyaRegistrationFormProps {
 const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialData, onSuccess }) => {
   const [userName, setUserName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [userType, setUserType] = React.useState({
-    kanya: true,
-    suvashini: false
-  });
+  const [kolusuSize, setKolusuSize] = useState(0);
+  const [dressSize, setDressSize] = useState(0);
+  const [bangleSize, setBangleSize] = useState(0);
 
   useEffect(() => {
     if (initialData) {
@@ -28,11 +24,31 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
     }
   }, [initialData]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserType({
-      kanya:  event.target.checked,
-      suvashini: event.target.checked
-    });
+  const handleKolusuSize = (
+    event: React.MouseEvent<HTMLElement>,
+    newkolusuSize: number | 0,
+  ) => {
+    if (newkolusuSize !== 0) {
+      setKolusuSize(newkolusuSize);
+    }
+  };
+
+  const handleDressSize = (
+    event: React.MouseEvent<HTMLElement>,
+    newDressSize: number | 0,
+  ) => {
+    if (newDressSize !== 0) {
+      setDressSize(newDressSize);
+    }
+  };
+
+  const handleBangleSize = (
+    event: React.MouseEvent<HTMLElement>,
+    newBangleSize: number | 0,
+  ) => {
+    if (newBangleSize !== 0) {
+      setBangleSize(newBangleSize);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,6 +62,8 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
     }
     onSuccess();
   };
+
+  onSuccess();
 
   return (
     <Box
@@ -71,6 +89,7 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
               value={phoneNumber}
               placeholder='Aadhar number here...'
               onChange={(e) => setPhoneNumber(e.target.value)}
+              required
             />
             <TextField
               id="outlined-disabled"
@@ -102,18 +121,13 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
               placeholder='Your Age here...'
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
-            {
-              userType.kanya && (
-                <TextField
-                  id="outlined-disabled"
-                  label="Name of School"
-                  value={phoneNumber}
-                  placeholder='Your SChool here...'
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-              )
-            }
-
+            <TextField
+              id="outlined-disabled"
+              label="Name of School"
+              value={phoneNumber}
+              placeholder='Your SChool here...'
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
             <TextField
               id="outlined-disabled"
               label="Std Studying"
@@ -228,90 +242,232 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
             />
           </div>
         </Grid>
-        {
-          userType.kanya && (
-            <div>
-              <Grid size={4}>
-                <div>
-                  Dress Size
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </Grid>
-              <Grid size={4}>
-                <div>
-                  Kolusu Size
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </Grid>
-              <Grid size={4}>
-                <div>
-                  Bangle Size
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </Grid>
-            </div>
-          )
-        }
+        <Grid size={4}>
+          <Typography variant='h6'>Girls Dress Size in inches</Typography>
+
+          <ToggleButtonGroup
+            value={dressSize}
+            color="primary"
+            exclusive
+            onChange={handleDressSize}
+            aria-label="text alignment"
+          >
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <ToggleButton value={16} aria-label="left aligned">
+                      <Typography variant='caption'>16</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={18} aria-label="left aligned">
+                      <Typography variant='caption'>18</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={20} aria-label="left aligned">
+                      <Typography variant='caption'>20</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={22} aria-label="left aligned">
+                      <Typography variant='caption'>22</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={24} aria-label="left aligned">
+                      <Typography variant='caption'>24</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={26} aria-label="left aligned">
+                      <Typography variant='caption'>26</Typography>
+                    </ToggleButton>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <ToggleButton value={28} aria-label="left aligned">
+                      <Typography variant='caption'>28</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={30} aria-label="left aligned">
+                      <Typography variant='caption'>30</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={32} aria-label="left aligned">
+                      <Typography variant='caption'>32</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={34} aria-label="left aligned">
+                      <Typography variant='caption'>34</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={36} aria-label="left aligned">
+                      <Typography variant='caption'>36</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={38} aria-label="left aligned">
+                      <Typography variant='caption'>38</Typography>
+                    </ToggleButton>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ToggleButtonGroup>
+
+        </Grid>
+        <Grid size={4}>
+          <Typography variant='h6'>Leg Chain (Kolusu) Size in inches</Typography>
+
+          <ToggleButtonGroup
+            value={kolusuSize}
+            color="primary"
+            exclusive
+            onChange={handleKolusuSize}
+            aria-label="text alignment"
+          >
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <ToggleButton value={5.0} aria-label="left aligned">
+                      <Typography variant='caption'>5.0</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={6.0} aria-label="left aligned">
+                      <Typography variant='caption'>6.0</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={7.0} aria-label="left aligned">
+                      <Typography variant='caption'>7.0</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={8.0} aria-label="left aligned">
+                      <Typography variant='caption'>8.0</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={9.0} aria-label="left aligned">
+                      <Typography variant='caption'>9.0</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={10.0} aria-label="left aligned">
+                      <Typography variant='caption'>10.0</Typography>
+                    </ToggleButton>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <ToggleButton value={5.5} aria-label="left aligned">
+                      <Typography variant='caption'>5.5</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={6.5} aria-label="left aligned">
+                      <Typography variant='caption'>6.5</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={7.5} aria-label="left aligned">
+                      <Typography variant='caption'>7.5</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={8.5} aria-label="left aligned">
+                      <Typography variant='caption'>8.5</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={9.5} aria-label="left aligned">
+                      <Typography variant='caption'>9.5</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={10.5} aria-label="left aligned">
+                      <Typography variant='caption'>10.5</Typography>
+                    </ToggleButton>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ToggleButtonGroup>
+
+        </Grid>
+        <Grid size={4}>
+          <Typography variant='h6'>Bangle Size in inches</Typography>
+
+          <ToggleButtonGroup
+            value={bangleSize}
+            color="primary"
+            exclusive
+            onChange={handleBangleSize}
+            aria-label="text alignment"
+          >
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <ToggleButton value={1.8} aria-label="left aligned">
+                      <Typography variant='caption'>1.8</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={1.10} aria-label="left aligned">
+                      <Typography variant='caption'>1.10</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={1.12} aria-label="left aligned">
+                      <Typography variant='caption'>1.12</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={2.0} aria-label="left aligned">
+                      <Typography variant='caption'>2.0</Typography>
+                    </ToggleButton>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <ToggleButton value={2.2} aria-label="left aligned">
+                      <Typography variant='caption'>2.2</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={2.4} aria-label="left aligned">
+                      <Typography variant='caption'>2.4</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={2.6} aria-label="left aligned">
+                      <Typography variant='caption'>2.6</Typography>
+                    </ToggleButton>
+                  </td>
+                  <td>
+                    <ToggleButton value={2.8} aria-label="left aligned">
+                      <Typography variant='caption'>2.8</Typography>
+                    </ToggleButton>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ToggleButtonGroup>
+
+        </Grid>
       </Grid>
 
       {/* <form onSubmit={handleSubmit}> */}
-
-
-
       <Button variant="contained" type="submit">Register</Button>
       {/* <button type="submit">Submit</button> */}
       {/* </form> */}

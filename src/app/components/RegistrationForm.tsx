@@ -12,16 +12,14 @@ import SuvashiniRegistrationForm from './SuvashiniRegistrationForm';
 
 interface RegistrationFormProps {
   initialData?: { user_name: string, user_phone: string, id?: number };
-  onSuccess: () => void;
+ // onSuccess: () => void;
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData, onSuccess }) => {
+const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData /*, onSuccess*/ }) => {
   const [userName, setUserName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [userType, setUserType] = React.useState(true);
-  //   kanya: true,
-  //   suvashini: false
-  // });
+  const [userType, setUserType] = useState(true);
+  const [typeLabel, setTypeLabel] = useState('Kanya')
 
   useEffect(() => {
     if (initialData) {
@@ -30,9 +28,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData, onSucc
     }
   }, [initialData]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserType(event.target.checked);
-    console.log(JSON.stringify(userType));
+    if(userType){setTypeLabel('Suvashini');} else {setTypeLabel('Kanya');}
+    console.log(JSON.stringify(typeLabel));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,7 +43,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData, onSucc
       // Create a new registration
       await createRegistration(userName, phoneNumber);
     }
-    onSuccess();
+     // onSuccess();
   };
 
   return (
@@ -55,7 +54,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData, onSucc
       <div>
         <Typography variant="h2" component="h2">Registration Form</Typography>
         <FormGroup>
-          <FormControlLabel control={<Switch checked={userType.kanya} onChange={handleChange} name="kanya" />} label="Kanya" />
+          <FormControlLabel control={<Switch checked={userType} onChange={handleTypeChange} name="kanya" />} label={typeLabel} />
         </FormGroup>
       </div>
 
@@ -63,14 +62,18 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData, onSucc
         {
           userType && (
             <Grid size={12}>
-              <KanyaRegistrationForm />
+              <KanyaRegistrationForm onSuccess={function (): void {
+                console.log('Function not implemented.');
+              } } />
             </Grid>
           )
         }
         {
           !userType && (
             <Grid size={12}>
-              <SuvashiniRegistrationForm />
+              <SuvashiniRegistrationForm onSuccess={function (): void {
+                throw new Error('Function not implemented.');
+              } } />
             </Grid>
           )
         }

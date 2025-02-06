@@ -1,3 +1,4 @@
+
 // src/app/components/RegistrationList.server.tsx
 import React from 'react';
 import Registration from '../../types/Registration'; // Assuming you have a Registration type defined

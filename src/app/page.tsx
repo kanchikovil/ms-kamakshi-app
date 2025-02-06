@@ -9,7 +9,7 @@ export default async function HomePage() {
     <div>
       {/* <h1>Registration Management</h1> */}
       <RegistrationForm />
-      <RegistrationListWithServerData />
+      {/* <RegistrationListWithServerData /> */}
     </div>
   );
 }
