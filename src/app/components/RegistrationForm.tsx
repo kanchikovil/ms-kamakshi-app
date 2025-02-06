@@ -11,22 +11,22 @@ import KanyaRegistrationForm from './KanyaRegistrationForm';
 import SuvashiniRegistrationForm from './SuvashiniRegistrationForm';
 
 interface RegistrationFormProps {
-  initialData?: { user_name: string, user_phone: string, id?: number };
+ // initialData?: { user_name: string, user_phone: string, id?: number };
  // onSuccess: () => void;
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData /*, onSuccess*/ }) => {
-  const [userName, setUserName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+const RegistrationForm: React.FC<RegistrationFormProps> = ({ /*initialData , onSuccess*/ }) => {
+ // const [userName, setUserName] = useState('');
+ // const [phoneNumber, setPhoneNumber] = useState('');
   const [userType, setUserType] = useState(true);
   const [typeLabel, setTypeLabel] = useState('Kanya')
 
-  useEffect(() => {
-    if (initialData) {
-      setUserName(initialData.user_name);
-      setPhoneNumber(initialData.user_phone);
-    }
-  }, [initialData]);
+  // useEffect(() => {
+  //   if (initialData) {
+  //     setUserName(initialData.user_name);
+  //     setPhoneNumber(initialData.user_phone);
+  //   }
+  // }, [initialData]);
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserType(event.target.checked);
@@ -34,17 +34,17 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ initialData /*, onS
     console.log(JSON.stringify(typeLabel));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (initialData?.id) {
-      // Edit an existing registration
-      await editRegistration(initialData.id, userName, phoneNumber);
-    } else {
-      // Create a new registration
-      await createRegistration(userName, phoneNumber);
-    }
-     // onSuccess();
-  };
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (initialData?.id) {
+  //     // Edit an existing registration
+  //     await editRegistration(initialData.id, userName, phoneNumber);
+  //   } else {
+  //     // Create a new registration
+  //     await createRegistration(userName, phoneNumber);
+  //   }
+  //    // onSuccess();
+  // };
 
   return (
     <Box

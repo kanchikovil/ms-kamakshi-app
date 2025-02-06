@@ -6,13 +6,39 @@ import { Box, TextField, Typography, Button, ToggleButton, ToggleButtonGroup } f
 import Grid from '@mui/material/Grid2';
 
 interface KanyaRegistrationFormProps {
-  initialData?: { user_name: string, user_phone: string, id?: number };
+  initialData?: {
+    user_name: string, user_phone: string, id?: number,
+    horoscope_name: string, age: string, school_name: string, standard: string, slogan_known: string,
+    music_known: string, mother_tongue: string, native: string, fathers_name: string, fathers_gothram: string,
+    fathers_vedam: string, fathers_profession: string, mothers_name: string, grand_father: string, mothers_vedam: string,
+    mothers_profession: string, kula_devatha: string, place: string, residential_address: string, dressSize: number,
+    kolusuSize: number, bangleSize: number
+  };
   onSuccess: () => void;
 }
 
 const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialData, onSuccess }) => {
   const [userName, setUserName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [age, setAge] = useState('');
+  const [horoscope_name, setHoroscopeName] = useState('');
+  const [school_name, setSchoolName] = useState('');
+  const [standard, setStandard] = useState('');
+  const [slogan_known, setSloganKnown] = useState('');
+  const [music_known, setMusicKnown] = useState('');
+  const [mother_tongue, setMotherTongue] = useState('');
+  const [native, setNative] = useState('');
+  const [fathers_name, setFathersName] = useState('');
+  const [fathers_gothram, setFathersGothram] = useState('');
+  const [fathers_vedam, setFathersVedam] = useState('');
+  const [fathers_profession, setFathersProfession] = useState('');
+  const [mothers_name, setMothersName] = useState('');
+  const [grand_father, setGrandFather] = useState('');
+  const [mothers_vedam, setMothersVedam] = useState('');
+  const [mothers_profession, setMothersProfession] = useState('');
+  const [kula_devatha, setKulaDevatha] = useState('');
+  const [place, setPlace] = useState('');
+  const [residential_address, setResidentialAddress] = useState('');
   const [kolusuSize, setKolusuSize] = useState(0);
   const [dressSize, setDressSize] = useState(0);
   const [bangleSize, setBangleSize] = useState(0);
@@ -21,6 +47,28 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
     if (initialData) {
       setUserName(initialData.user_name);
       setPhoneNumber(initialData.user_phone);
+      setAge(initialData.age);
+      setHoroscopeName(initialData.horoscope_name);
+      setSchoolName(initialData.school_name);
+      setStandard(initialData.standard);
+      setSloganKnown(initialData.slogan_known);
+      setMusicKnown(initialData.music_known);
+      setMotherTongue(initialData.mother_tongue);
+      setNative(initialData.native);
+      setFathersName(initialData.fathers_name);
+      setFathersGothram(initialData.fathers_gothram);
+      setFathersVedam(initialData.fathers_vedam);
+      setFathersProfession(initialData.fathers_profession);
+      setMothersName(initialData.mothers_name);
+      setGrandFather(initialData.grand_father);
+      setMothersVedam(initialData.mothers_vedam);
+      setMothersProfession(initialData.mothers_profession);
+      setKulaDevatha(initialData.kula_devatha);
+      setPlace(initialData.place);
+      setResidentialAddress(initialData.residential_address);
+      setKolusuSize(initialData.kolusuSize);
+      setDressSize(initialData.dressSize);
+      setBangleSize(initialData.bangleSize);
     }
   }, [initialData]);
 
@@ -58,7 +106,9 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
       await editRegistration(initialData.id, userName, phoneNumber);
     } else {
       // Create a new registration
-      await createRegistration(userName, phoneNumber);
+      await createRegistration(userName, phoneNumber, age, horoscope_name, school_name, standard, slogan_known, music_known,
+        mother_tongue, native, fathers_name, fathers_gothram, fathers_vedam, fathers_profession, mothers_name,
+        grand_father, mothers_vedam, mothers_profession, kula_devatha, place, residential_address, dressSize, kolusuSize, bangleSize);
     }
     onSuccess();
   };
@@ -111,134 +161,134 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
               id="outlined-required"
               label="Horoscope Name"
               placeholder='Horoscope Name...'
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={horoscope_name}
+              onChange={(e) => setHoroscopeName(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Age"
-              value={phoneNumber}
+              value={age}
               placeholder='Your Age here...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setAge(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Name of School"
-              value={phoneNumber}
+              value={school_name}
               placeholder='Your SChool here...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setSchoolName(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Std Studying"
-              value={phoneNumber}
+              value={standard}
               placeholder='Your Std...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setStandard(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Stotram / Slogan"
-              value={phoneNumber}
+              value={slogan_known}
               placeholder='Stotram / Slogan known...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setSloganKnown(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Classical Music Known"
-              value={phoneNumber}
+              value={music_known}
               placeholder='Vocal / Instruments...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setMusicKnown(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Mother Toungue"
-              value={phoneNumber}
+              value={mother_tongue}
               placeholder='Mother Toungue..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setMotherTongue(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Native"
-              value={phoneNumber}
+              value={native}
               placeholder='Native Of..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setNative(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Name"
-              value={phoneNumber}
+              value={fathers_name}
               placeholder='Fathers Name..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setFathersName(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Gothram"
-              value={phoneNumber}
+              value={fathers_gothram}
               placeholder='Fathers Gothram..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setFathersGothram(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Vedam"
-              value={phoneNumber}
+              value={fathers_vedam}
               placeholder='Fathers Vedam..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setFathersVedam(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Profession"
-              value={phoneNumber}
+              value={fathers_profession}
               placeholder='Fathers Profession..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setFathersProfession(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Mother's Name"
-              value={phoneNumber}
+              value={mothers_name}
               placeholder='Mothers Name..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setMothersName(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Maternal Grandfathers Gothram"
-              value={phoneNumber}
+              value={grand_father}
               placeholder='Grand Fathers Gothram..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setGrandFather(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Mother's Vedam"
-              value={phoneNumber}
+              value={mothers_vedam}
               placeholder='Mothers Vedam..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setMothersVedam(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Mother's Profession"
-              value={phoneNumber}
+              value={mothers_profession}
               placeholder='Mothers Profession..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setMothersProfession(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Kula Devatha"
-              value={phoneNumber}
+              value={kula_devatha}
               placeholder='Kula Devatha..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setKulaDevatha(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Place"
-              value={phoneNumber}
+              value={place}
               placeholder='Place..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setPlace(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Residential Address"
-              value={phoneNumber}
+              value={residential_address}
               placeholder='Address..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setResidentialAddress(e.target.value)}
             />
           </div>
         </Grid>
