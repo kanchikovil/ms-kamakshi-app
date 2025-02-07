@@ -30,14 +30,10 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
   const [kula_devatha, setKulaDevatha] = useState('');
   const [place, setPlace] = useState('');
   const [residential_address, setResidentialAddress] = useState('');
-  const [husbands_name, sethusbandsname] = useState('');
-  const [husbands_gothram, sethusbandsGothram] = useState('');
-  const [husbands_profession, sethusbandsprofession] = useState('');
-  const [husbands_vedam, sethusbandsvedam] = useState('');
-  const [userType, setUserType] = React.useState({
-    kanya: true,
-    suvashini: false
-  });
+  const [husbands_name, setHusbandsName] = useState('');
+  const [husbands_gothram, setHusbandsGothram] = useState('');
+  const [husbands_profession, setHusbandsProfession] = useState('');
+  const [husbands_vedam, setHusbandsVedam] = useState('');
 
       useEffect(() => {
         if (initialData) {
@@ -53,22 +49,16 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
           setFathersGothram(initialData.fathers_gothram);
           setFathersVedam(initialData.fathers_vedam);
           setFathersProfession(initialData.fathers_profession);
-          sethusbandsname(initialData.husbands_name);
-          sethusbandsvedam(initialData.husbands_vedam);
-          sethusbandsGothram(initialData.husbands_gothram);
-          sethusbandsprofession(initialData.husbnds_profession);
+          setHusbandsName(initialData.husbands_name);
+          setHusbandsVedam(initialData.husbands_vedam);
+          setHusbandsGothram(initialData.husbands_gothram);
+          setHusbandsProfession(initialData.husbnds_profession);
           setKulaDevatha(initialData.kula_devatha);
           setPlace(initialData.place);
           setResidentialAddress(initialData.residential_address); 
     }
   }, [initialData]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserType({
-      ...userType,
-      [event.target.name]: event.target.checked,
-    });
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,12 +82,6 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
       autoComplete="off"
       onSubmit={handleSubmit}
     >
-      {/* <div>
-        <Typography variant="h2" component="h2">Registration Form</Typography>
-        <FormGroup>
-          <FormControlLabel control={<Switch checked={userType.kanya} onChange={handleChange} name="kanya" />} label="Kanya" />
-        </FormGroup>
-      </div> */}
 
       <Grid container spacing={2}>
         <Grid size={12}>
@@ -107,7 +91,7 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
               label="Aadhar Number"
               value={aadharNumber}
               placeholder='Aadhar number here...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setAadharNumber(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
@@ -130,117 +114,111 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
               label="Horoscope Name"
               placeholder='Horoscope Name...'
               value={horoscope_name}
-              onChange={(e) => setUserName(e.target.value)}
+              onChange={(e) => setHoroscopeName(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Age"
               value={age}
               placeholder='Your Age here...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setAge(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Mother Toungue"
               value={mother_tongue}
               placeholder='Mother Toungue..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setMotherTongue(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Native"
               value={native}
               placeholder='Native Of..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setNative(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Name"
               value={fathers_name}
               placeholder='Fathers Name..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setFathersName(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Gothram"
               value={fathers_gothram}
               placeholder='Fathers Gothram..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setFathersGothram(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Vedam"
               value={fathers_vedam}
               placeholder='Fathers Vedam..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setFathersVedam(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Profession"
               value={fathers_profession}
               placeholder='Fathers Profession..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setFathersProfession(e.target.value)}
             />
                         <TextField
               id="outlined-disabled"
               label="Husband's Name"
               value={husbands_name}
               placeholder='Husbands name...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setHusbandsName(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Husband's Gothram"
               value={husbands_gothram}
               placeholder='Husbands Gothram...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setHusbandsGothram(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Husband''s Profession"
               value={husbands_profession}
               placeholder='Husbands profession...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setHusbandsProfession(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Husband's vedam"
               value={husbands_vedam}
               placeholder='Husbands vedam...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setHusbandsVedam(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Kula Devatha"
               value={kula_devatha}
               placeholder='Kula Devatha..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setKulaDevatha(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Place"
               value={place}
               placeholder='Place..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setPlace(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Residential Address"
               value={residential_address}
               placeholder='Address..'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setResidentialAddress(e.target.value)}
             />
           </div>
         </Grid>
       </Grid>
 
-      {/* <form onSubmit={handleSubmit}> */}
-
-
-
       <Button variant="contained" type="submit">Register</Button>
-      {/* <button type="submit">Submit</button> */}
-      {/* </form> */}
 
     </Box>
   );

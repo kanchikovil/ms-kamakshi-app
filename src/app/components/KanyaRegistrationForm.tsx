@@ -12,7 +12,7 @@ interface KanyaRegistrationFormProps {
     music_known: string, mother_tongue: string, native: string, fathers_name: string, fathers_gothram: string,
     fathers_vedam: string, fathers_profession: string, mothers_name: string, grand_father: string, mothers_vedam: string,
     mothers_profession: string, kula_devatha: string, place: string, residential_address: string, dressSize: number,
-    kolusuSize: number, bangleSize: number
+    kolusuSize: number, bangleSize: number, referred_by:string
   };
   onSuccess: () => void;
 }
@@ -43,6 +43,7 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
   const [kolusuSize, setKolusuSize] = useState(0);
   const [dressSize, setDressSize] = useState(0);
   const [bangleSize, setBangleSize] = useState(0);
+  const [referred_by, setReferredBy] = useState('');
 
   useEffect(() => {
     if (initialData) {
@@ -71,6 +72,7 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
       setKolusuSize(initialData.kolusuSize);
       setDressSize(initialData.dressSize);
       setBangleSize(initialData.bangleSize);
+      setReferredBy(initialData.referred_by);
     }
   }, [initialData]);
 
@@ -108,9 +110,11 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
       await editRegistration(initialData.id, userName, phoneNumber);
     } else {
       // Create a new registration
-      await createRegistration(userName, phoneNumber, aadharNumber, age, horoscope_name, school_name, standard, slogan_known, music_known,
-        mother_tongue, native, fathers_name, fathers_gothram, fathers_vedam, fathers_profession, mothers_name,
-        grand_father, mothers_vedam, mothers_profession, kula_devatha, place, residential_address, dressSize, kolusuSize, bangleSize);
+      await createRegistration(
+        userName, phoneNumber, horoscope_name, age, aadharNumber,school_name, standard, slogan_known, 
+        music_known, mothers_name, grand_father,mothers_vedam, dressSize,kolusuSize, bangleSize,mother_tongue, 
+        native, fathers_name, fathers_gothram,fathers_vedam, fathers_profession,referred_by,mothers_profession,
+         kula_devatha, place, residential_address      );
     }
     onSuccess();
   };
