@@ -3,15 +3,19 @@ import axios from 'axios';
 const API_URL = 'http://localhost:5000/api/registrations'; // Update if needed
 
 // Create a new registration
-export const createRegistration = async (user_name: string, user_phone: string, horoscope_name: string, age: string, 
-  school_name: string, standard: string, slogan_known: string, 
-  music_known: string, mother_tongue: string, native: string, fathers_name: string, fathers_gothram: string,
-fathers_vedam: string, fathers_profession: string, mothers_name: string, grand_father: string, mothers_vedam: string,
-mothers_profession: string, kula_devatha: string, place: string, residential_address: string, dressSize: number,
-kolusuSize: number, bangleSize: number) => {
-  const response = await axios.post(API_URL, { user_name, user_phone, horoscope_name, age, school_name, standard,
-
-   });
+export const createRegistration = async (user_name: string, user_phone: string, horoscope_name?: string, age?: string, aadharNumber?: string,
+  school_name?: string, standard?: string, slogan_known?: string, music_known?: string, mothers_name?: string, grand_father?: string,
+  mothers_vedam?: string, dressSize?: number, kolusuSize?: number, bangleSize?: number,
+  mother_tongue?: string, native?: string, fathers_name?: string, fathers_gothram?: string,
+  fathers_vedam?: string, fathers_profession?: string,
+  mothers_profession?: string, kula_devatha?: string, place?: string, residential_address?: string,
+) => {
+  const response = await axios.post(API_URL, {
+    user_name, user_phone, horoscope_name, age, school_name, standard,
+    slogan_known, aadharNumber, music_known, mother_tongue, native, fathers_name, fathers_gothram, fathers_vedam,
+    fathers_profession, mothers_name, grand_father, mothers_vedam, mothers_profession, kula_devatha, place,
+    residential_address, dressSize, kolusuSize, bangleSize
+  });
   return response.data;
 };
 

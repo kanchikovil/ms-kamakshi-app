@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid2';
 
 interface KanyaRegistrationFormProps {
   initialData?: {
-    user_name: string, user_phone: string, id?: number,
+    user_name: string, user_phone: string, id?: number, aadharNumber: string,
     horoscope_name: string, age: string, school_name: string, standard: string, slogan_known: string,
     music_known: string, mother_tongue: string, native: string, fathers_name: string, fathers_gothram: string,
     fathers_vedam: string, fathers_profession: string, mothers_name: string, grand_father: string, mothers_vedam: string,
@@ -20,6 +20,7 @@ interface KanyaRegistrationFormProps {
 const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialData, onSuccess }) => {
   const [userName, setUserName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [aadharNumber, setAadharNumber] = useState('');
   const [age, setAge] = useState('');
   const [horoscope_name, setHoroscopeName] = useState('');
   const [school_name, setSchoolName] = useState('');
@@ -47,6 +48,7 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
     if (initialData) {
       setUserName(initialData.user_name);
       setPhoneNumber(initialData.user_phone);
+      setAadharNumber(initialData.aadharNumber);
       setAge(initialData.age);
       setHoroscopeName(initialData.horoscope_name);
       setSchoolName(initialData.school_name);
@@ -106,7 +108,7 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
       await editRegistration(initialData.id, userName, phoneNumber);
     } else {
       // Create a new registration
-      await createRegistration(userName, phoneNumber, age, horoscope_name, school_name, standard, slogan_known, music_known,
+      await createRegistration(userName, phoneNumber, aadharNumber, age, horoscope_name, school_name, standard, slogan_known, music_known,
         mother_tongue, native, fathers_name, fathers_gothram, fathers_vedam, fathers_profession, mothers_name,
         grand_father, mothers_vedam, mothers_profession, kula_devatha, place, residential_address, dressSize, kolusuSize, bangleSize);
     }
@@ -123,12 +125,6 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
       autoComplete="off"
       onSubmit={handleSubmit}
     >
-      {/* <div>
-        <Typography variant="h2" component="h2">Registration Form</Typography>
-        <FormGroup>
-          <FormControlLabel control={<Switch checked={userType.kanya} onChange={handleChange} name="kanya" />} label="Kanya" />
-        </FormGroup>
-      </div> */}
 
       <Grid container spacing={2}>
         <Grid size={12}>
@@ -136,9 +132,9 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
             <TextField
               id="outlined-disabled"
               label="Aadhar Number"
-              value={phoneNumber}
+              value={aadharNumber}
               placeholder='Aadhar number here...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setAadharNumber(e.target.value)}
               required
             />
             <TextField
@@ -517,10 +513,7 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
         </Grid>
       </Grid>
 
-      {/* <form onSubmit={handleSubmit}> */}
       <Button variant="contained" type="submit">Register</Button>
-      {/* <button type="submit">Submit</button> */}
-      {/* </form> */}
 
     </Box>
   );
