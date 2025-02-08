@@ -4,75 +4,76 @@ import React, { useState, useEffect } from 'react';
 import { createRegistration, editRegistration } from '../services/registrationService';
 import { Box, TextField, Typography, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import Registration from '../types/Registration';
 
 interface KanyaRegistrationFormProps {
   initialData?: {
-    user_name: string, user_phone: string, id?: number, aadharNumber: string,
-    horoscope_name: string, age: string, school_name: string, standard: string, slogan_known: string,
-    music_known: string, mother_tongue: string, native: string, fathers_name: string, fathers_gothram: string,
-    fathers_vedam: string, fathers_profession: string, mothers_name: string, grand_father: string, mothers_vedam: string,
-    mothers_profession: string, kula_devatha: string, place: string, residential_address: string, dressSize: number,
-    kolusuSize: number, bangleSize: number, referred_by:string
+    userName: string, userPhone: string, id?: number, aadharNumber: string,
+    horoscopeName: string, age: number, schoolName: string, standard: string, slogamKnown: string,
+    classicalMusic: string, motherTongue: string, nativePlace: string, fathersName: string, fathersGothram: string,
+    fathersVedam: string, fathersProfession: string, mothersName: string, maternalGothram: string, mothersVedam: string,
+    mothersProfession: string, kulaDevatha: string, place: string, residentialAddress: string, dressSize: number,
+    kolusuSize: number, bangleSize: number, referredBy: string
   };
   onSuccess: () => void;
 }
 
 const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialData, onSuccess }) => {
-  const [userName, setUserName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [aadharNumber, setAadharNumber] = useState('');
-  const [age, setAge] = useState('');
-  const [horoscope_name, setHoroscopeName] = useState('');
-  const [school_name, setSchoolName] = useState('');
+  const [userName, setUserName] = useState('sample name');
+  const [userPhone, setuserPhone] = useState('000000');
+  const [aadharNumber, setAadharNumber] = useState('1312323445345');
+  const [age, setAge] = useState(10);
+  const [horoscopeName, setHoroscopeName] = useState('Thanusu');
+  const [schoolName, setSchoolName] = useState('BVMS');
   const [standard, setStandard] = useState('');
-  const [slogan_known, setSloganKnown] = useState('');
-  const [music_known, setMusicKnown] = useState('');
-  const [mother_tongue, setMotherTongue] = useState('');
-  const [native, setNative] = useState('');
-  const [fathers_name, setFathersName] = useState('');
-  const [fathers_gothram, setFathersGothram] = useState('');
-  const [fathers_vedam, setFathersVedam] = useState('');
-  const [fathers_profession, setFathersProfession] = useState('');
-  const [mothers_name, setMothersName] = useState('');
-  const [grand_father, setGrandFather] = useState('');
-  const [mothers_vedam, setMothersVedam] = useState('');
-  const [mothers_profession, setMothersProfession] = useState('');
-  const [kula_devatha, setKulaDevatha] = useState('');
+  const [slogamKnown, setslogamKnown] = useState('');
+  const [classicalMusic, setclassicalMusic] = useState('');
+  const [motherTongue, setMotherTongue] = useState('');
+  const [nativePlace, setnativePlace] = useState('');
+  const [fathersName, setFathersName] = useState('');
+  const [fathersGothram, setFathersGothram] = useState('');
+  const [fathersVedam, setFathersVedam] = useState('');
+  const [fathersProfession, setFathersProfession] = useState('');
+  const [mothersName, setMothersName] = useState('');
+  const [maternalGothram, setmaternalGothram] = useState('');
+  const [mothersVedam, setMothersVedam] = useState('');
+  const [mothersProfession, setMothersProfession] = useState('');
+  const [kulaDevatha, setKulaDevatha] = useState('');
   const [place, setPlace] = useState('');
-  const [residential_address, setResidentialAddress] = useState('');
+  const [residentialAddress, setResidentialAddress] = useState('');
   const [kolusuSize, setKolusuSize] = useState(0);
   const [dressSize, setDressSize] = useState(0);
   const [bangleSize, setBangleSize] = useState(0);
-  const [referred_by, setReferredBy] = useState('');
+  const [referredBy, setReferredBy] = useState('');
 
   useEffect(() => {
     if (initialData) {
-      setUserName(initialData.user_name);
-      setPhoneNumber(initialData.user_phone);
+      setUserName(initialData.userName);
+      setuserPhone(initialData.userPhone);
       setAadharNumber(initialData.aadharNumber);
       setAge(initialData.age);
-      setHoroscopeName(initialData.horoscope_name);
-      setSchoolName(initialData.school_name);
+      setHoroscopeName(initialData.horoscopeName);
+      setSchoolName(initialData.schoolName);
       setStandard(initialData.standard);
-      setSloganKnown(initialData.slogan_known);
-      setMusicKnown(initialData.music_known);
-      setMotherTongue(initialData.mother_tongue);
-      setNative(initialData.native);
-      setFathersName(initialData.fathers_name);
-      setFathersGothram(initialData.fathers_gothram);
-      setFathersVedam(initialData.fathers_vedam);
-      setFathersProfession(initialData.fathers_profession);
-      setMothersName(initialData.mothers_name);
-      setGrandFather(initialData.grand_father);
-      setMothersVedam(initialData.mothers_vedam);
-      setMothersProfession(initialData.mothers_profession);
-      setKulaDevatha(initialData.kula_devatha);
+      setslogamKnown(initialData.slogamKnown);
+      setclassicalMusic(initialData.classicalMusic);
+      setMotherTongue(initialData.motherTongue);
+      setnativePlace(initialData.nativePlace);
+      setFathersName(initialData.fathersName);
+      setFathersGothram(initialData.fathersGothram);
+      setFathersVedam(initialData.fathersVedam);
+      setFathersProfession(initialData.fathersProfession);
+      setMothersName(initialData.mothersName);
+      setmaternalGothram(initialData.maternalGothram);
+      setMothersVedam(initialData.mothersVedam);
+      setMothersProfession(initialData.mothersProfession);
+      setKulaDevatha(initialData.kulaDevatha);
       setPlace(initialData.place);
-      setResidentialAddress(initialData.residential_address);
+      setResidentialAddress(initialData.residentialAddress);
       setKolusuSize(initialData.kolusuSize);
       setDressSize(initialData.dressSize);
       setBangleSize(initialData.bangleSize);
-      setReferredBy(initialData.referred_by);
+      setReferredBy(initialData.referredBy);
     }
   }, [initialData]);
 
@@ -107,19 +108,41 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
     e.preventDefault();
     if (initialData?.id) {
       // Edit an existing registration
-      await editRegistration(initialData.id, userName, phoneNumber);
+      await editRegistration(initialData.id, userName, userPhone);
     } else {
       // Create a new registration
-      await createRegistration(
-        userName, phoneNumber, horoscope_name, age, aadharNumber,school_name, standard, slogan_known, 
-        music_known, mothers_name, grand_father,mothers_vedam, dressSize,kolusuSize, bangleSize,mother_tongue, 
-        native, fathers_name, fathers_gothram,fathers_vedam, fathers_profession,referred_by,mothers_profession,
-         kula_devatha, place, residential_address      );
+      const registrationObj: Registration = {
+        userName,
+        userPhone,
+        age,
+        horoscopeName,
+        aadharNumber,
+        schoolName,
+        standard,
+        slogamKnown,
+        classicalMusic,
+        mothersName,
+        maternalGothram,
+        mothersVedam,
+        dressSize,
+        kolusuSize,
+        bangleSize,
+        motherTongue,
+        nativePlace,
+        fathersName,
+        fathersGothram,
+        fathersVedam,
+        fathersProfession,
+        referredBy,
+        mothersProfession,
+        kulaDevatha,
+        place,
+        residentialAddress
+      };
+      await createRegistration(registrationObj);
+      onSuccess();
     }
-    onSuccess();
   };
-
-  onSuccess();
 
   return (
     <Box
@@ -144,9 +167,9 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
             <TextField
               id="outlined-disabled"
               label="Contact Number"
-              value={phoneNumber}
+              value={userPhone}
               placeholder='Phone number here...'
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setuserPhone(e.target.value)}
             />
             <TextField
               required
@@ -161,20 +184,21 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
               id="outlined-required"
               label="Horoscope Name"
               placeholder='Horoscope Name...'
-              value={horoscope_name}
+              value={horoscopeName}
               onChange={(e) => setHoroscopeName(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
+              type='number'
               label="Age"
               value={age}
               placeholder='Your Age here...'
-              onChange={(e) => setAge(e.target.value)}
+              onChange={(e) => setAge(parseInt(e.target.value))}
             />
             <TextField
               id="outlined-disabled"
               label="Name of School"
-              value={school_name}
+              value={schoolName}
               placeholder='Your SChool here...'
               onChange={(e) => setSchoolName(e.target.value)}
             />
@@ -188,91 +212,91 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
             <TextField
               id="outlined-disabled"
               label="Stotram / Slogan"
-              value={slogan_known}
+              value={slogamKnown}
               placeholder='Stotram / Slogan known...'
-              onChange={(e) => setSloganKnown(e.target.value)}
+              onChange={(e) => setslogamKnown(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Classical Music Known"
-              value={music_known}
+              value={classicalMusic}
               placeholder='Vocal / Instruments...'
-              onChange={(e) => setMusicKnown(e.target.value)}
+              onChange={(e) => setclassicalMusic(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Mother Toungue"
-              value={mother_tongue}
+              value={motherTongue}
               placeholder='Mother Toungue..'
               onChange={(e) => setMotherTongue(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
-              label="Native"
-              value={native}
-              placeholder='Native Of..'
-              onChange={(e) => setNative(e.target.value)}
+              label="nativePlace"
+              value={nativePlace}
+              placeholder='nativePlace Of..'
+              onChange={(e) => setnativePlace(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Name"
-              value={fathers_name}
+              value={fathersName}
               placeholder='Fathers Name..'
               onChange={(e) => setFathersName(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Gothram"
-              value={fathers_gothram}
+              value={fathersGothram}
               placeholder='Fathers Gothram..'
               onChange={(e) => setFathersGothram(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Vedam"
-              value={fathers_vedam}
+              value={fathersVedam}
               placeholder='Fathers Vedam..'
               onChange={(e) => setFathersVedam(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Father's Profession"
-              value={fathers_profession}
+              value={fathersProfession}
               placeholder='Fathers Profession..'
               onChange={(e) => setFathersProfession(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Mother's Name"
-              value={mothers_name}
+              value={mothersName}
               placeholder='Mothers Name..'
               onChange={(e) => setMothersName(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
-              label="Maternal Grandfathers Gothram"
-              value={grand_father}
+              label="Maternal Gothram"
+              value={maternalGothram}
               placeholder='Grand Fathers Gothram..'
-              onChange={(e) => setGrandFather(e.target.value)}
+              onChange={(e) => setmaternalGothram(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Mother's Vedam"
-              value={mothers_vedam}
+              value={mothersVedam}
               placeholder='Mothers Vedam..'
               onChange={(e) => setMothersVedam(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Mother's Profession"
-              value={mothers_profession}
+              value={mothersProfession}
               placeholder='Mothers Profession..'
               onChange={(e) => setMothersProfession(e.target.value)}
             />
             <TextField
               id="outlined-disabled"
               label="Kula Devatha"
-              value={kula_devatha}
+              value={kulaDevatha}
               placeholder='Kula Devatha..'
               onChange={(e) => setKulaDevatha(e.target.value)}
             />
@@ -286,7 +310,7 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
             <TextField
               id="outlined-disabled"
               label="Residential Address"
-              value={residential_address}
+              value={residentialAddress}
               placeholder='Address..'
               onChange={(e) => setResidentialAddress(e.target.value)}
             />

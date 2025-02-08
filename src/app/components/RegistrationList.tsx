@@ -1,48 +1,122 @@
 'use client';
-import React from 'react';
-import Registration from '../types/Registration'; // Assuming you have a Registration type defined
 
-async function fetchRegistrations() {
-  const res = await fetch('http://localhost:5000/api/registrations'); // Your API endpoint
-  const registrations = await res.json();
-  return registrations;
-}
+import React, { useEffect, useState } from 'react';
+import Registration from '../types/Registration';
+import { approveRegistration } from '../services/registrationService';
 
-interface RegistrationListProps {
-  registrations: Registration[];
-}
+const RegistrationList: React.FC = () => {
+  const [registrations, setRegistrations] = useState<Registration[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [counts, setCounts] = useState<{ totalCount: number; approvedCount: number; rejectedCount: number }>({
+    totalCount: 0,
+    approvedCount: 0,
+    rejectedCount: 0,
+  });
 
-const RegistrationList: React.FC<RegistrationListProps> = ({ registrations }) => {
-  const handleEdit = (id: number) => {
-    window.location.href = `/edit/${id}`;
+  // Fetch Registrations List
+  useEffect(() => {
+    async function fetchRegistrations() {
+      try {
+        const apiRes = await fetch('http://localhost:8080/api/registrations');
+        const res = await apiRes.json();
+        setRegistrations(res.data);
+      } catch (error) {
+        console.error('Error fetching registrations:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchRegistrations();
+  }, []);
+
+  // Fetch Registration Counts
+  useEffect(() => {
+    async function fetchCounts() {
+      try {
+        const countRes = await fetch('http://localhost:8080/api/registrations-count');
+        const countData = await countRes.json();
+        setCounts(countData.data);
+      } catch (error) {
+        console.error('Error fetching registration counts:', error);
+      }
+    }
+    fetchCounts();
+  }, []);
+
+  // Handle Approval
+  const handleApproval = async (id: number, status: string) => {
+    await approveRegistration(id, status);
+    
+    // Refresh the lists and counts
+    setRegistrations((prev) =>
+      prev.map((reg) => (reg.id === id ? { ...reg, approvalStatus: status } : reg))
+    );
+    
+    // Refresh counts
+    fetchCounts();
   };
 
-  const handleDelete = async (id: number) => {
-    await fetch(`http://localhost:5000/api/registrations/${id}`, {
-      method: 'DELETE',
-    });
-    window.location.reload(); // Reload the page to reflect the changes
-  };
+  // Fetch updated counts
+  async function fetchCounts() {
+    try {
+      const countRes = await fetch('http://localhost:8080/api/registrations-count');
+      const countData = await countRes.json();
+      setCounts(countData.data);
+    } catch (error) {
+      console.error('Error fetching registration counts:', error);
+    }
+  }
+
+  if (loading) return <p>Loading registrations...</p>;
 
   return (
-    <div>
-      <h2>Registrations</h2>
-      <ul>
-        {registrations.map((registration) => (
-          <li key={registration.id}>
-            {registration.user_name} - {registration.user_phone}
-            <button onClick={() => handleEdit(registration.id)}>Edit</button>
-            <button onClick={() => handleDelete(registration.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      {/* Registration List */}
+      <div style={{ flex: 1 }}>
+        <h2>Registrations</h2>
+        {registrations.length === 0 ? (
+          <p>No registrations found.</p>
+        ) : (
+          <ul>
+            {registrations.map((registration) => (
+              <li key={registration.id}>
+                {registration.userName} - {registration.userPhone}
+                {(registration.approvalStatus !== 'APPROVED' && registration.approvalStatus !== 'REJECTED') ? (
+                  <>
+                    <button onClick={() => handleApproval(registration.id || 0, 'APPROVED')}>Approve</button>
+                    <button onClick={() => handleApproval(registration.id || 0, 'REJECTED')}>Reject</button>
+                  </>
+                ) : (
+                  <span>{registration.approvalStatus}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* Registration Count Table */}
+      <div style={{ flex: 0.5, marginLeft: '20px' }}>
+        <h3>Registration Stats</h3>
+        <table border={1} cellPadding={10}>
+          <thead>
+            <tr>
+              <th>Total</th>
+              <th>Approved</th>
+              <th>Rejected</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{counts.totalCount}</td>
+              <td>{counts.approvedCount}</td>
+              <td>{counts.rejectedCount}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
-
-export async function getRegistrationData() {
-  const registrations = await fetchRegistrations();
-  return registrations;
-}
 
 export default RegistrationList;

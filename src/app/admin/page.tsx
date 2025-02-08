@@ -55,7 +55,7 @@ export default function AdminPage() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <RegistrationList registrations={[]} />
+        <RegistrationList />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
       Vendors

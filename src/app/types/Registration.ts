@@ -1,5 +1,30 @@
 export default interface Registration {
-    id: number;
-    user_name: string;
-    user_phone: string;
+    id?: number,
+    userName: string,
+    userPhone: string,
+    age?: number,
+    horoscopeName?: string,
+    approvalStatus?: string,
+    standard?: string,
+    schoolName?: string,
+    aadharNumber?: string,
+    slogamKnown?: string,
+    classicalMusic?: string,
+    mothersName?: string,
+    maternalGothram?: string,
+    mothersVedam?: string,
+    dressSize?: number,
+    kolusuSize?: number,
+    bangleSize?: number,
+    motherTongue?: string,
+    nativePlace?: string,
+    fathersName?: string,
+    fathersGothram?: string,
+    fathersVedam?: string,
+    fathersProfession?: string,
+    referredBy?: string,
+    mothersProfession?: string,
+    kulaDevatha?: string,
+    place?: string,
+    residentialAddress?: string
 }

@@ -7,21 +7,23 @@ import Grid from '@mui/material/Grid2';
 import { School } from '@mui/icons-material';
 
 interface SuvashiniRegistrationFormProps {
-  initialData?: { user_name: string, user_phone: string, id?: number,contactnumber: string, aadharNumber: string,
-    horoscope_name: string, age: string, mother_tongue: string, native: string, fathers_name: string, fathers_gothram: string,
-    fathers_vedam: string, fathers_profession: string,husbands_name: string, husbands_gothram: string, husbnds_profession: string,
-    husbands_vedam: string, kula_devatha: string, place: string, residential_address: string  };
+  initialData?: {
+    userName: string, userPhone: string, id?: number, contactnumber: string, aadharNumber: string,
+    horoscopeName: string, age: string, motherTongue: string, native: string, fathers_name: string, fathers_gothram: string,
+    fathers_vedam: string, fathers_profession: string, husbands_name: string, husbands_gothram: string, husbnds_profession: string,
+    husbands_vedam: string, kula_devatha: string, place: string, residential_address: string
+  };
   onSuccess: () => void;
 }
 
-const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ initialData, onSuccess }) => {
+const SuvashiniRegistrationForm: React.FC<SuvashiniRegistrationFormProps> = ({ initialData, onSuccess }) => {
   const [userName, setUserName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [aadharNumber, setAadharNumber] = useState('');
   const [contactnumber, setcontactnumber] = useState('');
   const [age, setAge] = useState('');
-  const [horoscope_name, setHoroscopeName] = useState('');
-  const [mother_tongue, setMotherTongue] = useState('');
+  const [horoscopeName, setHoroscopeName] = useState('');
+  const [motherTongue, setMotherTongue] = useState('');
   const [native, setNative] = useState('');
   const [fathers_name, setFathersName] = useState('');
   const [fathers_gothram, setFathersGothram] = useState('');
@@ -35,27 +37,27 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
   const [husbands_profession, setHusbandsProfession] = useState('');
   const [husbands_vedam, setHusbandsVedam] = useState('');
 
-      useEffect(() => {
-        if (initialData) {
-          setUserName(initialData.user_name);
-          setPhoneNumber(initialData.user_phone);
-          setAadharNumber(initialData.aadharNumber);
-          setcontactnumber(initialData.contactnumber);
-          setAge(initialData.age);
-          setHoroscopeName(initialData.horoscope_name);
-          setMotherTongue(initialData.mother_tongue);
-          setNative(initialData.native);
-          setFathersName(initialData.fathers_name);
-          setFathersGothram(initialData.fathers_gothram);
-          setFathersVedam(initialData.fathers_vedam);
-          setFathersProfession(initialData.fathers_profession);
-          setHusbandsName(initialData.husbands_name);
-          setHusbandsVedam(initialData.husbands_vedam);
-          setHusbandsGothram(initialData.husbands_gothram);
-          setHusbandsProfession(initialData.husbnds_profession);
-          setKulaDevatha(initialData.kula_devatha);
-          setPlace(initialData.place);
-          setResidentialAddress(initialData.residential_address); 
+  useEffect(() => {
+    if (initialData) {
+      setUserName(initialData.userName);
+      setPhoneNumber(initialData.userPhone);
+      setAadharNumber(initialData.aadharNumber);
+      setcontactnumber(initialData.contactnumber);
+      setAge(initialData.age);
+      setHoroscopeName(initialData.horoscopeName);
+      setMotherTongue(initialData.motherTongue);
+      setNative(initialData.native);
+      setFathersName(initialData.fathers_name);
+      setFathersGothram(initialData.fathers_gothram);
+      setFathersVedam(initialData.fathers_vedam);
+      setFathersProfession(initialData.fathers_profession);
+      setHusbandsName(initialData.husbands_name);
+      setHusbandsVedam(initialData.husbands_vedam);
+      setHusbandsGothram(initialData.husbands_gothram);
+      setHusbandsProfession(initialData.husbnds_profession);
+      setKulaDevatha(initialData.kula_devatha);
+      setPlace(initialData.place);
+      setResidentialAddress(initialData.residential_address);
     }
   }, [initialData]);
 
@@ -67,11 +69,12 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
       await editRegistration(initialData.id, userName, phoneNumber);
     } else {
       // Create a new registration
-      await createRegistration(userName, phoneNumber,horoscope_name,age,aadharNumber,mother_tongue,native,
-        fathers_name,fathers_gothram,fathers_profession,fathers_vedam,place,kula_devatha,residential_address,
-        husbands_gothram,husbands_name,husbands_profession,husbands_vedam,contactnumber);
+      // await createRegistration(userName, phoneNumber, horoscopeName, age, aadharNumber, "", "", "",
+      //   "", "", "", "", 0, 0, 0, motherTongue,
+      //   native, fathers_name, fathers_gothram, fathers_vedam, fathers_profession, "", "",
+      //   kula_devatha, place, "");
+      // onSuccess();
     }
-    onSuccess();
   };
 
   return (
@@ -113,7 +116,7 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
               id="outlined-required"
               label="Horoscope Name"
               placeholder='Horoscope Name...'
-              value={horoscope_name}
+              value={horoscopeName}
               onChange={(e) => setHoroscopeName(e.target.value)}
             />
             <TextField
@@ -126,7 +129,7 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
             <TextField
               id="outlined-disabled"
               label="Mother Toungue"
-              value={mother_tongue}
+              value={motherTongue}
               placeholder='Mother Toungue..'
               onChange={(e) => setMotherTongue(e.target.value)}
             />
@@ -165,7 +168,7 @@ const SuvashiniRegistrationForm: React.FC< SuvashiniRegistrationFormProps> = ({ 
               placeholder='Fathers Profession..'
               onChange={(e) => setFathersProfession(e.target.value)}
             />
-                        <TextField
+            <TextField
               id="outlined-disabled"
               label="Husband's Name"
               value={husbands_name}

@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 
 interface Registration {
   id: number;
-  user_name: string;
-  user_phone: string;
+  userName: string;
+  userPhone: string;
 }
 
 const EditPage = ({ params }: { params: { id: string } }) => {
@@ -18,11 +18,11 @@ const EditPage = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     async function loadRegistration() {
-      const res = await fetch(`http://localhost:5000/api/registrations/${params.id}`);
+      const res = await fetch(`http://localhost:8080/api/registrations/${params.id}`);
       const data = await res.json();
       setRegistration(data);
-      setUserName(data.user_name);
-      setUserPhone(data.user_phone);
+      setUserName(data.userName);
+      setUserPhone(data.userPhone);
     }
 
     loadRegistration();
@@ -30,9 +30,9 @@ const EditPage = ({ params }: { params: { id: string } }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetch(`http://localhost:5000/api/registrations/${params.id}`, {
+    await fetch(`http://localhost:8080/api/registrations/${params.id}`, {
       method: 'PUT',
-      body: JSON.stringify({ user_name: userName, user_phone: userPhone }),
+      body: JSON.stringify({ userName: userName, userPhone: userPhone }),
       headers: { 'Content-Type': 'application/json' },
     });
     router.push('/'); // Redirect after successful edit

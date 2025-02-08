@@ -9,15 +9,18 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import KanyaRegistrationForm from './KanyaRegistrationForm';
 import SuvashiniRegistrationForm from './SuvashiniRegistrationForm';
+import { useNotification } from '../context/NotificationContext';
 
 interface RegistrationFormProps {
- // initialData?: { user_name: string, user_phone: string, id?: number };
+ // initialData?: { userName: string, userPhone: string, id?: number };
  // onSuccess: () => void;
 }
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ /*initialData , onSuccess*/ }) => {
   const [userType, setUserType] = useState(true);
-  const [typeLabel, setTypeLabel] = useState('Kanya')
+  const [typeLabel, setTypeLabel] = useState('Kanya');
+
+  const { showSuccess, showError } = useNotification();
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserType(event.target.checked);
@@ -42,7 +45,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ /*initialData , onS
           userType && (
             <Grid size={12}>
               <KanyaRegistrationForm onSuccess={function (): void {
-                console.log('Function not implemented.');
+                showSuccess('Registration Created Succefully')
               } } />
             </Grid>
           )
