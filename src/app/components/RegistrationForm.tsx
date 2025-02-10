@@ -44,9 +44,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ /*initialData , onS
         {
           userType && (
             <Grid size={12}>
-              <KanyaRegistrationForm onSuccess={function (): void {
-                showSuccess('Registration Created Succefully')
-              } } />
+              <KanyaRegistrationForm 
+              onSuccess={function (): void {
+                showSuccess('Registration Created Successfully')
+              } } 
+              onError={ function (): void {
+                showError('Registration Failed')
+              }  } />
             </Grid>
           )
         }
@@ -55,7 +59,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ /*initialData , onS
             <Grid size={12}>
               <SuvashiniRegistrationForm onSuccess={function (): void {
                 throw new Error('Function not implemented.');
-              } } />
+              } } 
+              
+              onError={ function (): void {
+                showError('Registration Failed')
+              }  }/>
             </Grid>
           )
         }

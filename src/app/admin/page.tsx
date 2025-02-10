@@ -8,6 +8,7 @@ import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import RegistrationList from '../components/RegistrationList';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import SettingsForm from '../components/SettingsForm';
+import { useNotification } from '../context/NotificationContext';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -41,6 +42,7 @@ function a11yProps(index: number) {
 export default function AdminPage() {
 
   const [value, setValue] = React.useState(0);
+    const { showSuccess, showError } = useNotification();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -69,8 +71,13 @@ export default function AdminPage() {
       </CustomTabPanel> */}
       <CustomTabPanel value={value} index={3}>
         <SettingsForm onSuccess={function (): void {
-          throw new Error('Function not implemented.');
-        } } />
+         showSuccess('Settings Saved Succefully')
+        } } 
+        
+        onError={ function (): void {
+          showError('Settings Failed to Save...')
+        }  }
+        />
       </CustomTabPanel>
     </Box>
 

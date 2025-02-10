@@ -20,6 +20,7 @@ interface KanyaRegistrationFormProps {
     kolusuSize: number, bangleSize: number, referredBy: string, registeredDate: Dayjs
   };
   onSuccess: () => void;
+  onError: () => void;
 }
 
 const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialData, onSuccess }) => {
@@ -179,7 +180,7 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
               onChange={(e) => setuserPhone(e.target.value)}
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker value={registeredDate} onChange={(newValue) => { console.log(registeredDate.toDate()); setRegisteredDate(new Dayjs(newValue)) }}/>
+              <DatePicker value={registeredDate} onChange={(newValue) => { console.log(registeredDate.toDate()); setRegisteredDate(dayjs(newValue)) }}/>
             </LocalizationProvider>
             <TextField
               required

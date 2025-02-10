@@ -14,6 +14,7 @@ interface SuvashiniRegistrationFormProps {
     husbands_vedam: string, kula_devatha: string, place: string, residential_address: string
   };
   onSuccess: () => void;
+  onError: () => void;
 }
 
 const SuvashiniRegistrationForm: React.FC<SuvashiniRegistrationFormProps> = ({ initialData, onSuccess }) => {

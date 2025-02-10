@@ -34,6 +34,7 @@ interface SettingsnFormProps {
     kolusuVendorAddress: string,
   };
   onSuccess: () => void;
+  onError: () => void;
 }
 
 
@@ -105,7 +106,7 @@ const SettingsForm: React.FC<SettingsnFormProps> = ({ initialData, onSuccess }) 
           Event Start Date
         </FormLabel>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker value={eventStartDate} onChange={(newValue) => { console.log(eventStartDate.toDate()); setEventStartDate(new Dayjs(newValue)) }} />
+          <DatePicker value={eventStartDate} onChange={(newValue) => { console.log(eventStartDate.toDate()); setEventStartDate(dayjs(newValue)) }} />
         </LocalizationProvider>
       </FormGrid>
       <FormGrid size={{ xs: 12, md: 4 }}>
@@ -113,7 +114,7 @@ const SettingsForm: React.FC<SettingsnFormProps> = ({ initialData, onSuccess }) 
           Event End Date
         </FormLabel>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker value={eventEndDate} onChange={(newValue) => { console.log(eventEndDate.toDate()); setEventEndDate(new Dayjs(newValue)) }} />
+          <DatePicker value={eventEndDate} onChange={(newValue) => { console.log(eventEndDate.toDate()); setEventEndDate(dayjs(newValue)) }} />
         </LocalizationProvider>
       </FormGrid>
       <FormGrid size={{ xs: 12, md: 4 }}>
@@ -121,7 +122,7 @@ const SettingsForm: React.FC<SettingsnFormProps> = ({ initialData, onSuccess }) 
           Date Reserved for Locals
         </FormLabel>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker value={dateForLocals} onChange={(newValue) => { console.log(dateForLocals.toDate()); setDateForLocals(new Dayjs(newValue)) }} />
+          <DatePicker value={dateForLocals} onChange={(newValue) => { console.log(dateForLocals.toDate()); setDateForLocals(dayjs(newValue)) }} />
         </LocalizationProvider>
       </FormGrid>
       <Stack spacing={2}>
