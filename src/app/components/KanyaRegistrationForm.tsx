@@ -5,6 +5,10 @@ import { createRegistration, editRegistration } from '../services/registrationSe
 import { Box, TextField, Typography, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import Registration from '../types/Registration';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface KanyaRegistrationFormProps {
   initialData?: {
@@ -13,7 +17,7 @@ interface KanyaRegistrationFormProps {
     classicalMusic: string, motherTongue: string, nativePlace: string, fathersName: string, fathersGothram: string,
     fathersVedam: string, fathersProfession: string, mothersName: string, maternalGothram: string, mothersVedam: string,
     mothersProfession: string, kulaDevatha: string, place: string, residentialAddress: string, dressSize: number,
-    kolusuSize: number, bangleSize: number, referredBy: string
+    kolusuSize: number, bangleSize: number, referredBy: string, registeredDate: Dayjs
   };
   onSuccess: () => void;
 }
@@ -45,6 +49,7 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
   const [dressSize, setDressSize] = useState(0);
   const [bangleSize, setBangleSize] = useState(0);
   const [referredBy, setReferredBy] = useState('');
+  const [registeredDate, setRegisteredDate] = useState(dayjs);
 
   useEffect(() => {
     if (initialData) {
@@ -74,6 +79,7 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
       setDressSize(initialData.dressSize);
       setBangleSize(initialData.bangleSize);
       setReferredBy(initialData.referredBy);
+      setRegisteredDate(initialData.registeredDate);
     }
   }, [initialData]);
 
@@ -137,7 +143,8 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
         mothersProfession,
         kulaDevatha,
         place,
-        residentialAddress
+        residentialAddress,
+        registeredDate
       };
       await createRegistration(registrationObj);
       onSuccess();
@@ -171,6 +178,9 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
               placeholder='Phone number here...'
               onChange={(e) => setuserPhone(e.target.value)}
             />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker value={registeredDate} onChange={(newValue) => { console.log(registeredDate.toDate()); setRegisteredDate(new Dayjs(newValue)) }}/>
+            </LocalizationProvider>
             <TextField
               required
               id="outlined-required"

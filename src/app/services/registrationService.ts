@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Registration from '../types/Registration';
 
-const API_URL = 'http://localhost:8080/api/registrations'; // Update if needed
+const API_URL = 'http://localhost:5000/api/registrations'; // Update if needed
 
 export const createRegistration = async (param: Registration) => {
   try {

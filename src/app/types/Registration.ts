@@ -1,13 +1,15 @@
+import dayjs, { Dayjs } from "dayjs";
+
 export default interface Registration {
     id?: number,
     userName: string,
     userPhone: string,
+    aadharNumber: string,
     age?: number,
     horoscopeName?: string,
     approvalStatus?: string,
     standard?: string,
     schoolName?: string,
-    aadharNumber?: string,
     slogamKnown?: string,
     classicalMusic?: string,
     mothersName?: string,
@@ -26,5 +28,6 @@ export default interface Registration {
     mothersProfession?: string,
     kulaDevatha?: string,
     place?: string,
-    residentialAddress?: string
+    residentialAddress?: string,
+    registeredDate:Dayjs
 }

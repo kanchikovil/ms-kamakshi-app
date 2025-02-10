@@ -15,7 +15,7 @@ const RegistrationActions: React.FC<RegistrationActionsProps> = ({ id }) => {
   };
 
   const handleDelete = async () => {
-    await fetch(`http://localhost:8080/api/registrations/${id}`, {
+    await fetch(`http://localhost:5000/api/registrations/${id}`, {
       method: 'DELETE',
     });
     window.location.reload(); // Reload the page to reflect the changes

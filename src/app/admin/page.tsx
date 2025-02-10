@@ -4,7 +4,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Box } from '@mui/material';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import RegistrationList from '../components/RegistrationList';
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import SettingsForm from '../components/SettingsForm';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -50,18 +53,24 @@ export default function AdminPage() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab icon={<HowToRegIcon />} iconPosition="start" label="Registerations" {...a11yProps(0)} />
-          <Tab label="Vendors" {...a11yProps(1)} />
+          <Tab icon={<SupportAgentIcon />} iconPosition="start" label="Vendors" {...a11yProps(1)} />
           <Tab label="Donors" {...a11yProps(2)} />
+          <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
         <RegistrationList />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-      Vendors
+        Vendors
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-      Donors
+      {/* <CustomTabPanel value={value} index={2}>
+        Donors
+      </CustomTabPanel> */}
+      <CustomTabPanel value={value} index={3}>
+        <SettingsForm onSuccess={function (): void {
+          throw new Error('Function not implemented.');
+        } } />
       </CustomTabPanel>
     </Box>
 
