@@ -15,11 +15,11 @@ import Paper from '@mui/material/Paper';
 import Chip from '@mui/material/Chip';
 import Registration from '../types/Registration';
 import { approveRegistration } from '../services/registrationService';
-import { Grid2, Box, CardHeader } from '@mui/material';
-import Divider from '@mui/material/Divider';
+import { Grid2, Box } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import { Dayjs } from 'dayjs';
 
 const RegistrationList: React.FC = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
@@ -106,6 +106,7 @@ const RegistrationList: React.FC = () => {
                     <TableCell align="right">Location</TableCell>
                     <TableCell align="right">Maternal Gothram</TableCell>
                     <TableCell align="right">Mother Tongue</TableCell>
+                    <TableCell align="right">Pooja Date</TableCell>
                     <TableCell align="right">Status</TableCell>
                   </TableRow>
                 </TableHead>
@@ -122,6 +123,7 @@ const RegistrationList: React.FC = () => {
                       <TableCell align="right">{registration.nativePlace}</TableCell>
                       <TableCell align="right">{registration.maternalGothram}</TableCell>
                       <TableCell align="right">{registration.motherTongue}</TableCell>
+                      <TableCell align="right">{JSON.stringify(registration.registeredDate)}</TableCell>
                       <TableCell align="right">
                         {(registration.approvalStatus !== 'APPROVED' && registration.approvalStatus !== 'REJECTED') ? (
                           <Stack direction="row" spacing={1}>
@@ -168,7 +170,7 @@ const RegistrationList: React.FC = () => {
               </div>
               <div style={{ paddingLeft: '20px' }}>
                 <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>To Approve</Typography>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 20 }}>{counts.totalCount}</Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 20 }}>TBD</Typography>
               </div>
             </Box>
             {/* <Typography variant="body1">

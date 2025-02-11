@@ -9,6 +9,7 @@ import RegistrationList from '../components/RegistrationList';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import SettingsForm from '../components/SettingsForm';
 import { useNotification } from '../context/NotificationContext';
+import VendorOrderList from '../components/VendorOrderList';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -56,20 +57,20 @@ export default function AdminPage() {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab icon={<HowToRegIcon />} iconPosition="start" label="Registerations" {...a11yProps(0)} />
           <Tab icon={<SupportAgentIcon />} iconPosition="start" label="Vendors" {...a11yProps(1)} />
-          <Tab label="Donors" {...a11yProps(2)} />
-          <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(3)} />
+          {/* <Tab label="Donors" {...a11yProps(2)} /> */}
+          <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
         <RegistrationList />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Vendors
+        <VendorOrderList />
       </CustomTabPanel>
       {/* <CustomTabPanel value={value} index={2}>
         Donors
       </CustomTabPanel> */}
-      <CustomTabPanel value={value} index={3}>
+      <CustomTabPanel value={value} index={2}>
         <SettingsForm onSuccess={function (): void {
          showSuccess('Settings Saved Succefully')
         } } 
