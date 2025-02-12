@@ -135,7 +135,7 @@ const RegistrationList: React.FC = () => {
                             </IconButton>
                           </Stack>
                         ) : (
-                          <Chip label={registration.approvalStatus} color="primary" />
+                          <Chip label={registration.approvalStatus} color="primary" size='small'/>
                         )}
                       </TableCell>
                     </TableRow>

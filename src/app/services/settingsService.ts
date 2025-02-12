@@ -20,6 +20,17 @@ export const getAllSettingss = async () => {
   return response.data;
 };
 
+export const getEventDates = async () => {
+  // const response = await axios.get('http://localhost:5000/api/getEventDates');
+  try {
+    const apiRes = await fetch('http://localhost:5000/api/getEventDates');
+    const res = await apiRes.json();
+    return res;
+  } catch (error) {
+    console.error('Error fetching Event Dates:', error);
+  } 
+};
+
 // Edit a settings
 export const editSettings = async (id: number, eventStartDate: Dayjs, eventEndDate: Dayjs) => {
   const response = await axios.put(`${API_URL}/${id}`, { eventStartDate, eventEndDate });

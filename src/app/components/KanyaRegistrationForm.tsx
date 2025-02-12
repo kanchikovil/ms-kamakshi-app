@@ -2,6 +2,7 @@
 // src/components/RegistrationForm.tsx
 import React, { useState, useEffect } from 'react';
 import { createRegistration, editRegistration } from '../services/registrationService';
+import { getEventDates } from '../services/settingsService';
 import { Box, TextField, Typography, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import Registration from '../types/Registration';
@@ -52,6 +53,12 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
   const [referredBy, setReferredBy] = useState('');
   const [registeredDate, setRegisteredDate] = useState(dayjs);
 
+  const [eventStartDate, setEventStartDate] = useState(dayjs);
+  const [eventEndDate, setEventEndDate] = useState(dayjs);
+
+  //Error States
+  const [aadharNumberError, setAadharNumberError] = useState("");
+
   useEffect(() => {
     if (initialData) {
       setUserName(initialData.userName);
@@ -83,6 +90,21 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
       setRegisteredDate(initialData.registeredDate);
     }
   }, [initialData]);
+
+  useEffect(() => {
+    async function fetchEventDates() {
+      try {
+        const res = await getEventDates();
+        setEventStartDate(res.data[0].start_date);
+        setEventEndDate(res.data[0].end_date);
+      } catch (error) {
+        console.error('Error fetching Event Dates:', error);
+      } finally {
+        // setLoading(false);
+      }
+    }
+    fetchEventDates();
+  }, []);
 
   const handleKolusuSize = (
     event: React.MouseEvent<HTMLElement>,
@@ -170,7 +192,12 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
               value={aadharNumber}
               placeholder='Aadhar number here...'
               onChange={(e) => setAadharNumber(e.target.value)}
+              helperText={aadharNumberError}
+              error={!!aadharNumberError}
               required
+              slotProps={{
+                htmlInput: { maxLength: 12 },
+              }}
             />
             <TextField
               id="outlined-disabled"
@@ -178,9 +205,15 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
               value={userPhone}
               placeholder='Phone number here...'
               onChange={(e) => setuserPhone(e.target.value)}
+              slotProps={{
+                htmlInput: { maxLength: 10 },
+              }}
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker value={registeredDate} onChange={(newValue) => { console.log(registeredDate.toDate()); setRegisteredDate(dayjs(newValue)) }}/>
+              <DatePicker value={registeredDate} onChange={(newValue) => { setRegisteredDate(dayjs(newValue)) }}
+                minDate={dayjs(eventStartDate)}
+                maxDate={dayjs(eventEndDate)}
+              />
             </LocalizationProvider>
             <TextField
               required
