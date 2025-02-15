@@ -1,0 +1,11 @@
+container {
+    height: "100%"; /* So that grids 1 & 4 go all the way down */
+    min-height: 150; /* Give minimum height to a div */
+        border: "1px solid black";
+        font-size: 30;
+        text-align: "center"
+}
+
+containerTall {
+    min-height: 250 /* This div has higher minimum height */
+}

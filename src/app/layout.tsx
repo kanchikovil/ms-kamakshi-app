@@ -2,6 +2,8 @@
 import { baselightTheme } from "@/utils/theme/DefaultColors";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import Header from "./layout/header";
 import { NotificationProvider } from "./context/NotificationContext";
 
@@ -16,10 +18,14 @@ export default function RootLayout({
         <ThemeProvider theme={baselightTheme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <Header />
-          <NotificationProvider>
-            {children}
-          </NotificationProvider>
+          <Container fixed maxWidth={false} disableGutters>
+            <Header />
+            <NotificationProvider>
+              <Box sx={{ bgcolor: '#FFF5FF', height: '100vh', width: '100%' }}>
+                {children}
+              </Box>
+            </NotificationProvider>
+          </Container>
         </ThemeProvider>
       </body>
     </html>

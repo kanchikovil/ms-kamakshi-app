@@ -16,22 +16,24 @@ export default function Header() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                <Toolbar style={{ backgroundColor: "#AA3939" }}>
+                    <Link href={'/'}>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    </Link>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Manasasmarami Kamakshi
                     </Typography>
-                    <Link href={'/'}>
+                    {/* <Link href={'/pages/registration'}>
                         <Button variant="outlined" color="success">User Login</Button>&nbsp;
-                    </Link>
+                    </Link> */}
                     <Link href={'/admin'}>
                         <Button variant="outlined" color="error">Admin Login</Button>
                     </Link>

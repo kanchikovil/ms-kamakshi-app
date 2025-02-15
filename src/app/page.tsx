@@ -1,14 +1,13 @@
 import React from 'react';
-import RegistrationListWithServerData from './components/RegistrationList/RegistrationList.server';
-import RegistrationActions from './components/RegistrationList/RegistrationActions.client';
-import RegistrationForm from './components/RegistrationForm';
+import HomePage1 from './pages/home/page';
 
 
 export default async function HomePage() {
   return (
     <div>
+      <HomePage1 />
       {/* <h1>Registration Management</h1> */}
-      <RegistrationForm />
+      {/* <RegistrationForm /> */}
       {/* <RegistrationListWithServerData /> */}
     </div>
   );
