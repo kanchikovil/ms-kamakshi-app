@@ -29,5 +29,6 @@ export default interface Registration {
     kulaDevatha?: string,
     place?: string,
     residentialAddress?: string,
-    registeredDate:Dayjs
+    registeredDate:Dayjs,
+    type: string
 }

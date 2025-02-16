@@ -16,14 +16,14 @@ export default function Header() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
-                <Toolbar style={{ backgroundColor: "#AA3939" }}>
+                <Toolbar style={{ backgroundColor: "#006700" }}>
                     <Link href={'/'}>
                         <IconButton
                             size="large"
                             edge="start"
                             color="inherit"
                             aria-label="menu"
-                            sx={{ mr: 2 }}
+                            sx={{ mr: 2, color:'white' }}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -34,8 +34,8 @@ export default function Header() {
                     {/* <Link href={'/pages/registration'}>
                         <Button variant="outlined" color="success">User Login</Button>&nbsp;
                     </Link> */}
-                    <Link href={'/admin'}>
-                        <Button variant="outlined" color="error">Admin Login</Button>
+                    <Link href={'/admin'} color='white'>
+                        <Button variant="outlined" sx={{color:'white'}}>Admin Login</Button>
                     </Link>
 
                 </Toolbar>

@@ -1,25 +1,27 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Link from 'next/link';
 import { TextField } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import { getStatusByAadhar } from '../services/registrationService';
 import Chip from '@mui/material/Chip';
+import { useQRCode } from 'next-qrcode'
 
 
 export default function CheckStatusCard() {
 
   const [expanded, setExpanded] = React.useState(false);
   const [aadharNumber, setAadharNumber] = React.useState('');
+  const [phoneNumber, setPhoneNumber] = React.useState('');
   const [registrationDetails, setRegistrationDetails] = React.useState({
     user_name: '',
     approval_status: ''
   });
+
+  const { Canvas } = useQRCode()
 
   const handleExpandClick = async () => {
     const temp = await getStatusByAadhar(aadharNumber);
@@ -54,7 +56,7 @@ export default function CheckStatusCard() {
           variant='standard'
           label="Phone Number"
           placeholder='Phone Number here...'
-          // onChange={(e) => setAadharNumber(e.target.value)}
+          onChange={(e) => setPhoneNumber(e.target.value)}
           required
           fullWidth
           slotProps={{
@@ -75,7 +77,7 @@ export default function CheckStatusCard() {
             {
               registrationDetails.approval_status == 'REJECTED' && <Chip label={registrationDetails.approval_status} color='error' size='small' />
             }
-                        {
+            {
               registrationDetails.approval_status == 'Pending' && <Chip label={registrationDetails.approval_status} color='info' size='small' />
             }
           </Typography>
@@ -91,6 +93,21 @@ export default function CheckStatusCard() {
           <Typography>
             Details will be Scanned at the Venue...
           </Typography>
+          <Canvas
+            text={registrationDetails.approval_status + registrationDetails.user_name}
+            options={{
+              type: 'image/jpeg',
+              quality: 0.3,
+              errorCorrectionLevel: 'M',
+              margin: 3,
+              scale: 4,
+              width: 200,
+              color: {
+                dark: '#FF0000',
+                light: '#FFF5F5',
+              },
+            }}
+          />
         </CardContent>
       </Collapse>
     </Card>

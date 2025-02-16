@@ -2,6 +2,7 @@
 // src/components/RegistrationForm.tsx
 import React, { useState, useEffect } from 'react';
 import { createRegistration, editRegistration } from '../services/registrationService';
+import { validateAadharDetails } from '../services/aadharServices';
 import { getEventDates } from '../services/settingsService';
 import { Box, TextField, Typography, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Grid from '@mui/material/Grid2';
@@ -10,8 +11,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
+
 
 interface KanyaRegistrationFormProps {
   initialData?: {
@@ -20,7 +20,8 @@ interface KanyaRegistrationFormProps {
     classicalMusic: string, motherTongue: string, nativePlace: string, fathersName: string, fathersGothram: string,
     fathersVedam: string, fathersProfession: string, mothersName: string, maternalGothram: string, mothersVedam: string,
     mothersProfession: string, kulaDevatha: string, place: string, residentialAddress: string, dressSize: number,
-    kolusuSize: number, bangleSize: number, referredBy: string, registeredDate: Dayjs, approvalStatus: string
+    kolusuSize: number, bangleSize: number, referredBy: string, registeredDate: Dayjs, approvalStatus: string, 
+    type: string
   };
   onSuccess: () => void;
   onError: () => void;
@@ -57,9 +58,11 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
   const [approvalStatus, setApprovalStatus] = useState('Pending');
   const [eventStartDate, setEventStartDate] = useState(dayjs);
   const [eventEndDate, setEventEndDate] = useState(dayjs);
+  const [type, setType] = useState('Kanya');
 
   //Error States
   const [aadharNumberError, setAadharNumberError] = useState("");
+  const [validAadhar, setValidAadhar] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -91,6 +94,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
       setReferredBy(initialData.referredBy);
       setRegisteredDate(initialData.registeredDate);
       setApprovalStatus(initialData.approvalStatus)
+      setType(initialData.type);
     }
   }, [initialData]);
 
@@ -136,6 +140,11 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
     }
   };
 
+  const handleAadharValidation = async () => {
+    const res = await validateAadharDetails();
+    setValidAadhar(!res.data.validAadhar);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (initialData?.id) {
@@ -171,7 +180,8 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
         place,
         residentialAddress,
         registeredDate,
-        approvalStatus
+        approvalStatus,
+        type
       };
       await createRegistration(registrationObj);
       onSuccess();
@@ -209,7 +219,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
             />
           </Grid>
           <Grid size={4} padding={1}>
-            <Button variant='contained'>Validate</Button>
+            <Button variant='contained' onClick={handleAadharValidation}>Validate</Button>
           </Grid>
           <Grid size={4} padding={1}>
             <TextField
@@ -234,6 +244,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               <DatePicker value={registeredDate} onChange={(newValue) => { setRegisteredDate(dayjs(newValue)) }}
                 minDate={dayjs(eventStartDate)}
                 maxDate={dayjs(eventEndDate)}
+                disabled={validAadhar}
               />
             </LocalizationProvider>
           </Grid>
@@ -252,6 +263,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
                 htmlInput: { maxLength: 10 },
               }}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -264,6 +276,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               value={userName}
               fullWidth
               onChange={(e) => setUserName(e.target.value)}
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -276,6 +289,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Your Age here...'
               onChange={(e) => setAge(parseInt(e.target.value))}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
         </Grid>
@@ -290,6 +304,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Your SChool here...'
               onChange={(e) => setSchoolName(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -301,6 +316,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Your Std...'
               onChange={(e) => setStandard(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -312,6 +328,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='nativePlace Of..'
               onChange={(e) => setnativePlace(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
         </Grid>
@@ -327,6 +344,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               value={horoscopeName}
               onChange={(e) => setHoroscopeName(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -338,6 +356,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Stotram / Slogan known...'
               onChange={(e) => setslogamKnown(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -349,6 +368,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Vocal / Instruments...'
               onChange={(e) => setclassicalMusic(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
         </Grid>
@@ -363,6 +383,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Mother Toungue..'
               onChange={(e) => setMotherTongue(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -374,6 +395,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Fathers Name..'
               onChange={(e) => setFathersName(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -385,6 +407,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Grand Fathers Gothram..'
               onChange={(e) => setmaternalGothram(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
         </Grid>
@@ -399,6 +422,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Fathers Gothram..'
               onChange={(e) => setFathersGothram(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -410,6 +434,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Fathers Vedam..'
               onChange={(e) => setFathersVedam(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -421,6 +446,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Fathers Profession..'
               onChange={(e) => setFathersProfession(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
         </Grid>
@@ -435,6 +461,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Mothers Name..'
               onChange={(e) => setMothersName(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -446,6 +473,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Mothers Vedam..'
               onChange={(e) => setMothersVedam(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -457,6 +485,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Mothers Profession..'
               onChange={(e) => setMothersProfession(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
         </Grid>
@@ -471,6 +500,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Kula Devatha..'
               onChange={(e) => setKulaDevatha(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -482,6 +512,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Place..'
               onChange={(e) => setPlace(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
           <Grid size={4} padding={1}>
@@ -493,18 +524,19 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               placeholder='Address..'
               onChange={(e) => setResidentialAddress(e.target.value)}
               fullWidth
+              disabled={validAadhar}
             />
           </Grid>
         </Grid>
         <Grid size={4}>
           <Typography variant='h6'>Girls Dress Size in inches</Typography>
-
           <ToggleButtonGroup
             value={dressSize}
             color="primary"
             exclusive
             onChange={handleDressSize}
             aria-label="text alignment"
+            disabled={validAadhar}
           >
             <table>
               <tbody>
@@ -575,7 +607,6 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               </tbody>
             </table>
           </ToggleButtonGroup>
-
         </Grid>
         <Grid size={4}>
           <Typography variant='h6'>Leg Chain (Kolusu) Size in inches</Typography>
@@ -586,6 +617,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
             exclusive
             onChange={handleKolusuSize}
             aria-label="text alignment"
+            disabled={validAadhar}
           >
             <table>
               <tbody>
@@ -667,6 +699,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
             exclusive
             onChange={handleBangleSize}
             aria-label="text alignment"
+            disabled={validAadhar}
           >
             <table>
               <tbody>
