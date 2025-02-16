@@ -25,7 +25,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ /*initialData , onS
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserType(event.target.checked);
     if(userType){setTypeLabel('Suvashini');} else {setTypeLabel('Kanya');}
-    console.log(JSON.stringify(typeLabel));
   };
 
   return (

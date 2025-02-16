@@ -19,6 +19,11 @@ export const getAllRegistrations = async () => {
   return response.data;
 };
 
+export const getStatusByAadhar = async (aadhar: string) => {
+  const response = await axios.get(`http://localhost:5000/api/registrations/aadhar/${aadhar}` );
+  return response.data;
+};
+
 // Edit a registration
 export const editRegistration = async (id: number, userName: string, userPhone: string) => {
   const response = await axios.put(`${API_URL}/${id}`, { userName, userPhone });

@@ -8,14 +8,25 @@ import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { TextField } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
+import { getStatusByAadhar } from '../services/registrationService';
+import Chip from '@mui/material/Chip';
 
 
 export default function CheckStatusCard() {
 
   const [expanded, setExpanded] = React.useState(false);
+  const [aadharNumber, setAadharNumber] = React.useState('');
+  const [registrationDetails, setRegistrationDetails] = React.useState({
+    user_name: '',
+    approval_status: ''
+  });
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const handleExpandClick = async () => {
+    const temp = await getStatusByAadhar(aadharNumber);
+    setRegistrationDetails(temp.data[0]);
+    if (!expanded) {
+      setExpanded(!expanded);
+    }
   };
 
   return (
@@ -30,14 +41,14 @@ export default function CheckStatusCard() {
           variant='standard'
           label="Aadhar Number"
           placeholder='Aadhar number here...'
-          // onChange={(e) => setAadharNumber(e.target.value)}
+          onChange={(e) => setAadharNumber(e.target.value)}
           required
           fullWidth
           slotProps={{
             htmlInput: { maxLength: 12 },
           }}
         />
-        <Typography sx={{ color: 'text.secondary', margin:1}}>Or</Typography>
+        <Typography sx={{ color: 'text.secondary', margin: 1 }}>Or</Typography>
         <TextField
           id="outlined-disabled"
           variant='standard'
@@ -52,22 +63,33 @@ export default function CheckStatusCard() {
         />
       </CardContent>
       <CardActions>
-          <Button size="small" onClick={handleExpandClick}>Check Status</Button>
+        <Button size="small" onClick={handleExpandClick}>Check Status</Button>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography sx={{ marginBottom: 2, fontSize: 25 }}>Registration: Successfull</Typography>
-          <Typography sx={{ marginBottom: 2 }}>
-           As Email has been sent with the details 
+          <Typography sx={{ marginBottom: 2, fontSize: 15 }}>Hello <b>{registrationDetails.user_name}</b>...!!!</Typography>
+          <Typography sx={{ marginBottom: 2, fontSize: 15 }}>Your registration has been &nbsp;
+            {
+              registrationDetails.approval_status == 'APPROVED' && <Chip label={registrationDetails.approval_status} color='success' size='small' />
+            }
+            {
+              registrationDetails.approval_status == 'REJECTED' && <Chip label={registrationDetails.approval_status} color='error' size='small' />
+            }
+                        {
+              registrationDetails.approval_status == 'Pending' && <Chip label={registrationDetails.approval_status} color='info' size='small' />
+            }
           </Typography>
           <Typography sx={{ marginBottom: 2 }}>
-           Please take a Print Out
+            As Email has been sent with the details
           </Typography>
           <Typography sx={{ marginBottom: 2 }}>
-           Add Proceed as per the Instructions.
+            Please take a Print Out
+          </Typography>
+          <Typography sx={{ marginBottom: 2 }}>
+            Add Proceed as per the Instructions.
           </Typography>
           <Typography>
-           Details will be Scanned at the Venue...
+            Details will be Scanned at the Venue...
           </Typography>
         </CardContent>
       </Collapse>

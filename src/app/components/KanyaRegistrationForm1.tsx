@@ -20,7 +20,7 @@ interface KanyaRegistrationFormProps {
     classicalMusic: string, motherTongue: string, nativePlace: string, fathersName: string, fathersGothram: string,
     fathersVedam: string, fathersProfession: string, mothersName: string, maternalGothram: string, mothersVedam: string,
     mothersProfession: string, kulaDevatha: string, place: string, residentialAddress: string, dressSize: number,
-    kolusuSize: number, bangleSize: number, referredBy: string, registeredDate: Dayjs
+    kolusuSize: number, bangleSize: number, referredBy: string, registeredDate: Dayjs, approvalStatus: string
   };
   onSuccess: () => void;
   onError: () => void;
@@ -54,7 +54,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
   const [bangleSize, setBangleSize] = useState(0);
   const [referredBy, setReferredBy] = useState('');
   const [registeredDate, setRegisteredDate] = useState(dayjs);
-
+  const [approvalStatus, setApprovalStatus] = useState('Pending');
   const [eventStartDate, setEventStartDate] = useState(dayjs);
   const [eventEndDate, setEventEndDate] = useState(dayjs);
 
@@ -90,6 +90,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
       setBangleSize(initialData.bangleSize);
       setReferredBy(initialData.referredBy);
       setRegisteredDate(initialData.registeredDate);
+      setApprovalStatus(initialData.approvalStatus)
     }
   }, [initialData]);
 
@@ -169,7 +170,8 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
         kulaDevatha,
         place,
         residentialAddress,
-        registeredDate
+        registeredDate,
+        approvalStatus
       };
       await createRegistration(registrationObj);
       onSuccess();
