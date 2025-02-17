@@ -10,6 +10,7 @@ import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import SettingsForm from '../components/SettingsForm';
 import { useNotification } from '../context/NotificationContext';
 import VendorOrderList from '../components/VendorOrderList';
+import QRScanner from '../components/controls/QRScanner/QRScanner';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -59,6 +60,7 @@ export default function AdminPage() {
           <Tab icon={<SupportAgentIcon />} iconPosition="start" label="Vendors" {...a11yProps(1)} />
           {/* <Tab label="Donors" {...a11yProps(2)} /> */}
           <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(2)} />
+          <Tab label="Entry Scan" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -79,6 +81,9 @@ export default function AdminPage() {
           showError('Settings Failed to Save...')
         }  }
         />
+      </CustomTabPanel>
+      <CustomTabPanel  value={value} index={3}>
+        <QRScanner />
       </CustomTabPanel>
     </Box>
 

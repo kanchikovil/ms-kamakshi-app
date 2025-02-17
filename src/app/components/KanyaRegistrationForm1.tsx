@@ -143,6 +143,13 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
   const handleAadharValidation = async () => {
     const res = await validateAadharDetails();
     setValidAadhar(!res.data.validAadhar);
+    if(validAadhar){
+      setAadharNumberError('Valid Aadahar');
+      setAge(res.data.age);
+      setUserName(res.data.name);
+    } else {
+      setAadharNumberError('Invalid Valid Aadahar');
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -205,7 +212,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
             <TextField
               id="outlined-disabled"
               variant='standard'
-              label="Aadhar Number"
+              label="Valid Aadhar Number"
               value={aadharNumber}
               placeholder='Aadhar number here...'
               onChange={(e) => setAadharNumber(e.target.value)}
@@ -228,7 +235,7 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
               variant='standard'
               value={'Status from API here...'}
               placeholder='Aadhar Status here...'
-              onChange={(e) => setAadharNumber(e.target.value)}
+             // onChange={(e) => setAadharNumber(e.target.value)}
               helperText={aadharNumberError}
               error={!!aadharNumberError}
               required

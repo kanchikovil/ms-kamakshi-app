@@ -24,10 +24,11 @@ import { Dayjs } from 'dayjs';
 const RegistrationList: React.FC = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [counts, setCounts] = useState<{ totalCount: number; approvedCount: number; rejectedCount: number }>({
+  const [counts, setCounts] = useState<{ totalCount: number; approvedCount: number; rejectedCount: number, pendingCount: number }>({
     totalCount: 0,
     approvedCount: 0,
     rejectedCount: 0,
+    pendingCount: 0
   });
 
   // Fetch Registrations List
@@ -158,19 +159,19 @@ const RegistrationList: React.FC = () => {
             <Box alignItems={'flex-start'} display={'flex'} >
               <div>
                 <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Approved</Typography>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 20 }}>{counts.approvedCount}</Typography>
+                <Typography sx={{ color: 'green', mb: 1.5, fontSize: 20 }}>{counts.approvedCount}</Typography>
               </div>
               <div style={{ paddingLeft: '20px' }}>
                 <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Rejected</Typography>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 20 }}>{counts.rejectedCount}</Typography>
+                <Typography sx={{ color: 'red', mb: 1.5, fontSize: 20 }}>{counts.rejectedCount}</Typography>
               </div>
               <div style={{ paddingLeft: '20px' }}>
                 <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Total</Typography>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 20 }}>{counts.totalCount}</Typography>
+                <Typography sx={{ color: 'blue', mb: 1.5, fontSize: 20 }}>{counts.totalCount}</Typography>
               </div>
               <div style={{ paddingLeft: '20px' }}>
                 <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>To Approve</Typography>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 20 }}>TBD</Typography>
+                <Typography sx={{ color: 'grey', mb: 1.5, fontSize: 20 }}>{counts.pendingCount}</Typography>
               </div>
             </Box>
             {/* <Typography variant="body1">
