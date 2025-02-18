@@ -93,21 +93,24 @@ export default function CheckStatusCard() {
           <Typography>
             Details will be Scanned at the Venue...
           </Typography>
-          <Canvas
-            text={registrationDetails.approval_status + registrationDetails.user_name}
-            options={{
-              type: 'image/jpeg',
-              quality: 0.3,
-              errorCorrectionLevel: 'M',
-              margin: 3,
-              scale: 4,
-              width: 200,
-              color: {
-                dark: '#FF0000',
-                light: '#FFF5F5',
-              },
-            }}
-          />
+          {
+            registrationDetails.approval_status == 'APPROVED' &&
+            <Canvas
+              text={registrationDetails.approval_status + registrationDetails.user_name}
+              options={{
+                type: 'image/jpeg',
+                quality: 0.3,
+                errorCorrectionLevel: 'M',
+                margin: 3,
+                scale: 4,
+                width: 200,
+                color: {
+                  dark: '#FF0000',
+                  light: '#FFF5F5',
+                },
+              }}
+            />
+          }
         </CardContent>
       </Collapse>
     </Card>

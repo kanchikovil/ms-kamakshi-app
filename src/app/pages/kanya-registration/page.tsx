@@ -27,7 +27,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ /*initialData , onS
     <Grid container direction="row" spacing={1}>
     <Grid size={{ xs: 2 }}>
       <Box sx={{
-        height: '100%', minHeight: 500, border: 1, fontSize: 20,
+        height: '100%', minHeight: 500, border: 0, fontSize: 20,
         borderRadius: 1, margin: 1, backgroundColor:'#FFFFFF'
       }}>
         <Typography>Instructions for Kanya Registration ...</Typography>

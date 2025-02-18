@@ -31,10 +31,6 @@ const QRScanner = (props: any) => {
     };
   }, []);
 
-  // const qrScanner = new QrScanner(videoElement, (result) =>
-  //   console.log('decoded qr code:', result)
-  // );
-
   return (
     <div>
       <div className="videoWrapper">
