@@ -105,8 +105,8 @@ export default function CheckStatusCard() {
                 scale: 4,
                 width: 200,
                 color: {
-                  dark: '#FF0000',
-                  light: '#FFF5F5',
+                  dark: '#0F0359',
+                  light: '#EEEEFF',
                 },
               }}
             />
