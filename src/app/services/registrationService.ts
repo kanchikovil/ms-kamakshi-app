@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Registration from '../types/Registration';
 
-const API_URL = 'http://localhost:5000/api/registrations'; // Update if needed
+const API_URL = 'http://localhost:8080/api/registrations'; // Update if needed
 
 export const createRegistration = async (param: Registration) => {
   try {
@@ -20,7 +20,7 @@ export const getAllRegistrations = async () => {
 };
 
 export const getStatusByAadhar = async (aadhar: string) => {
-  const response = await axios.get(`http://localhost:5000/api/registrations/aadhar/${aadhar}` );
+  const response = await axios.get(`http://localhost:8080/api/registrations/aadhar/${aadhar}` );
   return response.data;
 };
 

@@ -11,6 +11,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
+import { useNotification } from '../context/NotificationContext';
 
 
 interface KanyaRegistrationFormProps {
@@ -28,6 +29,9 @@ interface KanyaRegistrationFormProps {
 }
 
 const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialData, onSuccess }) => {
+
+const { showSuccess, showError } = useNotification();
+
   const [userName, setUserName] = useState('sample name');
   const [userPhone, setuserPhone] = useState('000000');
   const [aadharNumber, setAadharNumber] = useState('1312323445345');
@@ -105,7 +109,8 @@ const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialD
         setEventStartDate(res.data[0].start_date);
         setEventEndDate(res.data[0].end_date);
       } catch (error) {
-        console.error('Error fetching Event Dates:', error);
+        showError('Error while getting event details');
+        // console.error('Error fetching Event Dates:', error);
       } finally {
         // setLoading(false);
       }

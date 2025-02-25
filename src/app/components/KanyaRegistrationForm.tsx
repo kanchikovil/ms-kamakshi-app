@@ -10,6 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
+import { useNotification } from '../context/NotificationContext';
 
 interface KanyaRegistrationFormProps {
   initialData?: {
@@ -25,6 +26,9 @@ interface KanyaRegistrationFormProps {
 }
 
 const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialData, onSuccess }) => {
+
+  const { showSuccess, showError } = useNotification();
+
   const [userName, setUserName] = useState('sample name');
   const [userPhone, setuserPhone] = useState('000000');
   const [aadharNumber, setAadharNumber] = useState('1312323445345');
@@ -98,7 +102,8 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
         setEventStartDate(res.data[0].start_date);
         setEventEndDate(res.data[0].end_date);
       } catch (error) {
-        console.error('Error fetching Event Dates:', error);
+        // console.error('Error fetching Event Dates:', error);
+        showError('Failed to get even details');
       } finally {
         // setLoading(false);
       }
@@ -139,6 +144,7 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
       // Edit an existing registration
       await editRegistration(initialData.id, userName, userPhone);
     } else {
+      const type = '';
       // Create a new registration
       const registrationObj: Registration = {
         userName,
@@ -167,7 +173,8 @@ const KanyaRegistrationForm: React.FC<KanyaRegistrationFormProps> = ({ initialDa
         kulaDevatha,
         place,
         residentialAddress,
-        registeredDate
+        registeredDate,
+        type
       };
       await createRegistration(registrationObj);
       onSuccess();

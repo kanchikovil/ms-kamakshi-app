@@ -35,7 +35,7 @@ const RegistrationList: React.FC = () => {
   useEffect(() => {
     async function fetchRegistrations() {
       try {
-        const apiRes = await fetch('http://localhost:5000/api/registrations');
+        const apiRes = await fetch('http://localhost:8080/api/registrations');
         const res = await apiRes.json();
         setRegistrations(res.data);
       } catch (error) {
@@ -51,7 +51,7 @@ const RegistrationList: React.FC = () => {
   useEffect(() => {
     async function fetchCounts() {
       try {
-        const countRes = await fetch('http://localhost:5000/api/registrations-count');
+        const countRes = await fetch('http://localhost:8080/api/registrations-count');
         const countData = await countRes.json();
         setCounts(countData.data);
       } catch (error) {
@@ -77,7 +77,7 @@ const RegistrationList: React.FC = () => {
   // Fetch updated counts
   async function fetchCounts() {
     try {
-      const countRes = await fetch('http://localhost:5000/api/registrations-count');
+      const countRes = await fetch('http://localhost:8080/api/registrations-count');
       const countData = await countRes.json();
       setCounts(countData.data);
     } catch (error) {

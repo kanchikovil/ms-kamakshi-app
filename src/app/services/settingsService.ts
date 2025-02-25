@@ -2,7 +2,7 @@ import axios from 'axios';
 import Settings from '../types/Settings';
 import { Dayjs } from 'dayjs';
 
-const API_URL = 'http://localhost:5000/api/settings'; // Update if needed
+const API_URL = 'http://localhost:8080/api/settings'; // Update if needed
 
 export const createSettings = async (param: Settings) => {
   try {
@@ -21,9 +21,9 @@ export const getAllSettingss = async () => {
 };
 
 export const getEventDates = async () => {
-  // const response = await axios.get('http://localhost:5000/api/getEventDates');
+  // const response = await axios.get('http://localhost:8080/api/getEventDates');
   try {
-    const apiRes = await fetch('http://localhost:5000/api/getEventDates');
+    const apiRes = await fetch('http://localhost:8080/api/getEventDates');
     const res = await apiRes.json();
     return res;
   } catch (error) {

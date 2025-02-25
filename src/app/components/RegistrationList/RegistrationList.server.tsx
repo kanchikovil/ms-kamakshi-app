@@ -6,7 +6,7 @@ import RegistrationActions from './RegistrationActions.client';
 
 // Server function to fetch registrations from an API or database
 async function fetchRegistrations(): Promise<Registration[]> {
-  const res = await fetch('http://localhost:5000/api/registrations'); // Your API endpoint
+  const res = await fetch('http://localhost:8080/api/registrations'); // Your API endpoint
   const registrations = await res.json();
   return registrations;
 }

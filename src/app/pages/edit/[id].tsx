@@ -18,7 +18,7 @@ const EditPage = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     async function loadRegistration() {
-      const res = await fetch(`http://localhost:5000/api/registrations/${params.id}`);
+      const res = await fetch(`http://localhost:8080/api/registrations/${params.id}`);
       const data = await res.json();
       setRegistration(data);
       setUserName(data.userName);
@@ -30,7 +30,7 @@ const EditPage = ({ params }: { params: { id: string } }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetch(`http://localhost:5000/api/registrations/${params.id}`, {
+    await fetch(`http://localhost:8080/api/registrations/${params.id}`, {
       method: 'PUT',
       body: JSON.stringify({ userName: userName, userPhone: userPhone }),
       headers: { 'Content-Type': 'application/json' },

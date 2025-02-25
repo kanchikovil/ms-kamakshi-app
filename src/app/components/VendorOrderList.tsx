@@ -24,7 +24,7 @@ const VendorOrderList: React.FC = () => {
     useEffect(() => {
       async function fetchOrderList() {
         try {
-          const apiRes = await fetch('http://localhost:5000/api/vendorOrders');
+          const apiRes = await fetch('http://localhost:8080/api/vendorOrders');
           const res = await apiRes.json();
           setOrderList(res.data);
         } catch (error) {
