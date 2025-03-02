@@ -7,7 +7,12 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+
+
+function LogoImage() {
+    return <Box component={"img"} src="/images/swami.png" alt="Image" width={35} height={35}/>;
+ }
 
 export default function Header() {
 
@@ -25,7 +30,7 @@ export default function Header() {
                             aria-label="menu"
                             sx={{ mr: 2, color:'white' }}
                         >
-                            <MenuIcon />
+                            <LogoImage />
                         </IconButton>
                     </Link>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
