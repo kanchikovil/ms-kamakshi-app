@@ -57,22 +57,22 @@ export default function AdminPage() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab icon={<HowToRegIcon />} iconPosition="start" label="Registerations" {...a11yProps(0)} />
-          <Tab icon={<SupportAgentIcon />} iconPosition="start" label="Vendors" {...a11yProps(1)} />
+          {/* <Tab icon={<SupportAgentIcon />} iconPosition="start" label="Vendors" {...a11yProps(1)} /> */}
           {/* <Tab label="Donors" {...a11yProps(2)} /> */}
-          <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(2)} />
-          <Tab label="Entry Scan" {...a11yProps(3)} />
+          <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(1)} />
+          <Tab label="Entry Scan" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
         <RegistrationList />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
+      {/* <CustomTabPanel value={value} index={1}>
         <VendorOrderList />
-      </CustomTabPanel>
+      </CustomTabPanel> */}
       {/* <CustomTabPanel value={value} index={2}>
         Donors
       </CustomTabPanel> */}
-      <CustomTabPanel value={value} index={2}>
+      <CustomTabPanel value={value} index={1}>
         <SettingsForm onSuccess={function (): void {
          showSuccess('Settings Saved Succefully')
         } } 
@@ -82,7 +82,7 @@ export default function AdminPage() {
         }  }
         />
       </CustomTabPanel>
-      <CustomTabPanel  value={value} index={3}>
+      <CustomTabPanel  value={value} index={2}>
         <QRScanner />
       </CustomTabPanel>
     </Box>
