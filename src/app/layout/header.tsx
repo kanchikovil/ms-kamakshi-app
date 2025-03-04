@@ -8,11 +8,12 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Divider, Stack } from '@mui/material';
 
 
 function LogoImage() {
-    return <Box component={"img"} src="/images/swami.png" alt="Image" width={35} height={35}/>;
- }
+    return <Box component={"img"} src="/images/swami.png" alt="Image" width={35} height={35} />;
+}
 
 export default function Header() {
 
@@ -20,15 +21,29 @@ export default function Header() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{
+                height: '10vh', backgroundColor: '#EEEEFF', display: 'flex',
+                alignContent: 'center', justifyContent: 'center', flexWrap: 'wrap'
+            }}>
+                <Stack justifyContent={'center'} alignContent={'center'} display={'flex'}>
+                <Typography variant="h3" color='#0F0359'>
+                    SRI&nbsp;KAMAKSHI&nbsp;AMBAL&nbsp;DEVASTHANAM
+                </Typography>
+                <Typography variant="body1" color='#0F0359'>
+                    KANCHIPURAM
+                </Typography>
+                </Stack>
+
+            </Box>
             <AppBar position="static">
-                <Toolbar style={{ backgroundColor: "#0F0359 " }}>
+                <Toolbar style={{ backgroundColor: "#0F0359", minHeight: '0.5vh', height: '6vh' }}>
                     <Link href={'/'}>
                         <IconButton
                             size="large"
                             edge="start"
                             color="inherit"
                             aria-label="menu"
-                            sx={{ mr: 2, color:'white' }}
+                            sx={{ mr: 2, color: 'white' }}
                         >
                             <LogoImage />
                         </IconButton>
@@ -36,14 +51,12 @@ export default function Header() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Manasasmarami Kamakshi
                     </Typography>
-                    {/* <Link href={'/pages/registration'}>
-                        <Button variant="outlined" color="success">User Login</Button>&nbsp;
-                    </Link> */}
                     <Link href={'/admin'} color='white'>
-                        <Button variant="outlined" sx={{color:'white'}}>Admin Login</Button>
+                        <Button variant="text" sx={{ color: 'white' }}>Admin Login</Button>
                     </Link>
-
                 </Toolbar>
+                <Divider orientation="horizontal" flexItem sx={{ 
+                     borderBlockWidth: 2, borderColor:'white' }}/>
             </AppBar>
         </Box>
     );
