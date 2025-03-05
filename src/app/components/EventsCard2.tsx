@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { Divider } from '@mui/material';
 
 export default function EventsCard2(props: any) {
 
@@ -12,7 +13,7 @@ export default function EventsCard2(props: any) {
       <Box sx={{ paddingLeft: 2, paddingTop: 2, paddingBottom: 2 }} >
         <Stack
           direction="row"
-          sx={{ justifyContent: 'space-around', alignItems: 'left' }}
+          sx={{ justifyContent: 'space-between', alignItems: 'center', paddingRight: 2 }}
         >
           <Typography gutterBottom variant="body1" component="div">
             {props.title}
@@ -21,16 +22,16 @@ export default function EventsCard2(props: any) {
             {props.date}
           </Typography>
         </Stack>
-        <Typography gutterBottom variant="h5" sx={{ color: 'text.secondary' }}>
-        {props.eventName}
+        {/* <Divider sx={{borderBlockWidth:0.5, borderColor:'#0F0359'}} variant="middle"/> */}
+        <Typography gutterBottom variant="h6" sx={{ color: 'text.secondary' }}>
+          {props.eventName}
         </Typography>
-        {/* <Divider sx={{borderBlockWidth:1, borderColor:'#0F0359'}} variant="middle"/> */}
         <Typography gutterBottom variant="subtitle2" component="div">
           {props.slotAvailText}
         </Typography>
         <Stack direction="row" spacing={2} paddingBottom={2}>
-          <Chip color="info" label= {props.kanyaSlot} size="small" />
-          <Chip label={props.suvashiniSlot} size="small" />
+          <Chip color="info" label={props.kanyaSlot} size="small" />
+          <Chip color="info" label={props.suvashiniSlot} size="small" />
         </Stack>
       </Box>
     </Card>

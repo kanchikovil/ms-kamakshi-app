@@ -26,12 +26,12 @@ export default function Header() {
                 alignContent: 'center', justifyContent: 'center', flexWrap: 'wrap'
             }}>
                 <Stack justifyContent={'center'} alignContent={'center'} display={'flex'}>
-                <Typography variant="h3" color='#0F0359'>
-                    SRI&nbsp;KAMAKSHI&nbsp;AMBAL&nbsp;DEVASTHANAM
-                </Typography>
-                <Typography variant="body1" color='#0F0359'>
-                    KANCHIPURAM
-                </Typography>
+                    <Typography variant="h3" color='#0F0359'>
+                        SRI&nbsp;KAMAKSHI&nbsp;AMBAL&nbsp;DEVASTHANAM
+                    </Typography>
+                    <Typography variant="body1" color='#0F0359'>
+                        KANCHIPURAM
+                    </Typography>
                 </Stack>
 
             </Box>
@@ -48,15 +48,34 @@ export default function Header() {
                             <LogoImage />
                         </IconButton>
                     </Link>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Manasasmarami Kamakshi
+                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+                        ManasasmaramiKamakshi
                     </Typography>
+                    <Link href={'/'} color='white'>
+                        <Button variant="text" sx={{ color: 'white' }}>
+                            <Typography variant="button" fontWeight={'bold'} component="div" sx={{ flexGrow: 1 }}>
+                                Home
+                            </Typography>
+                        </Button>
+                    </Link>
+                    <Link href={'/pages/kanya-registration'} color='white'>
+                        <Button variant="text" sx={{ color: 'white' }}>
+                            <Typography variant="button" fontWeight={'bold'} component="div" sx={{ flexGrow: 1 }}>
+                                Registration
+                            </Typography>
+                        </Button>
+                    </Link>
                     <Link href={'/admin'} color='white'>
-                        <Button variant="text" sx={{ color: 'white' }}>Admin Login</Button>
+                        <Button variant="text" sx={{ color: 'white' }}>
+                            <Typography variant="button" fontWeight={'bold'} component="div" sx={{ flexGrow: 1 }}>
+                                Admin Login
+                            </Typography>
+                        </Button>
                     </Link>
                 </Toolbar>
-                <Divider orientation="horizontal" flexItem sx={{ 
-                     borderBlockWidth: 2, borderColor:'white' }}/>
+                <Divider orientation="horizontal" flexItem sx={{
+                    borderBlockWidth: 2, borderColor: 'white'
+                }} />
             </AppBar>
         </Box>
     );

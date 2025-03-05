@@ -5,8 +5,6 @@ import { Container, Stack, Typography } from '@mui/material';
 import EventsCard2 from '@/app/components/EventsCard2';
 import HeroCardOverlay from '@/app/components/HeroCardOverlay';
 import Carousel from 'react-material-ui-carousel';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import NewsAndUpdateTabs from '@/app/components/NewsAndUpdateTabs';
 
 interface TabPanelProps {
@@ -112,7 +110,7 @@ export default function HomePage() {
           <Box sx={{ bgcolor: '#EEEEFF', height: '65vh', width: '75%', paddingTop: 0, justifyContent: 'center', }} >
             <Box sx={{
               height: '100%', maxHeight: '70%', border: 1, fontSize: 20,
-              borderRadius: 5, borderColor: '#0F0359', justifyContent: 'center',
+              borderRadius: 5, borderColor: '#E0FED8', justifyContent: 'center',
               // backgroundColor: '#0F0359',
               display: 'flex'
             }}
