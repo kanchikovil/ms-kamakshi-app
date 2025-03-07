@@ -1,774 +1,207 @@
-'use client'
-// src/components/RegistrationForm.tsx
-import React, { useState, useEffect } from 'react';
-import { createRegistration, editRegistration } from '../services/registrationService';
-import { validateAadharDetails } from '../services/aadharServices';
-import { getEventDates } from '../services/settingsService';
-import { Box, TextField, Typography, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import Registration from '../types/Registration';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs, { Dayjs } from 'dayjs';
-import { useNotification } from '../context/NotificationContext';
+import React, { useState, useEffect } from "react";
+import { TextField, Button, Grid, MenuItem, Typography, ToggleButtonGroup, ToggleButton } from "@mui/material";
+import ReCAPTCHA from "react-google-recaptcha";
 
-
-interface KanyaRegistrationFormProps {
-  initialData?: {
-    userName: string, userPhone: string, id?: number, aadharNumber: string,
-    horoscopeName: string, age: number, schoolName: string, standard: string, slogamKnown: string,
-    classicalMusic: string, motherTongue: string, nativePlace: string, fathersName: string, fathersGothram: string,
-    fathersVedam: string, fathersProfession: string, mothersName: string, maternalGothram: string, mothersVedam: string,
-    mothersProfession: string, kulaDevatha: string, place: string, residentialAddress: string, dressSize: number,
-    kolusuSize: number, bangleSize: number, referredBy: string, registeredDate: Dayjs, approvalStatus: string, 
-    type: string
-  };
-  onSuccess: () => void;
-  onError: () => void;
+interface FormDataType {
+  registrationType: string;
+  aadhaar1: string;
+  aadhaar2: string;
+  aadhaar3: string;
+  phone: string;
+  countryCode: string;
+  horoscopeName: string;
+  slogamKnown: string;
+  classicalMusic: string;
+  motherTongue: string;
+  fathersName: string;
+  maternalGothram: string;
+  fathersGothram: string;
+  fathersVedam: string;
+  fathersProfession: string;
+  mothersName: string;
+  mothersVedam: string;
+  mothersProfession: string;
+  kulaDevatha: string;
+  place: string;
+  residentialAddress: string;
+  dressSize: string;
+  kolusuSize: string;
+  bangleSize: string;
 }
 
-const KanyaRegistrationForm1: React.FC<KanyaRegistrationFormProps> = ({ initialData, onSuccess }) => {
 
-const { showSuccess, showError } = useNotification();
+const KanyaRegistrationForm1 = () => {
 
-  const [userName, setUserName] = useState('sample name');
-  const [userPhone, setuserPhone] = useState('000000');
-  const [aadharNumber, setAadharNumber] = useState('1312323445345');
-  const [age, setAge] = useState(10);
-  const [horoscopeName, setHoroscopeName] = useState('Thanusu');
-  const [schoolName, setSchoolName] = useState('BVMS');
-  const [standard, setStandard] = useState('');
-  const [slogamKnown, setslogamKnown] = useState('');
-  const [classicalMusic, setclassicalMusic] = useState('');
-  const [motherTongue, setMotherTongue] = useState('');
-  const [nativePlace, setnativePlace] = useState('');
-  const [fathersName, setFathersName] = useState('');
-  const [fathersGothram, setFathersGothram] = useState('');
-  const [fathersVedam, setFathersVedam] = useState('');
-  const [fathersProfession, setFathersProfession] = useState('');
-  const [mothersName, setMothersName] = useState('');
-  const [maternalGothram, setmaternalGothram] = useState('');
-  const [mothersVedam, setMothersVedam] = useState('');
-  const [mothersProfession, setMothersProfession] = useState('');
-  const [kulaDevatha, setKulaDevatha] = useState('');
-  const [place, setPlace] = useState('');
-  const [residentialAddress, setResidentialAddress] = useState('');
-  const [kolusuSize, setKolusuSize] = useState(0);
-  const [dressSize, setDressSize] = useState(0);
-  const [bangleSize, setBangleSize] = useState(0);
-  const [referredBy, setReferredBy] = useState('');
-  const [registeredDate, setRegisteredDate] = useState(dayjs);
-  const [approvalStatus, setApprovalStatus] = useState('Pending');
-  const [eventStartDate, setEventStartDate] = useState(dayjs);
-  const [eventEndDate, setEventEndDate] = useState(dayjs);
-  const [type, setType] = useState('Kanya');
+  const [formData, setFormData] = useState<FormDataType>({
+    registrationType: "Kanya",
+    aadhaar1: "",
+    aadhaar2: "",
+    aadhaar3: "",
+    phone: "",
+    countryCode: "+91",
+    horoscopeName: "",
+    slogamKnown: "",
+    classicalMusic: "",
+    motherTongue: "",
+    fathersName: "",
+    maternalGothram: "",
+    fathersGothram: "",
+    fathersVedam: "",
+    fathersProfession: "",
+    mothersName: "",
+    mothersVedam: "",
+    mothersProfession: "",
+    kulaDevatha: "",
+    place: "",
+    residentialAddress: "",
+    dressSize: "",
+    kolusuSize: "",
+    bangleSize: "",
+  });
 
-  //Error States
-  const [aadharNumberError, setAadharNumberError] = useState("");
-  const [validAadhar, setValidAadhar] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (initialData) {
-      setUserName(initialData.userName);
-      setuserPhone(initialData.userPhone);
-      setAadharNumber(initialData.aadharNumber);
-      setAge(initialData.age);
-      setHoroscopeName(initialData.horoscopeName);
-      setSchoolName(initialData.schoolName);
-      setStandard(initialData.standard);
-      setslogamKnown(initialData.slogamKnown);
-      setclassicalMusic(initialData.classicalMusic);
-      setMotherTongue(initialData.motherTongue);
-      setnativePlace(initialData.nativePlace);
-      setFathersName(initialData.fathersName);
-      setFathersGothram(initialData.fathersGothram);
-      setFathersVedam(initialData.fathersVedam);
-      setFathersProfession(initialData.fathersProfession);
-      setMothersName(initialData.mothersName);
-      setmaternalGothram(initialData.maternalGothram);
-      setMothersVedam(initialData.mothersVedam);
-      setMothersProfession(initialData.mothersProfession);
-      setKulaDevatha(initialData.kulaDevatha);
-      setPlace(initialData.place);
-      setResidentialAddress(initialData.residentialAddress);
-      setKolusuSize(initialData.kolusuSize);
-      setDressSize(initialData.dressSize);
-      setBangleSize(initialData.bangleSize);
-      setReferredBy(initialData.referredBy);
-      setRegisteredDate(initialData.registeredDate);
-      setApprovalStatus(initialData.approvalStatus)
-      setType(initialData.type);
-    }
-  }, [initialData]);
+  // Handle form changes
+  const handleChange = (e: any) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  useEffect(() => {
-    async function fetchEventDates() {
-      try {
-        const res = await getEventDates();
-        setEventStartDate(res.data[0].start_date);
-        setEventEndDate(res.data[0].end_date);
-      } catch (error) {
-        showError('Error while getting event details');
-        // console.error('Error fetching Event Dates:', error);
-      } finally {
-        // setLoading(false);
-      }
-    }
-    fetchEventDates();
-  }, []);
-
-  const handleKolusuSize = (
-    event: React.MouseEvent<HTMLElement>,
-    newkolusuSize: number | 0,
-  ) => {
-    if (newkolusuSize !== 0) {
-      setKolusuSize(newkolusuSize);
+  const handleToggleChange = (name: any) => (event: any, value: any) => {
+    if (value !== null) {
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleDressSize = (
-    event: React.MouseEvent<HTMLElement>,
-    newDressSize: number | 0,
-  ) => {
-    if (newDressSize !== 0) {
-      setDressSize(newDressSize);
-    }
+  // Aadhaar validation
+  const validateAadhaar = () => {
+    const { aadhaar1, aadhaar2, aadhaar3 } = formData;
+    const aadhaar = aadhaar1 + aadhaar2 + aadhaar3;
+    return /^\d{12}$/.test(aadhaar);
   };
 
-  const handleBangleSize = (
-    event: React.MouseEvent<HTMLElement>,
-    newBangleSize: number | 0,
-  ) => {
-    if (newBangleSize !== 0) {
-      setBangleSize(newBangleSize);
-    }
+  // Phone number validation
+  const validatePhone = () => {
+    return /^\d{10}$/.test(formData.phone);
   };
 
-  const handleAadharValidation = async () => {
-    const res = await validateAadharDetails();
-    setValidAadhar(!res.data.validAadhar);
-    if(validAadhar){
-      setAadharNumberError('Valid Aadahar');
-      setAge(res.data.age);
-      setUserName(res.data.name);
-    } else {
-      setAadharNumberError('Invalid Valid Aadahar');
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Submit form
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (initialData?.id) {
-      // Edit an existing registration
-      await editRegistration(initialData.id, userName, userPhone);
+    if (!validateAadhaar()) {
+      alert("Invalid Aadhaar number. Please enter a valid 12-digit Aadhaar.");
+      return;
+    }
+    if (!validatePhone()) {
+      alert("Invalid phone number. Please enter a 10-digit mobile number.");
+      return;
+    }
+    if (!captchaToken) {
+      alert("Please complete the captcha verification.");
+      return;
+    }
+
+    const response = await fetch("http://localhost:5000/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...formData, aadhaar: formData.aadhaar1 + formData.aadhaar2 + formData.aadhaar3, captchaToken }),
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      alert("Registration successful!");
     } else {
-      // Create a new registration
-      const registrationObj: Registration = {
-        userName,
-        userPhone,
-        age,
-        horoscopeName,
-        aadharNumber,
-        schoolName,
-        standard,
-        slogamKnown,
-        classicalMusic,
-        mothersName,
-        maternalGothram,
-        mothersVedam,
-        dressSize,
-        kolusuSize,
-        bangleSize,
-        motherTongue,
-        nativePlace,
-        fathersName,
-        fathersGothram,
-        fathersVedam,
-        fathersProfession,
-        referredBy,
-        mothersProfession,
-        kulaDevatha,
-        place,
-        residentialAddress,
-        registeredDate,
-        approvalStatus,
-        type
-      };
-      await createRegistration(registrationObj);
-      onSuccess();
+      alert("Registration failed: " + data.message);
     }
   };
 
   return (
-    <Box
-      component="form"
-      sx={{ '& .MuiTextField-root': { m: 0 } }}
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit}
-      flexGrow={1}
-    >
-      <Typography>Please Fill this form for Registration</Typography>
+    <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
-        {/* Aadhar Details... */}
-        <Grid size={12} direction="column" display={'flex'} spacing={2} marginTop={1}>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              variant='standard'
-              label="Valid Aadhar Number"
-              value={aadharNumber}
-              placeholder='Aadhar number here...'
-              onChange={(e) => setAadharNumber(e.target.value)}
-              helperText={aadharNumberError}
-              error={!!aadharNumberError}
-              required
-              fullWidth
-              slotProps={{
-                htmlInput: { maxLength: 12 },
-              }}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <Button variant='contained' onClick={handleAadharValidation}>Validate</Button>
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Aadhar Status"
-              variant='standard'
-              value={'Status from API here...'}
-              placeholder='Aadhar Status here...'
-             // onChange={(e) => setAadharNumber(e.target.value)}
-              helperText={aadharNumberError}
-              error={!!aadharNumberError}
-              required
-              disabled
-              fullWidth
-              slotProps={{
-                htmlInput: { maxLength: 12 },
-              }}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker value={registeredDate} onChange={(newValue) => { setRegisteredDate(dayjs(newValue)) }}
-                minDate={dayjs(eventStartDate)}
-                maxDate={dayjs(eventEndDate)}
-                disabled={validAadhar}
-              />
-            </LocalizationProvider>
-          </Grid>
+        {/* Registration Type */}
+        <Grid item xs={12}>
+          <TextField select name="registrationType" label="Registration Type" value={formData.registrationType} onChange={handleChange} fullWidth>
+            <MenuItem value="Kanya">Kanya</MenuItem>
+            <MenuItem value="Suvikshini">Suvikshini</MenuItem>
+          </TextField>
         </Grid>
-        {/* Contact Details... */}
-        <Grid size={12} direction="row" display={'flex'} spacing={2} marginTop={1}>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Contact Number"
-              variant='standard'
-              value={userPhone}
-              placeholder='Phone number here...'
-              onChange={(e) => setuserPhone(e.target.value)}
-              slotProps={{
-                htmlInput: { maxLength: 10 },
-              }}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Name of the Girl"
-              placeholder='Your Name here...'
-              variant='standard'
-              value={userName}
-              fullWidth
-              onChange={(e) => setUserName(e.target.value)}
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              type='number'
-              label="Age"
-              value={age}
-              variant='standard'
-              placeholder='Your Age here...'
-              onChange={(e) => setAge(parseInt(e.target.value))}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-        </Grid>
-        {/* Age, School Details... */}
-        <Grid size={12} direction="column" display={'flex'} spacing={2} marginTop={1}>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Name of School"
-              value={schoolName}
-              variant='standard'
-              placeholder='Your SChool here...'
-              onChange={(e) => setSchoolName(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Std Studying"
-              value={standard}
-              variant='standard'
-              placeholder='Your Std...'
-              onChange={(e) => setStandard(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="nativePlace"
-              value={nativePlace}
-              variant='standard'
-              placeholder='nativePlace Of..'
-              onChange={(e) => setnativePlace(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-        </Grid>
-        {/* Horoscope, Slogam,... */}
-        <Grid size={12} direction="column" display={'flex'} spacing={2} marginTop={1}>
-          <Grid size={4} padding={1}>
-            <TextField
-              required
-              id="outlined-required"
-              label="Horoscope Name"
-              placeholder='Horoscope Name...'
-              variant='standard'
-              value={horoscopeName}
-              onChange={(e) => setHoroscopeName(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Stotram / Slogan"
-              value={slogamKnown}
-              variant='standard'
-              placeholder='Stotram / Slogan known...'
-              onChange={(e) => setslogamKnown(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Classical Music Known"
-              value={classicalMusic}
-              variant='standard'
-              placeholder='Vocal / Instruments...'
-              onChange={(e) => setclassicalMusic(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-        </Grid>
-        {/* Mother Tongue, Father Detaisl..*/}
-        <Grid size={12} direction="column" display={'flex'} spacing={2} marginTop={1}>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Mother Toungue"
-              value={motherTongue}
-              variant='standard'
-              placeholder='Mother Toungue..'
-              onChange={(e) => setMotherTongue(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Father's Name"
-              value={fathersName}
-              variant='standard'
-              placeholder='Fathers Name..'
-              onChange={(e) => setFathersName(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Maternal Gothram"
-              value={maternalGothram}
-              variant='standard'
-              placeholder='Grand Fathers Gothram..'
-              onChange={(e) => setmaternalGothram(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-        </Grid>
-        {/* Mother Tongue, Father Detaisl..*/}
-        <Grid size={12} direction="column" display={'flex'} spacing={2} marginTop={1}>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Father's Gothram"
-              value={fathersGothram}
-              variant='standard'
-              placeholder='Fathers Gothram..'
-              onChange={(e) => setFathersGothram(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Father's Vedam"
-              value={fathersVedam}
-              variant='standard'
-              placeholder='Fathers Vedam..'
-              onChange={(e) => setFathersVedam(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Father's Profession"
-              value={fathersProfession}
-              variant='standard'
-              placeholder='Fathers Profession..'
-              onChange={(e) => setFathersProfession(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-        </Grid>
-        {/* Mother DEtails, Gothram..*/}
-        <Grid size={12} direction="column" display={'flex'} spacing={2} marginTop={1}>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Mother's Name"
-              value={mothersName}
-              variant='standard'
-              placeholder='Mothers Name..'
-              onChange={(e) => setMothersName(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Mother's Vedam"
-              value={mothersVedam}
-              variant='standard'
-              placeholder='Mothers Vedam..'
-              onChange={(e) => setMothersVedam(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Mother's Profession"
-              value={mothersProfession}
-              variant='standard'
-              placeholder='Mothers Profession..'
-              onChange={(e) => setMothersProfession(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-        </Grid>
-        {/* Others..*/}
-        <Grid size={12} direction="column" display={'flex'} spacing={2} marginTop={1}>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Kula Devatha"
-              value={kulaDevatha}
-              variant='standard'
-              placeholder='Kula Devatha..'
-              onChange={(e) => setKulaDevatha(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Place"
-              value={place}
-              variant='standard'
-              placeholder='Place..'
-              onChange={(e) => setPlace(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-          <Grid size={4} padding={1}>
-            <TextField
-              id="outlined-disabled"
-              label="Residential Address"
-              value={residentialAddress}
-              variant='standard'
-              placeholder='Address..'
-              onChange={(e) => setResidentialAddress(e.target.value)}
-              fullWidth
-              disabled={validAadhar}
-            />
-          </Grid>
-        </Grid>
-        <Grid size={4}>
-          <Typography variant='h6'>Girls Dress Size in inches</Typography>
-          <ToggleButtonGroup
-            value={dressSize}
-            color="primary"
-            exclusive
-            onChange={handleDressSize}
-            aria-label="text alignment"
-            disabled={validAadhar}
-          >
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <ToggleButton value={16} aria-label="left aligned">
-                      <Typography variant='caption'>16</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={18} aria-label="left aligned">
-                      <Typography variant='caption'>18</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={20} aria-label="left aligned">
-                      <Typography variant='caption'>20</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={22} aria-label="left aligned">
-                      <Typography variant='caption'>22</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={24} aria-label="left aligned">
-                      <Typography variant='caption'>24</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={26} aria-label="left aligned">
-                      <Typography variant='caption'>26</Typography>
-                    </ToggleButton>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <ToggleButton value={28} aria-label="left aligned">
-                      <Typography variant='caption'>28</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={30} aria-label="left aligned">
-                      <Typography variant='caption'>30</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={32} aria-label="left aligned">
-                      <Typography variant='caption'>32</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={34} aria-label="left aligned">
-                      <Typography variant='caption'>34</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={36} aria-label="left aligned">
-                      <Typography variant='caption'>36</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={38} aria-label="left aligned">
-                      <Typography variant='caption'>38</Typography>
-                    </ToggleButton>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </ToggleButtonGroup>
-        </Grid>
-        <Grid size={4}>
-          <Typography variant='h6'>Leg Chain (Kolusu) Size in inches</Typography>
 
-          <ToggleButtonGroup
-            value={kolusuSize}
-            color="primary"
-            exclusive
-            onChange={handleKolusuSize}
-            aria-label="text alignment"
-            disabled={validAadhar}
-          >
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <ToggleButton value={5.0} aria-label="left aligned">
-                      <Typography variant='caption'>5.0</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={6.0} aria-label="left aligned">
-                      <Typography variant='caption'>6.0</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={7.0} aria-label="left aligned">
-                      <Typography variant='caption'>7.0</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={8.0} aria-label="left aligned">
-                      <Typography variant='caption'>8.0</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={9.0} aria-label="left aligned">
-                      <Typography variant='caption'>9.0</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={10.0} aria-label="left aligned">
-                      <Typography variant='caption'>10.0</Typography>
-                    </ToggleButton>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <ToggleButton value={5.5} aria-label="left aligned">
-                      <Typography variant='caption'>5.5</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={6.5} aria-label="left aligned">
-                      <Typography variant='caption'>6.5</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={7.5} aria-label="left aligned">
-                      <Typography variant='caption'>7.5</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={8.5} aria-label="left aligned">
-                      <Typography variant='caption'>8.5</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={9.5} aria-label="left aligned">
-                      <Typography variant='caption'>9.5</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={10.5} aria-label="left aligned">
-                      <Typography variant='caption'>10.5</Typography>
-                    </ToggleButton>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </ToggleButtonGroup>
-
+        {/* Aadhaar Number */}
+        <Grid item xs={4}>
+          <TextField required name="aadhaar1" label="Aadhaar (First 4)" inputProps={{ maxLength: 4 }} value={formData.aadhaar1} onChange={handleChange} fullWidth />
         </Grid>
-        <Grid size={4}>
-          <Typography variant='h6'>Bangle Size in inches</Typography>
+        <Grid item xs={4}>
+          <TextField required name="aadhaar2" label="Aadhaar (Middle 4)" inputProps={{ maxLength: 4 }} value={formData.aadhaar2} onChange={handleChange} fullWidth />
+        </Grid>
+        <Grid item xs={4}>
+          <TextField required name="aadhaar3" label="Aadhaar (Last 4)" inputProps={{ maxLength: 4 }} value={formData.aadhaar3} onChange={handleChange} fullWidth />
+        </Grid>
 
-          <ToggleButtonGroup
-            value={bangleSize}
-            color="primary"
-            exclusive
-            onChange={handleBangleSize}
-            aria-label="text alignment"
-            disabled={validAadhar}
-          >
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <ToggleButton value={1.8} aria-label="left aligned">
-                      <Typography variant='caption'>1.8</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={1.10} aria-label="left aligned">
-                      <Typography variant='caption'>1.10</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={1.12} aria-label="left aligned">
-                      <Typography variant='caption'>1.12</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={2.0} aria-label="left aligned">
-                      <Typography variant='caption'>2.0</Typography>
-                    </ToggleButton>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <ToggleButton value={2.2} aria-label="left aligned">
-                      <Typography variant='caption'>2.2</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={2.4} aria-label="left aligned">
-                      <Typography variant='caption'>2.4</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={2.6} aria-label="left aligned">
-                      <Typography variant='caption'>2.6</Typography>
-                    </ToggleButton>
-                  </td>
-                  <td>
-                    <ToggleButton value={2.8} aria-label="left aligned">
-                      <Typography variant='caption'>2.8</Typography>
-                    </ToggleButton>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </ToggleButtonGroup>
+        {/* Phone Number */}
+        <Grid item xs={3}>
+          <TextField select name="countryCode" label="Country Code" value={formData.countryCode} onChange={handleChange} fullWidth>
+            <MenuItem value="+91">+91 (India)</MenuItem>
+            <MenuItem value="+1">+1 (USA)</MenuItem>
+            <MenuItem value="+44">+44 (UK)</MenuItem>
+          </TextField>
+        </Grid>
+        <Grid item xs={9}>
+          <TextField required name="phone" label="Mobile Number" inputProps={{ maxLength: 10 }} value={formData.phone} onChange={handleChange} fullWidth />
+        </Grid>
 
+        {/* Horoscope, Slogam, Classical Music */}
+        {(['horoscopeName', 'slogamKnown', 'classicalMusic'] as Array<keyof FormDataType>).map((field, index) => (
+          <Grid item xs={12} sm={4} key={index}>
+            <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
+          </Grid>
+        ))}
+
+        {/* Parents Details */}
+        {(['motherTongue', 'fathersName', 'maternalGothram',
+          'fathersGothram', 'fathersVedam', 'fathersProfession',
+          'mothersName', 'mothersVedam', 'mothersProfession'] as Array<keyof FormDataType>).map((field, index) => (
+            <Grid item xs={12} sm={4} key={index}>
+              <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
+            </Grid>
+          ))}
+
+        {/* Address & Devatha */}
+        {(['kulaDevatha', 'place', 'residentialAddress'] as Array<keyof FormDataType>).map((field, index) => (
+          <Grid item xs={12} sm={4} key={index}>
+            <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
+          </Grid>
+        ))}
+
+        {/* Dress, Kolusu, Bangle Sizes */}
+        {([
+          { name: 'dressSize', label: 'Girls Dress Size', options: [16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38] },
+          { name: 'kolusuSize', label: 'Leg Chain (Kolusu) Size', options: [5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5] },
+          { name: 'bangleSize', label: 'Bangle Size', options: [1.8, 1.10, 1.12, 2.0, 2.2, 2.4, 2.6, 2.8] }
+        ] as { name: keyof FormDataType; label: string; options: number[] }[]).map((item, index) => (
+          <Grid item xs={12} sm={12} key={index}>
+            <Typography>{item.label}</Typography>
+            <ToggleButtonGroup value={formData[item.name]} exclusive onChange={handleToggleChange(item.name)}>
+              {item.options.map((size) => (
+                <ToggleButton key={size} value={size}>
+                  <Typography variant='caption'>{size}</Typography>
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+          </Grid>
+        ))}
+        {/* CAPTCHA */}
+        <Grid item xs={12}>
+          <ReCAPTCHA
+            sitekey="6LfVmewqAAAAAIPZGb3ASDDjjrG-meg07kZn5HwF"
+            onChange={(token) => setCaptchaToken(token)}
+          />
+        </Grid>
+
+        {/* Submit Button */}
+        <Grid item xs={12}>
+          <Button variant="contained" type="submit">Register</Button>
         </Grid>
       </Grid>
-
-      <Button variant="contained" type="submit">Register</Button>
-
-    </Box>
+    </form>
   );
 };
 
