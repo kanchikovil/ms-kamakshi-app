@@ -4,13 +4,12 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Box } from '@mui/material';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import RegistrationList from '../components/RegistrationList';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import EventManager from '../components/EventManager';
 import { useNotification } from '../context/NotificationContext';
-import VendorOrderList from '../components/VendorOrderList';
 import QRScanner from '../components/controls/QRScanner/QRScanner';
+import withAuth from '../utils/withAuth';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -41,7 +40,7 @@ function a11yProps(index: number) {
   };
 }
 
-export default function AdminPage() {
+const AdminPage = () => {
 
   const [value, setValue] = React.useState(0);
   const { showSuccess, showError } = useNotification();
@@ -82,3 +81,5 @@ export default function AdminPage() {
 
   );
 }
+
+export default withAuth(AdminPage);

@@ -31,6 +31,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import APP_CONFIG from "../utils/config";
 import { useNotification } from "../context/NotificationContext";
+import axios_instance from "../utils/axiosInstance";
 
 dayjs.extend(isBetween);
 
@@ -54,7 +55,7 @@ interface EventDay {
 }
 
 export default function EventManager() {
-   const { showSuccess, showError } = useNotification();
+  const { showSuccess, showError } = useNotification();
   const defaultEventDetails: Event = {
     eventName: "",
     startDate: null,
@@ -74,8 +75,12 @@ export default function EventManager() {
   }, []);
 
   const fetchEvents = async () => {
-    const response = await axios.get<Event[]>(APP_CONFIG.apiBaseUrl + "/events");
-    setEvents(response.data);
+    try {
+      const response = await axios_instance.get<Event[]>(APP_CONFIG.apiBaseUrl + "/events");
+      setEvents(response.data);
+    } catch (error) {
+      showError('Failed to get Events');
+    }
   };
 
   const validateForm = () => {
@@ -131,16 +136,20 @@ export default function EventManager() {
       })),
     };
 
-    if (editingEventId) {
-      await axios.put(`${APP_CONFIG.apiBaseUrl}/events/${editingEventId}`, payload);
-    } else {
-      await axios.post(`${APP_CONFIG.apiBaseUrl}/events`, payload);
-    }
+    try {
+      if (editingEventId) {
+        await axios_instance.put(`${APP_CONFIG.apiBaseUrl}/events/${editingEventId}`, payload);
+      } else {
+        await axios_instance.post(`${APP_CONFIG.apiBaseUrl}/events`, payload);
+      }
 
-    fetchEvents();
-    setShowForm(false);
-    setEditingEventId(null);
-    setForm(defaultEventDetails);
+      fetchEvents();
+      setShowForm(false);
+      setEditingEventId(null);
+      setForm(defaultEventDetails);
+    } catch (error) {
+      showError('Failed to create/update Event');
+    }
   };
 
   const handleCancel = () => {
@@ -206,9 +215,9 @@ export default function EventManager() {
                     error={!!errors.eventName}
                     helperText={errors.eventName}
                   />
-                  <DatePicker label="Start Date" value={form.startDate} onChange={(date) => setForm({ ...form, startDate: date })}  minDate={dayjs()}  />
+                  <DatePicker label="Start Date" value={form.startDate} onChange={(date) => setForm({ ...form, startDate: date })} minDate={dayjs()} />
                   <DatePicker label="End Date" value={form.endDate} onChange={(date) => setForm({ ...form, endDate: date })} minDate={dayjs()} />
-                  <DatePicker label="Registration Start Date" value={form.registrationStartDate} onChange={(date) => setForm({ ...form, registrationStartDate: date })}  minDate={dayjs()}  />
+                  <DatePicker label="Registration Start Date" value={form.registrationStartDate} onChange={(date) => setForm({ ...form, registrationStartDate: date })} minDate={dayjs()} />
                   <DatePicker label="Registration End Date" value={form.registrationEndDate} onChange={(date) => setForm({ ...form, registrationEndDate: date })} minDate={dayjs()} />
 
                   <Typography variant="h6">Event Days</Typography>

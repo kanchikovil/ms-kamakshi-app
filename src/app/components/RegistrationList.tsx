@@ -21,8 +21,12 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Dayjs } from 'dayjs';
 import APP_CONFIG from '../utils/config';
+import axios_instance from '../utils/axiosInstance';
+import { useNotification } from '../context/NotificationContext';
+import axios from 'axios';
 
 const RegistrationList: React.FC = () => {
+  const { showError } = useNotification();
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [counts, setCounts] = useState<{ totalCount: number; approvedCount: number; rejectedCount: number, pendingCount: number }>({
@@ -36,11 +40,17 @@ const RegistrationList: React.FC = () => {
   useEffect(() => {
     async function fetchRegistrations() {
       try {
-        const apiRes = await fetch(APP_CONFIG.apiBaseUrl + '/registrations');
-        const res = await apiRes.json();
-        setRegistrations(res.data);
+        const res = await axios_instance.get(APP_CONFIG.apiBaseUrl + "/registrations");
+        // Ensure the response is an array before setting state
+        if (Array.isArray(res.data?.data)) {
+          setRegistrations(res.data?.data);
+        } else {
+          setRegistrations([]); // Fallback to an empty array
+        }
       } catch (error) {
-        console.error('Error fetching registrations:', error);
+        showError("Error fetching registrations");
+        console.error("Error fetching registrations:", error);
+        setRegistrations([]); // Ensure it's an array even on error
       } finally {
         setLoading(false);
       }
@@ -52,9 +62,8 @@ const RegistrationList: React.FC = () => {
   useEffect(() => {
     async function fetchCounts() {
       try {
-        const countRes = await fetch(APP_CONFIG.apiBaseUrl + '/registrations-count');
-        const countData = await countRes.json();
-        setCounts(countData.data);
+        const countRes = await axios_instance(APP_CONFIG.apiBaseUrl + '/registrations-count');
+        setCounts(countRes.data?.data);
       } catch (error) {
         console.error('Error fetching registration counts:', error);
       }
@@ -96,7 +105,7 @@ const RegistrationList: React.FC = () => {
         {/* Registration List */}
         <div style={{ flex: 1 }}>
           <h2>Registrations</h2>
-          {registrations.length === 0 ? (
+          {!registrations || registrations?.length === 0 ? (
             <p>No registrations found.</p>
           ) : (
             <TableContainer component={Paper}>
@@ -112,7 +121,7 @@ const RegistrationList: React.FC = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {registrations.map((registration) => (
+                  {registrations?.map((registration) => (
                     <TableRow
                       key={registration.regId}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -138,7 +147,6 @@ const RegistrationList: React.FC = () => {
                       <TableCell align="right">{registration.maternalGothram}</TableCell>
                       <TableCell align="right">{registration.motherTongue}</TableCell> 
                       <TableCell align="right">{JSON.stringify(registration.registeredDate)}</TableCell>*/}
-                      
                     </TableRow>
                   ))}
                 </TableBody>
