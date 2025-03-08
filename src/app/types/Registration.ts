@@ -1,34 +1,7 @@
 import dayjs, { Dayjs } from "dayjs";
 
 export default interface Registration {
-    id?: number,
-    userName: string,
-    userPhone: string,
-    aadharNumber: string,
-    age?: number,
-    horoscopeName?: string,
-    approvalStatus?: string,
-    standard?: string,
-    schoolName?: string,
-    slogamKnown?: string,
-    classicalMusic?: string,
-    mothersName?: string,
-    maternalGothram?: string,
-    mothersVedam?: string,
-    dressSize?: number,
-    kolusuSize?: number,
-    bangleSize?: number,
-    motherTongue?: string,
-    nativePlace?: string,
-    fathersName?: string,
-    fathersGothram?: string,
-    fathersVedam?: string,
-    fathersProfession?: string,
-    referredBy?: string,
-    mothersProfession?: string,
-    kulaDevatha?: string,
-    place?: string,
-    residentialAddress?: string,
-    registeredDate:Dayjs,
-    type: string
+    regId?: number;
+    approvalStatus: string;
+    registeredDate: Dayjs;
 }

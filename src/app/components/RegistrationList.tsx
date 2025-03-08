@@ -20,6 +20,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Dayjs } from 'dayjs';
+import APP_CONFIG from '../utils/config';
 
 const RegistrationList: React.FC = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
@@ -35,7 +36,7 @@ const RegistrationList: React.FC = () => {
   useEffect(() => {
     async function fetchRegistrations() {
       try {
-        const apiRes = await fetch('http://localhost:8080/api/registrations');
+        const apiRes = await fetch(APP_CONFIG.apiBaseUrl + '/registrations');
         const res = await apiRes.json();
         setRegistrations(res.data);
       } catch (error) {
@@ -51,7 +52,7 @@ const RegistrationList: React.FC = () => {
   useEffect(() => {
     async function fetchCounts() {
       try {
-        const countRes = await fetch('http://localhost:8080/api/registrations-count');
+        const countRes = await fetch(APP_CONFIG.apiBaseUrl + '/registrations-count');
         const countData = await countRes.json();
         setCounts(countData.data);
       } catch (error) {
@@ -67,7 +68,7 @@ const RegistrationList: React.FC = () => {
 
     // Refresh the lists and counts
     setRegistrations((prev) =>
-      prev.map((reg) => (reg.id === id ? { ...reg, approvalStatus: status } : reg))
+      prev.map((reg) => (reg.regId === id ? { ...reg, approvalStatus: status } : reg))
     );
 
     // Refresh counts
@@ -77,7 +78,7 @@ const RegistrationList: React.FC = () => {
   // Fetch updated counts
   async function fetchCounts() {
     try {
-      const countRes = await fetch('http://localhost:8080/api/registrations-count');
+      const countRes = await fetch(APP_CONFIG.apiBaseUrl + '/registrations-count');
       const countData = await countRes.json();
       setCounts(countData.data);
     } catch (error) {
@@ -99,46 +100,45 @@ const RegistrationList: React.FC = () => {
             <p>No registrations found.</p>
           ) : (
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <Table sx={{ minWidth: 300 }} aria-label="simple table">
                 <TableHead>
                   <TableRow style={{ backgroundColor: "lightblue", fontStyle: "bold", fontSize: "14" }}>
-                    <TableCell>Name</TableCell>
-                    <TableCell align="right">Phone</TableCell>
-                    <TableCell align="right">Location</TableCell>
+                    <TableCell>Reg Id</TableCell>
+                    {/* <TableCell align="right">Location</TableCell>
                     <TableCell align="right">Maternal Gothram</TableCell>
                     <TableCell align="right">Mother Tongue</TableCell>
-                    <TableCell align="right">Pooja Date</TableCell>
-                    <TableCell align="right">Status</TableCell>
+                    <TableCell align="right">Pooja Date</TableCell> */}
+                    <TableCell align="right">Approval Status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {registrations.map((registration) => (
                     <TableRow
-                      key={registration.id}
+                      key={registration.regId}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
-                        {registration.userName}
+                        {registration.regId}
                       </TableCell>
-                      <TableCell align="right">{registration.userPhone}</TableCell>
-                      <TableCell align="right">{registration.nativePlace}</TableCell>
-                      <TableCell align="right">{registration.maternalGothram}</TableCell>
-                      <TableCell align="right">{registration.motherTongue}</TableCell>
-                      <TableCell align="right">{JSON.stringify(registration.registeredDate)}</TableCell>
                       <TableCell align="right">
                         {(registration.approvalStatus !== 'APPROVED' && registration.approvalStatus !== 'REJECTED') ? (
                           <Stack direction="row" spacing={1}>
                             <IconButton aria-label="approve" color="success">
-                              <CheckCircleOutlineIcon onClick={() => handleApproval(registration.id || 0, 'APPROVED')} />
+                              <CheckCircleOutlineIcon onClick={() => handleApproval(registration.regId || 0, 'APPROVED')} />
                             </IconButton>
                             <IconButton aria-label="reject" color="error">
-                              <CancelOutlined onClick={() => handleApproval(registration.id || 0, 'REJECTED')} />
+                              <CancelOutlined onClick={() => handleApproval(registration.regId || 0, 'REJECTED')} />
                             </IconButton>
                           </Stack>
                         ) : (
-                          <Chip label={registration.approvalStatus} color="primary" size='small'/>
+                          <Chip label={registration.approvalStatus} color="primary" size='small' />
                         )}
                       </TableCell>
+                      {/* <TableCell align="right">{registration.nativePlace}</TableCell>
+                      <TableCell align="right">{registration.maternalGothram}</TableCell>
+                      <TableCell align="right">{registration.motherTongue}</TableCell> 
+                      <TableCell align="right">{JSON.stringify(registration.registeredDate)}</TableCell>*/}
+                      
                     </TableRow>
                   ))}
                 </TableBody>

@@ -9,8 +9,8 @@ interface FormDataType {
   eventId: number;
   dayId: number;
   regType: string;
-  attendeeAadharNumber: string;
-  attendeePhone: string;
+  attendeeAadharNumber: number;
+  attendeePhone: number;
   attendeeAge: number;
   countryCode: string;
   horoscopeName: string;
@@ -48,8 +48,8 @@ const NavratriRegistrationForm = () => {
     dayId: 1,
     attendeeAge: 0,
     regType: "",
-    attendeeAadharNumber: "",
-    attendeePhone: "",
+    attendeeAadharNumber: 0,
+    attendeePhone: 0,
     countryCode: "+91",
     horoscopeName: "",
     slogamKnown: "",
@@ -94,12 +94,14 @@ const NavratriRegistrationForm = () => {
   // Aadhaar validation
   const validateAadhaar = () => {
     const { attendeeAadharNumber } = formData;
-    return /^\d{12}$/.test(attendeeAadharNumber);
+    const aadhar = attendeeAadharNumber + '';
+    return /^\d{12}$/.test(aadhar);
   };
 
   // Phone number validation
   const validatePhone = () => {
-    return /^\d{10}$/.test(formData.attendeePhone);
+    const phone = formData.attendeePhone + '';
+    return /^\d{10}$/.test(phone);
   };
 
   // Submit form
@@ -118,14 +120,14 @@ const NavratriRegistrationForm = () => {
     //   return;
     // }
 
-    const response = await fetch(APP_CONFIG.apiBaseUrl + "/register", {
+    const response = await fetch(APP_CONFIG.apiBaseUrl + "/registrations", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...formData, captchaToken }),
     });
 
     const data = await response.json();
-    if (data.success) {
+    if (data.status === "success") {
       showSuccess("Registration successful!");
     } else {
       showError("Registration failed: " + data.message);
@@ -149,7 +151,8 @@ const NavratriRegistrationForm = () => {
         {formData.regType && (<>
           {/* Aadhaar Number */}
           <Grid item xs={6}>
-            <TextField required name="aadharNumber" label="Aadhaar Number" inputProps={{ maxLength: 12 }} value={formData.attendeeAadharNumber} onChange={handleChange} fullWidth />
+            <TextField required name="attendeeAadharNumber" label="Aadhaar Number" type="text" // Use "text" instead of "number" to control input manually
+              inputProps={{ maxLength: 12, inputMode: "numeric", pattern: "[0-9]*" }} value={formData.attendeeAadharNumber} onChange={handleChange} fullWidth />
           </Grid>
           {/* Phone Number */}
           {/* <Grid item xs={3}>
@@ -160,7 +163,8 @@ const NavratriRegistrationForm = () => {
           </TextField>
         </Grid> */}
           <Grid item xs={6}>
-            <TextField required name="Attendee phone" label="Mobile Number" inputProps={{ maxLength: 10 }} value={formData.attendeePhone} onChange={handleChange} fullWidth />
+            <TextField required name="attendeePhone" label="Mobile Number" type="text" // Use "text" instead of "number" to control input manually
+              inputProps={{ maxLength: 10, inputMode: "numeric", pattern: "[0-9]*" }} value={formData.attendeePhone} onChange={handleChange} fullWidth />
           </Grid>
 
           {/* Horoscope, Slogam, Classical Music */}
