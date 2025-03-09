@@ -144,7 +144,7 @@ const NavratriRegistrationForm = () => {
               <em>Select Registration Type</em>
             </MenuItem>
             <MenuItem value="Kanya">Kanya</MenuItem>
-            <MenuItem value="Suvikshini">Suvikshini</MenuItem>
+            <MenuItem value="Suvashini">Suvashini</MenuItem>
           </TextField>
         </Grid>
 
@@ -190,8 +190,8 @@ const NavratriRegistrationForm = () => {
             </Grid>
           ))}
 
-          {/* Suvikshini Details*/}
-          {formData.regType === 'Suvikshini' && (['maternalGothram', 'husbandsName', 'husbandsGothram',
+          {/* Suvashini Details*/}
+          {formData.regType === 'Suvashini' && (['maternalGothram', 'husbandsName', 'husbandsGothram',
             'husbandsProfession', 'husbandVedam'] as Array<keyof FormDataType>).map((field, index) => (
               <Grid item xs={12} sm={4} key={index}>
                 <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
@@ -206,7 +206,8 @@ const NavratriRegistrationForm = () => {
           ))}
 
           {/* Dress, Kolusu, Bangle Sizes */}
-          {([
+          {formData.regType === 'Kanya' &&
+          ([
             { name: 'dressSize', label: 'Girls Dress Size', options: [16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38] },
             { name: 'legchainSize', label: 'Leg Chain (Kolusu) Size', options: [5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5] },
             { name: 'bangleSize', label: 'Bangle Size', options: [1.8, 1.10, 1.12, 2.0, 2.2, 2.4, 2.6, 2.8] }
