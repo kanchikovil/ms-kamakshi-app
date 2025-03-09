@@ -117,6 +117,7 @@ const RegistrationList: React.FC = () => {
                     <TableCell align="right">Maternal Gothram</TableCell>
                     <TableCell align="right">Mother Tongue</TableCell>
                     <TableCell align="right">Pooja Date</TableCell> */}
+                    <TableCell align="right">Attendence Status</TableCell>
                     <TableCell align="right">Approval Status</TableCell>
                   </TableRow>
                 </TableHead>
@@ -126,8 +127,11 @@ const RegistrationList: React.FC = () => {
                       key={registration.regId}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell component="th" scope="row">
+                      <TableCell>
                         {registration.regId}
+                      </TableCell>
+                      <TableCell>
+                        {registration.regStatus}
                       </TableCell>
                       <TableCell align="right">
                         {(registration.approvalStatus !== 'APPROVED' && registration.approvalStatus !== 'REJECTED') ? (

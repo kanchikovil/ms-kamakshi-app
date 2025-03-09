@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Registration from '../types/Registration';
+import axios_instance from '../utils/axiosInstance';
 
 const API_URL = 'http://localhost:8080/api/registrations'; // Update if needed
 
@@ -32,7 +33,7 @@ export const editRegistration = async (id: number, userName: string, userPhone: 
 
 // handle approval
 export const approveRegistration = async (id: number, approvalStatus: string) => {
-  const response = await axios.put(`${API_URL}/${id}`, { approvalStatus });
+  const response = await axios_instance.put(`${API_URL}/${id}`, { approvalStatus });
   return response.data;
 };
 
