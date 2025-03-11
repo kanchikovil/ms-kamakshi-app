@@ -4,13 +4,12 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Box } from '@mui/material';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import RegistrationList from '../components/RegistrationList';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
-import SettingsForm from '../components/SettingsForm';
+import EventManager from '../components/EventManager';
 import { useNotification } from '../context/NotificationContext';
-import VendorOrderList from '../components/VendorOrderList';
 import QRScanner from '../components/controls/QRScanner/QRScanner';
+import withAuth from '../utils/withAuth';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -41,10 +40,10 @@ function a11yProps(index: number) {
   };
 }
 
-export default function AdminPage() {
+const AdminPage = () => {
 
   const [value, setValue] = React.useState(0);
-    const { showSuccess, showError } = useNotification();
+  const { showSuccess, showError } = useNotification();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -56,14 +55,14 @@ export default function AdminPage() {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(1)} />
           <Tab icon={<HowToRegIcon />} iconPosition="start" label="Registerations" {...a11yProps(0)} />
           {/* <Tab icon={<SupportAgentIcon />} iconPosition="start" label="Vendors" {...a11yProps(1)} /> */}
           {/* <Tab label="Donors" {...a11yProps(2)} /> */}
-          <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(1)} />
           <Tab label="Entry Scan" {...a11yProps(2)} />
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
+      <CustomTabPanel value={value} index={1}>
         <RegistrationList />
       </CustomTabPanel>
       {/* <CustomTabPanel value={value} index={1}>
@@ -72,20 +71,15 @@ export default function AdminPage() {
       {/* <CustomTabPanel value={value} index={2}>
         Donors
       </CustomTabPanel> */}
-      <CustomTabPanel value={value} index={1}>
-        <SettingsForm onSuccess={function (): void {
-         showSuccess('Settings Saved Succefully')
-        } } 
-        
-        onError={ function (): void {
-          showError('Settings Failed to Save...')
-        }  }
-        />
+      <CustomTabPanel value={value} index={0}>
+        <EventManager />
       </CustomTabPanel>
-      <CustomTabPanel  value={value} index={2}>
+      <CustomTabPanel value={value} index={2}>
         <QRScanner />
       </CustomTabPanel>
     </Box>
 
   );
 }
+
+export default withAuth(AdminPage);

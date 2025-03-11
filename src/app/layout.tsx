@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Header from "./layout/header";
 import { NotificationProvider } from "./context/NotificationContext";
+import { LoginProvider } from "./context/LoginContext";
 
 export default function RootLayout({
   children,
@@ -18,14 +19,16 @@ export default function RootLayout({
         <ThemeProvider theme={baselightTheme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <Container fixed maxWidth={false} disableGutters>
-            <Header />
-            <NotificationProvider>
-              <Box sx={{ bgcolor: '#EEEEFF', height: '100vh', width: '100%' }}>
-                {children}
-              </Box>
-            </NotificationProvider>
-          </Container>
+          <LoginProvider>
+            <Container fixed maxWidth={false} disableGutters>
+              <Header />
+              <NotificationProvider>
+                <Box sx={{ bgcolor: '#EEEEFF', height: '100vh', width: '100%' }}>
+                  {children}
+                </Box>
+              </NotificationProvider>
+            </Container>
+          </LoginProvider>
         </ThemeProvider>
       </body>
     </html>

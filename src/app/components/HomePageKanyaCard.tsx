@@ -34,10 +34,10 @@ export default function HomePageKanyaCard() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link href={'/pages/kanya-registration'}>
+        <Link href={'/pages/navratri-registration'}>
           <Button size="small">Click Here to Register</Button>
         </Link>
-        <Link href={'/pages/kanya-registration'}>
+        <Link href={'/pages/navratri-registration'}>
           <Button size="small">Check Status</Button>
         </Link>
       </CardActions>

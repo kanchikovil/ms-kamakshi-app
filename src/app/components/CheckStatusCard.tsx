@@ -17,15 +17,15 @@ export default function CheckStatusCard() {
   const [aadharNumber, setAadharNumber] = React.useState('');
   const [phoneNumber, setPhoneNumber] = React.useState('');
   const [registrationDetails, setRegistrationDetails] = React.useState({
-    user_name: '',
-    approval_status: ''
+    attendeeName: '',
+    approvalStatus: ''
   });
 
   const { Canvas } = useQRCode()
 
   const handleExpandClick = async () => {
-    const temp = await getStatusByAadhar(aadharNumber);
-    setRegistrationDetails(temp.data[0]);
+    const res = await getStatusByAadhar(aadharNumber);
+    setRegistrationDetails(res.data);
     if (!expanded) {
       setExpanded(!expanded);
     }
@@ -69,18 +69,17 @@ export default function CheckStatusCard() {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography sx={{ marginBottom: 2, fontSize: 15 }}>Hello <b>{registrationDetails.user_name}</b>...!!!</Typography>
-          <Typography sx={{ marginBottom: 2, fontSize: 15 }}>Your registration has been &nbsp;
-            {
-              registrationDetails.approval_status == 'APPROVED' && <Chip label={registrationDetails.approval_status} color='success' size='small' />
-            }
-            {
-              registrationDetails.approval_status == 'REJECTED' && <Chip label={registrationDetails.approval_status} color='error' size='small' />
-            }
-            {
-              registrationDetails.approval_status == 'Pending' && <Chip label={registrationDetails.approval_status} color='info' size='small' />
-            }
-          </Typography>
+          <Typography sx={{ marginBottom: 2, fontSize: 15 }}>Hello <b>{registrationDetails.attendeeName}</b>...!!!</Typography>
+          <Typography sx={{ marginBottom: 2, fontSize: 15 }}>Your registration has been &nbsp;</Typography>
+          {
+            registrationDetails.approvalStatus == 'APPROVED' && <Chip label={registrationDetails.approvalStatus} color='success' size='small' />
+          }
+          {
+            registrationDetails.approvalStatus == 'REJECTED' && <Chip label={registrationDetails.approvalStatus} color='error' size='small' />
+          }
+          {
+            registrationDetails.approvalStatus == 'AWAITING' && <Chip label={registrationDetails.approvalStatus} color='info' size='small' />
+          }
           <Typography sx={{ marginBottom: 2 }}>
             As Email has been sent with the details
           </Typography>
@@ -94,9 +93,9 @@ export default function CheckStatusCard() {
             Details will be Scanned at the Venue...
           </Typography>
           {
-            registrationDetails.approval_status == 'APPROVED' &&
+            registrationDetails.approvalStatus == 'APPROVED' &&
             <Canvas
-              text={registrationDetails.approval_status + registrationDetails.user_name}
+              text={registrationDetails.approvalStatus + registrationDetails.attendeeName}
               options={{
                 type: 'image/jpeg',
                 quality: 0.3,
