@@ -21,7 +21,7 @@ export default function RootLayout({
           <CssBaseline />
           <LoginProvider>
             <Container fixed maxWidth={false} disableGutters>
-              <Header />
+              {/* <Header /> */}
               <NotificationProvider>
                 <Box sx={{ bgcolor: '#EEEEFF', height: '100vh', width: '100%' }}>
                   {children}
