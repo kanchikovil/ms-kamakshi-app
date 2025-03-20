@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
 import Link from 'next/link';
 import Divider from '@mui/material/Divider';
+import { Stack } from '@mui/material';
 import Image from 'next/image';
 import KanyaCardHomePage from '../../components/KanyaCardHomePage';
 import SuvashiniCardHomePage from '../../components/SuvashiniCardHomePage';
@@ -15,7 +16,7 @@ import RegistrationStatusCard from '../../components/RegistrationStatusCard';
 import RegistrationStatusCardNew from '../../components/RegistrationStatusCardNew';
 
 const Header = () => (
-  <AppBar position="fixed" sx={{ width: '100vw', backgroundColor:'#642210', height:'7vh' }}>
+  <AppBar  position="fixed" sx={{ width: '100vw', backgroundColor:'#642210', height:'7vh' }}>
     <Toolbar sx={{pb:2}}>
       <Typography variant="h6" component="div" sx={{ flexGrow: 1,fontSize: 24, fontWeight: '900', fontFamily: 'Arima Madurai' }}>
         ManasasmaramiKamakshi
@@ -23,7 +24,9 @@ const Header = () => (
       <Button color="inherit">Books</Button>
       <Button color="inherit">Articles</Button>
       <Divider orientation="vertical" flexItem sx={{ height: 10, alignSelf: 'center' }} />
+                          <Link href={'/admin'}>
       <Button color="inherit">Login</Button>
+      </Link>
     </Toolbar>
   </AppBar>
 );
@@ -33,6 +36,14 @@ const Banner = () => (
     <Image src="/images/bannerimage.png" alt="Banner Image" layout="fill" objectFit="cover" />
     <Box sx={{ position: 'absolute', top: '120%', left: '85%', transform: 'translate(-50%, -50%)' }}>
       <RegistrationStatusCardNew />
+              <Stack direction="row" spacing={1} alignItems="left">
+              <Typography variant="body2" color="text.secondary">
+                  a devine experience
+                </Typography>
+                      <Box sx={{ flex: 1, position: 'relative', height: 75, width: 75 }}>
+                        <Image src="/images/Bell.png" alt="Kanya Image" layout="fill" objectFit="cover" objectPosition="center" />
+                      </Box>
+              </Stack>
     </Box>
   </Box>
 );
@@ -46,9 +57,9 @@ const Section = () => (
 );
 
 const Body = () => (
-  <Container maxWidth={true} disableGutters sx={{ my: 1, mx: 1, backgroundColor: '#F6F1F1', pb: 8 }}>
+  <Container disableGutters sx={{ my: 1, mx: 1, backgroundColor: '#F6F1F1', pb: 8 }}>
     <Grid container spacing={6} mt={2} ml={4}>
-      <Grid item xs={12} sm={6}>
+      <Grid item size={4}>
         <KanyaCardHomePage />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -78,11 +89,11 @@ const Footer = () => (
 export default function LandingPage() {
   return (
     <Box sx={{ backgroundColor: '#F6F1F1', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Header />
+      {/* <Header /> */}
       <Banner />
       <Section />
       <Body />
-      <Footer />
+      {/* <Footer /> */}
     </Box>
   );
 }

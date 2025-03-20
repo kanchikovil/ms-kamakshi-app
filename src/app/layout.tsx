@@ -5,6 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Header from "./layout/header";
+import Footer from "./layout/footer";
 import { NotificationProvider } from "./context/NotificationContext";
 import { LoginProvider } from "./context/LoginContext";
 
@@ -21,12 +22,13 @@ export default function RootLayout({
           <CssBaseline />
           <LoginProvider>
             <Container fixed maxWidth={false} disableGutters>
-              {/* <Header /> */}
+              <Header />
               <NotificationProvider>
                 <Box sx={{ bgcolor: '#EEEEFF', height: '100vh', width: '100%' }}>
                   {children}
                 </Box>
               </NotificationProvider>
+              <Footer />
             </Container>
           </LoginProvider>
         </ThemeProvider>

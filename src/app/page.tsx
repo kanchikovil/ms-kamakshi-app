@@ -1,6 +1,7 @@
 import React from 'react';
 import HomePage1 from './pages/home/page';
 import LandingPage from './pages/new-home/page';
+import NavarathriRegistration from '../pages/navarathri-registration';
 
 
 export default async function HomePage() {

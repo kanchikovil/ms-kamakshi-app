@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLogin } from "../context/LoginContext";
+import Divider from "@mui/material/Divider";
 
 function LogoImage() {
     return <Box component={"img"} src="/images/swami.png" alt="Image" width={35} height={35} />;
@@ -20,29 +21,19 @@ export default function Header() {
     const { isLoggedIn, logout } = useLogin();
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar style={{ backgroundColor: "#0F0359 " }}>
-                    <Link href={"/"}>
-                        <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2, color: "white" }}>
-                            <LogoImage />
-                        </IconButton>
-                    </Link>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Manasasmarami Kamakshi
-                    </Typography>
-
-                    {isLoggedIn ? (
-                        <Button variant="outlined" sx={{ color: "white" }} onClick={() => { logout(); router.push("/pages/login"); }}>
-                            Logout
-                        </Button>
-                    ) : (
-                        <Link href={"/pages/login"}>
-                            <Button variant="outlined" sx={{ color: "white" }}>Admin Login</Button>
-                        </Link>
-                    )}
-                </Toolbar>
-            </AppBar>
-        </Box>
-    );
+         <AppBar position="fixed" sx={{ width: '100vw', backgroundColor:'#642210', height:'7vh' }}>
+           <Toolbar sx={{pb:2}}>
+           <Link href={'/'}>
+             <Typography variant="h6" component="div" sx={{ flexGrow: 1,fontSize: 24, fontWeight: '900', fontFamily: 'Arima Madurai' }}>
+               ManasasmaramiKamakshi
+             </Typography>
+             </Link>
+             <Button color="inherit">Books</Button>
+             <Button color="inherit">Articles</Button>
+             <Divider orientation="vertical" flexItem sx={{ height: 10, alignSelf: 'center' }} />
+                     <Link href={'/admin'}>
+             <Button color="inherit">Login</Button>
+             </Link>
+           </Toolbar>
+         </AppBar>    );
 }

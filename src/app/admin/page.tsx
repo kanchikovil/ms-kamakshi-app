@@ -52,7 +52,7 @@ const AdminPage = () => {
 
   return (
 
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', mt: 6 }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(1)} />

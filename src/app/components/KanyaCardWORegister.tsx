@@ -9,31 +9,36 @@ import Image from 'next/image';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Link from 'next/link';
+import Avatar from '@mui/material/Avatar';
 
-export default function KanyaCardHomePage() {
+export default function KanyaCardWORegister() {
   return (
-    <Card sx={{ display: 'flex', alignItems: 'center', p: 2, backgroundColor: '#CFC4C4', borderRadius: 0, width: 350, height: 150 }}>
+    <Card sx={{ minWidth: 450, height: '12vh', display: 'flex', alignItems: 'center', backgroundColor: '#F5F3F3',
+     borderRadius: 0, width: 400, }}>
       <Box sx={{ flex: 1 }}>
-        <Stack direction="row" spacing={1}>
+      <Typography variant="h5" component="div" sx={{ fontFamily: 'Arima Madurai', fontWeight: 'bold', color: '#4F4500' }}>
+            Navaratri Registration
+          </Typography>
+        <Stack direction="row" spacing={2}>
+        <Avatar alt="Remy Sharp" src="/images/kanya-homescreen.png" />
           <Typography variant="h5" component="div" sx={{ fontFamily: 'Arima Madurai', fontWeight: 'bold', color: '#4F4500' }}>
             Kanya
           </Typography>
           <Divider orientation="vertical" flexItem sx={{ height: 25, alignSelf: 'center', borderRightWidth: 3, borderColor: '#4F4500' }} />
+          <Stack direction="column" spacing={0.5}>
           <Typography variant="body2" sx={{ color: '#4F4500' }}>
-            Child under age 10
+            Child under
           </Typography>
+          <Typography variant="body2" sx={{ color: '#4F4500' }}>
+            age 10
+          </Typography>
+          </Stack>
         </Stack>
-        <CardActions>
-        <Link href={'/pages/navratri-registration'}>
-          <Button variant="contained" sx={{ backgroundColor: '#642210', color: 'white', mt: 2 }}>
-            REGISTER
-          </Button>
-          </Link>
-        </CardActions>
-      </Box>
-      <Box sx={{ flex: 1, position: 'relative', height: 150 }}>
-        <Image src="/images/kanya-homescreen.png" alt="Kanya Image" layout="fill" objectFit="cover" objectPosition="center 10%" />
       </Box>
     </Card>
   );
+
+
+
+
 }
