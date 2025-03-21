@@ -139,7 +139,7 @@ const NavratriRegistrationForm = () => {
       <Grid container spacing={2}>
         {/* Registration Type */}
         <Grid item xs={12}>
-          <TextField select name="regType" label="Registration Type" value={formData.regType} onChange={handleChange} fullWidth>
+          <TextField sx={{backgroundColor:'white'}} select name="regType" label="Registration Type" value={formData.regType} onChange={handleChange} fullWidth>
             <MenuItem value="" disabled>
               <em>Select Registration Type</em>
             </MenuItem>

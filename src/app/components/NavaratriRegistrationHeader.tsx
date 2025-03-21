@@ -6,8 +6,8 @@ import Grid from '@mui/material/Grid2';
 
 const NavaratriRegistrationHeader: React.FC = () => {
   return (
-    <Box sx={{backgroundColor: '#CFC4C4', paddingTop: 4, width: '100vw', paddingLeft: -4, paddingRight: 5, marginLeft: -5, display: 'flex',
-      alignItems: 'center', justifyContent: 'space-evenly', alignContent: 'center'
+    <Box sx={{backgroundColor: '#CFC4C4', paddingTop: 4, width: '90%', paddingLeft: -4, paddingRight: 5, marginLeft: 0, display: 'flex',
+      alignItems: 'center', justifyContent: 'space-evenly', alignContent: 'center', height:'160px'
      }}>
       <Grid container spacing={4}>
         <Grid size={3}>

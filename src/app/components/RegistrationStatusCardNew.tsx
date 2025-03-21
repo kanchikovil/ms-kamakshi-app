@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 
 const RegistrationStatusCardNew: React.FC = () => {
   return (
-    <Card sx={{ maxWidth: 400, mx: 'auto', mt: 0, borderRadius: 0, minWidth: 350 }}>
+    <Card sx={{ maxWidth: 400, mx: 'auto', mt: 0, borderRadius: 0, minWidth: 350, marginTop:-10 }}>
       <CardContent>
       <Typography variant="h5" component="div" gutterBottom fontFamily='Arima Madurai' fontWeight='bold' color='#4F4500'>
           Check your registration status
@@ -42,8 +42,6 @@ const RegistrationStatusCardNew: React.FC = () => {
         </Stack>
         </Box>  
         </Stack>
-
-
       </CardContent>
       <Divider />
       <CardContent>
