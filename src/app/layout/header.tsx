@@ -13,27 +13,31 @@ import { useLogin } from "../context/LoginContext";
 import Divider from "@mui/material/Divider";
 
 function LogoImage() {
-    return <Box component={"img"} src="/images/swami.png" alt="Image" width={35} height={35} />;
+  return <Box component={"img"} src="/images/swami.png" alt="Image" width={35} height={35} />;
 }
 
 export default function Header() {
-    const router = useRouter();
-    const { isLoggedIn, logout } = useLogin();
+  const router = useRouter();
+  const { isLoggedIn, logout } = useLogin();
 
-    return (
-         <AppBar position="fixed" sx={{ width: '100vw', backgroundColor:'#642210', height:'7vh' }}>
-           <Toolbar sx={{pb:2}}>
-           <Link href={'/'}>
-             <Typography variant="h6" component="div" sx={{ flexGrow: 1,fontSize: 24, fontWeight: '900', fontFamily: 'Arima Madurai' }}>
-               ManasasmaramiKamakshi
-             </Typography>
-             </Link>
-             <Button color="inherit">Books</Button>
-             <Button color="inherit">Articles</Button>
-             <Divider orientation="vertical" flexItem sx={{ height: 10, alignSelf: 'center' }} />
-                     <Link href={'/admin'}>
-             <Button color="inherit">Login</Button>
-             </Link>
-           </Toolbar>
-         </AppBar>    );
+  return (
+    <AppBar position="fixed" sx={{ width: '100vw', backgroundColor: '#642210', height: '7vh' }}>
+      <Toolbar sx={{ pb: 2, display:'flex', alignContent: 'center', justifyContent: 'space-between' }}>
+        {/* <Link href={'/'}> */}
+        <Button color="inherit" onClick={() => router.push('/')}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontSize: 24, fontWeight: '900', fontFamily: 'Arima Madurai' }}>
+            ManasasmaramiKamakshi
+          </Typography>
+        </Button>
+        {/* </Link> */}
+        <Box display={'flex'}> 
+        <Button color="inherit">Books</Button>
+        <Button color="inherit">Articles</Button>
+        <Divider orientation="vertical" flexItem sx={{ height: 10, alignSelf: 'center' }} />
+        {/* <Link href={'/admin'}> */}
+        <Button color="inherit" onClick={() => router.push('/admin')}>Login</Button>
+        {/* </Link> */}
+        </Box>
+      </Toolbar>
+    </AppBar>);
 }
