@@ -22,7 +22,7 @@ export default function RootLayout({
           <CssBaseline />
           <LoginProvider>
             <Container fixed maxWidth={false} disableGutters>
-              <Header />
+              {/* <Header /> */}
               <NotificationProvider>
                 <Box sx={{ bgcolor: '#F6F1F1', height: '100vh', width: '100vw', position: 'fixed',
                   padding: 0, marginLeft: -5
@@ -30,7 +30,7 @@ export default function RootLayout({
                   {children}
                 </Box>
               </NotificationProvider>
-              <Footer />
+              {/* <Footer /> */}
             </Container>
           </LoginProvider>
         </ThemeProvider>

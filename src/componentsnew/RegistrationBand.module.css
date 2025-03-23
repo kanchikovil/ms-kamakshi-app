@@ -1,0 +1,207 @@
+.registrationBand {
+  background-color: #cfc4c4;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+  gap: 40px 65px;
+  width: 100%;
+  min-height: 160px;
+  padding: 0 90px;
+  font-family: Arima Madurai, -apple-system, Roboto, Helvetica, sans-serif;
+  display: flex;
+}
+
+.registrationHeader {
+  background-color: #f5f3f3;
+  justify-content: start;
+  align-self: stretch;
+  align-items: center;
+  gap: 39px;
+  min-width: 240px;
+  margin: auto 0;
+  padding: 20px 81px 20px 50px;
+  display: flex;
+  position: relative;
+}
+
+.iconBackground {
+  z-index: 0;
+  background-color: #cfc4c4;
+  border-radius: 50%;
+  flex-shrink: 0;
+  align-self: stretch;
+  width: 120px;
+  height: 120px;
+  margin: auto 0;
+}
+
+.icon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  z-index: 0;
+  flex-shrink: 0;
+  align-self: start;
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  bottom: 20px;
+  left: 50px;
+}
+
+.content {
+  z-index: 0;
+  flex-direction: column;
+  justify-content: start;
+  align-self: stretch;
+  align-items: stretch;
+  width: 318px;
+  min-width: 240px;
+  margin: auto 0;
+  display: flex;
+}
+
+.title {
+  color: #4f4500;
+  font-size: 30px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.categoryInfo {
+  justify-content: start;
+  align-self: start;
+  align-items: center;
+  gap: 16px;
+  font-weight: 900;
+  display: flex;
+}
+
+.category {
+  color: #4f4500;
+  align-self: stretch;
+  margin: auto 0;
+  font-size: 40px;
+}
+
+.separator {
+  background-color: #716e6e;
+  flex-shrink: 0;
+  align-self: stretch;
+  width: 2px;
+  height: 29px;
+  margin: auto 0;
+}
+
+.ageLimit {
+  color: #75762a;
+  align-self: stretch;
+  margin: auto 0;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.validationSection {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin: auto 0;
+}
+
+.validationTitle {
+  color: #3c3c3e;
+  font-size: 30px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.aadharNumber {
+  color: #5f5e5e;
+  background-color: #fff;
+  padding: 13px;
+  width: 300px;
+  min-width: 240px;
+  margin: 0;
+}
+
+.validateButton {
+  color: #fff;
+  background-color: #6f2606;
+  border: none;
+  padding: 13px;
+  width: 150px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.statusSection {
+  color: #3c3c3e;
+  text-align: center;
+  background-color: #e7e2e2;
+  flex-grow: 1;
+  justify-content: start;
+  align-items: center;
+  gap: 16px;
+  width: 201px;
+  min-width: 240px;
+  padding: 42px 60px;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 33px;
+  display: flex;
+  position: relative;
+}
+
+.statusIcon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 44px;
+  margin: auto 0;
+}
+
+.statusContent {
+  margin: auto 0;
+}
+
+.statusLabel {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 22px;
+  margin: 0;
+}
+
+.statusValue {
+  line-height: 30px;
+  margin: 0;
+}
+
+.statusIndicator {
+  aspect-ratio: 0.47;
+  object-fit: contain;
+  object-position: center;
+  width: 14px;
+  height: 30px;
+  position: absolute;
+  bottom: 65px;
+  left: -4px;
+}
+
+@media (width <= 991px) {
+  .registrationBand {
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .registrationHeader {
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .statusSection {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

@@ -1,16 +1,11 @@
 "use client";
 import React from "react";
 import styles from "./LandingPage.module.css";
-// import { Header } from "./Header";
-import { Header } from "@/componentslanding/Header";
-// import { RegistrationCard } from "./RegistrationCard";
-import { RegistrationCard } from "@/componentslanding/RegistrationCard";
-// import { RegistrationStatus } from "./RegistrationStatus";
-import { RegistrationStatus } from "@/componentslanding/RegistrationStatus";
-// import { UpcomingEvents } from "./UpcomingEvents";
-import { UpcomingEvents } from "@/componentslanding/UpcomingEvents";
-// import { Footer } from "./Footer";
-import { Footer } from "@/componentslanding/Footer";
+import { Header } from "./Header";
+import { RegistrationCard } from "./RegistrationCard";
+import { RegistrationStatus } from "./RegistrationStatus";
+import { UpcomingEvents } from "./UpcomingEvents";
+import { Footer } from "./Footer";
 
 function LandingPage() {
   return (

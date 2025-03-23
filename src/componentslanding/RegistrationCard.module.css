@@ -1,0 +1,85 @@
+.card {
+  background-color: #cfc4c4;
+  width: 100%;
+  min-height: 250px;
+  margin-top: 240px;
+  padding: 52px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.content {
+  z-index: 1;
+  width: 239px;
+  font-family: Arima Madurai, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-weight: 900;
+}
+
+.title {
+  color: #4f4500;
+  font-size: 40px;
+  margin: 0;
+}
+
+.separator {
+  background-color: #716e6e;
+  width: 2px;
+  height: 29px;
+}
+
+.subtitle {
+  color: #75762a;
+  font-size: 16px;
+  line-height: 22px;
+  margin: 0;
+}
+
+.registerButton {
+  color: #fff;
+  background-color: #6f2606;
+  width: 200px;
+  min-height: 50px;
+  margin-top: 32px;
+  padding: 9px 13px;
+  font-size: 20px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.decoration {
+  aspect-ratio: 3;
+  object-fit: contain;
+  object-position: center;
+  width: 30px;
+  position: absolute;
+  top: 0;
+  left: 40px;
+}
+
+.imageWrapper {
+  position: absolute;
+  bottom: 0;
+  right: 13px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (width <= 991px) {
+  .card {
+    margin-top: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

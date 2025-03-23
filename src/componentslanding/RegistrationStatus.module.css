@@ -1,0 +1,80 @@
+.statusSection {
+  background-color: #fff;
+  padding: 40px;
+  font-family: Arima Madurai, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.title {
+  color: #4f4500;
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.inputGroup {
+  width: 300px;
+  min-width: 240px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.input {
+  color: #5f5e5e;
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #cfc4c4;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.checkButton {
+  color: #fff;
+  background-color: #6f2606;
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusIcon {
+  width: 30px;
+  height: 30px;
+}
+
+.statusText {
+  font-weight: 900;
+}
+
+.statusTitle {
+  color: #3c3c3e;
+  font-size: 24px;
+  margin: 0;
+}
+
+.statusDate {
+  color: #5f5e5e;
+  font-size: 14px;
+  margin: 0;
+}
+
+@media (width <= 991px) {
+  .statusSection {
+    padding: 20px;
+  }
+}
