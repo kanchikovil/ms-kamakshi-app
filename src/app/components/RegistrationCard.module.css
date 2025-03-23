@@ -1,0 +1,159 @@
+.cardContainer {
+  background-color: #cfc4c4;
+  align-items: flex-start;
+  gap: 10px;
+  width: 450px;
+  max-width: none;
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 51px 40px;
+  display: flex;
+  position: relative;
+}
+
+@media (width <= 991px) {
+  .cardContainer {
+    width: 100%;
+    max-width: 991px;
+    height: auto;
+    padding: 40px 30px;
+  }
+}
+
+@media (width <= 640px) {
+  .cardContainer {
+    max-width: 640px;
+    padding: 30px 20px;
+  }
+}
+
+.contentWrapper {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  width: 239px;
+  display: flex;
+}
+
+@media (width <= 991px) {
+  .contentWrapper {
+    width: 100%;
+  }
+}
+
+.header {
+  align-self: stretch;
+  align-items: center;
+  gap: 16px;
+  display: flex;
+}
+
+@media (width <= 640px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+.title {
+  color: #4f4500;
+  font-family: Arima Madurai, cursive;
+  font-size: 40px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.divider {
+  background-color: #716e6e;
+  width: 2px;
+  height: 29px;
+}
+
+@media (width <= 640px) {
+  .divider {
+    width: 100%;
+    height: 1px;
+    margin: 10px 0;
+  }
+}
+
+.subtitle {
+  color: #75762a;
+  font-family: Arima Madurai, cursive;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  margin: 0;
+}
+
+.registerButton {
+  color: #fff;
+  cursor: pointer;
+  background-color: #6f2606;
+  border: none;
+  width: 200px;
+  height: 50px;
+  padding: 13px;
+  font-family: Arima Madurai, cursive;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+@media (width <= 640px) {
+  .registerButton {
+    width: 100%;
+  }
+}
+
+.decorativeImageWrapper {
+  flex-direction: column;
+  align-items: center;
+  padding: 0 3px 19px 7px;
+  display: flex;
+  position: absolute;
+  bottom: 0px;
+  right: 13px;
+}
+
+@media (width <= 991px) {
+  .decorativeImageWrapper {
+    margin-top: 20px;
+    position: relative;
+    bottom: 0;
+    right: 0;
+  }
+}
+
+@media (width <= 640px) {
+  .decorativeImageWrapper {
+    margin-top: 30px;
+    padding: 0;
+  }
+}
+
+.decorativeImage {
+  width: 150px;
+  height: 200px;
+}
+
+@media (width <= 640px) {
+  .decorativeImage {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.triangle {
+  width: 30px;
+  height: 14px;
+  position: relative;
+  left: 40px;
+  top: -4px;
+  fill: #f6f1f1;
+}
+
+.triangleWrapper {
+  position: relative;
+}

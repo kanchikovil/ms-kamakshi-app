@@ -20,11 +20,11 @@ export default function Header() {
     const { isLoggedIn, logout } = useLogin();
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box>
             <AppBar position="static">
-                <Toolbar style={{ backgroundColor: "#0F0359 " }}>
+                <Toolbar style={{ backgroundColor: "#642210", height: "2.5vh", width : "100vw"}}>
                     <Link href={"/"}>
-                        <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2, color: "white" }}>
+                        <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ color: "white" }}>
                             <LogoImage />
                         </IconButton>
                     </Link>
