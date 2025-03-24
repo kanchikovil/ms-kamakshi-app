@@ -20,11 +20,11 @@ const FullWidthMessage: React.FC<FullWidthMessageProps> = ({
         backgroundColor,
         display: 'flex',
         alignItems: 'center',
-        paddingLeft: 2, // Align text towards the left
+        paddingLeft: '3%', // Align text towards the left
         marginTop: -5, // Overlap with the banner
       }}
     >
-      <Typography fontSize={'40px'} fontWeight={900} color={textColor} fontFamily={'Arima Madurai'} >
+      <Typography fontSize={'22px'} color={textColor} fontWeight={700} >
         {message}
       </Typography>
     </Box>

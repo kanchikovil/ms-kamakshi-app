@@ -12,7 +12,7 @@
   position: relative;
 }
 
-@media (width <= 991px) {
+@media (width <=991px) {
   .cardContainer {
     width: 100%;
     max-width: 991px;
@@ -21,7 +21,7 @@
   }
 }
 
-@media (width <= 640px) {
+@media (width <=640px) {
   .cardContainer {
     max-width: 640px;
     padding: 30px 20px;
@@ -36,7 +36,7 @@
   display: flex;
 }
 
-@media (width <= 991px) {
+@media (width <=991px) {
   .contentWrapper {
     width: 100%;
   }
@@ -49,7 +49,7 @@
   display: flex;
 }
 
-@media (width <= 640px) {
+@media (width <=640px) {
   .header {
     flex-direction: column;
     align-items: flex-start;
@@ -71,7 +71,7 @@
   height: 29px;
 }
 
-@media (width <= 640px) {
+@media (width <=640px) {
   .divider {
     width: 100%;
     height: 1px;
@@ -93,15 +93,14 @@
   cursor: pointer;
   background-color: #6f2606;
   border: none;
-  width: 200px;
-  height: 50px;
-  padding: 13px;
+  height: 40px;
+  padding: 4px 30px;
   font-family: Arima Madurai, cursive;
   font-size: 20px;
   font-weight: 700;
 }
 
-@media (width <= 640px) {
+@media (width <=640px) {
   .registerButton {
     width: 100%;
   }
@@ -110,14 +109,13 @@
 .decorativeImageWrapper {
   flex-direction: column;
   align-items: center;
-  padding: 0 3px 19px 7px;
   display: flex;
   position: absolute;
   bottom: 0px;
   right: 13px;
 }
 
-@media (width <= 991px) {
+@media (width <=991px) {
   .decorativeImageWrapper {
     margin-top: 20px;
     position: relative;
@@ -126,7 +124,7 @@
   }
 }
 
-@media (width <= 640px) {
+@media (width <=640px) {
   .decorativeImageWrapper {
     margin-top: 30px;
     padding: 0;
@@ -134,11 +132,12 @@
 }
 
 .decorativeImage {
-  width: 150px;
-  height: 200px;
+  width: auto;
+  height: 190px;
+  position: relative;
 }
 
-@media (width <= 640px) {
+@media (width <=640px) {
   .decorativeImage {
     width: 100%;
     height: auto;
@@ -155,5 +154,9 @@
 }
 
 .triangleWrapper {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
 }

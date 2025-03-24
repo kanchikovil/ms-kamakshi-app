@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Grid2 } from '@mui/material';
+import { Box, Grid2, Typography } from '@mui/material';
 import FullWidthMessage from '@/app/components/FullWidthMessage';
 import RegistrationCard from '@/app/components/RegistrationCard';
 import SuvahiniRegistrationCard from '@/app/components/SuvahiniRegistrationCard';
 
 
 import Banner from '@/app/components/Banner';
+import RegistrationStatusCard from '@/app/components/RegistrationStatusCard';
 
 export default function HomePage() {
   return (
@@ -16,13 +17,28 @@ export default function HomePage() {
       <Grid2 size={12}>
         <FullWidthMessage message="Navaratri Registration" />
       </Grid2>
-      <Grid2 size={12} spacing={2} padding={2} direction={'row'} display={'flex'}>
+      <Grid2 size={12} spacing={2} padding={'2em'} direction={'row'} display={'flex'}>
         <Grid2 size={4}>
-          <RegistrationCard />
+          <RegistrationCard regType='KANYA' />
         </Grid2>
         <Grid2 size={4}>
-          <SuvahiniRegistrationCard />
+          <RegistrationCard regType='SUVAHASINI' />
         </Grid2>
+        <Box sx={{
+          position: 'absolute',
+          right: '6%',
+          top: '15%'
+        }}>
+          <RegistrationStatusCard />
+        </Box>
+      </Grid2>
+      <Grid2 size={8} spacing={2} padding={'0 2em 3em 3em'} direction={'row'} display={'flex'}>
+        <Typography fontSize={12}>Lorem ipsum dolor sit amet consectetur. Sed consectetur cursus nullam suspendisse volutpat lacinia odio.
+          Dolor sapien consectetur et eget sagittis mauris pharetra pellentesque. Adipiscing orci dui pulvinar lectus adipiscing.
+          Velit egestas amet suspendisse dolor vitae cursus. Lacus nunc adipiscing sit et ac ac. Mi volutpat in sed at egestas in.
+          Consequat ac feugiat vitae semper sit adipiscing nec nisl quis. Platea interdum felis nunc porta amet cras morbi.
+          Sollicitudin eget non proin fermentum et pretium.
+        </Typography>
       </Grid2>
     </Grid2>
   );

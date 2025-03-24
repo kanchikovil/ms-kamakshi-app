@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { useLogin } from "../context/LoginContext";
 
 function LogoImage() {
-    return <Box component={"img"} src="/images/swami.png" alt="Image" width={35} height={35} />;
+    return <Box component={"img"} src="/images/logo.png" alt="Image" width={'auto'} height={15} />;
 }
 
 export default function Header() {
@@ -22,23 +22,26 @@ export default function Header() {
     return (
         <Box>
             <AppBar position="static">
-                <Toolbar style={{ backgroundColor: "#642210", height: "2.5vh", width : "100vw"}}>
-                    <Link href={"/"}>
-                        <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ color: "white" }}>
+                <Toolbar style={{
+                    backgroundColor: "#642210",
+                    height: "2.5vh",
+                    width: "100vw",
+                    backgroundImage: "linear-gradient(rgba(255,255,255, 0.1), rgba(255,255,255, 0.1)), url('/images/repeat-bg-pattern.jpg')",
+                    backgroundRepeat: "repeat-x"
+                }}>
+                    <Box component="div" sx={{ flexGrow: 1, marginLeft: '2%' }}>
+                        <Link href={"/"}>
                             <LogoImage />
-                        </IconButton>
-                    </Link>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Manasasmarami Kamakshi
-                    </Typography>
+                        </Link>
+                    </Box>
 
                     {isLoggedIn ? (
-                        <Button variant="outlined" sx={{ color: "white" }} onClick={() => { logout(); router.push("/pages/login"); }}>
+                        <Button style={{ textTransform: 'none' }} sx={{ color: "#CDC4C1", fontWeight: 700 }} onClick={() => { logout(); router.push("/pages/login"); }}>
                             Logout
                         </Button>
                     ) : (
                         <Link href={"/pages/login"}>
-                            <Button variant="outlined" sx={{ color: "white" }}>Admin Login</Button>
+                            <Button style={{ textTransform: 'none' }} sx={{ color: "#CDC4C1", fontWeight: 700 }}>Login</Button>
                         </Link>
                     )}
                 </Toolbar>

@@ -15,11 +15,11 @@ const DecorativeTriangle: React.FC = () => (
   </svg>
 );
 
-const CardHeader: React.FC = () => (
+const CardHeader: React.FC<RegistrationCardProps> = ({regType}) => (
   <header className={styles.header}>
     <h1 className={styles.title}>Kanya</h1>
     <div className={styles.divider} role="separator" />
-    <p className={styles.subtitle}>Child under age 10</p>
+    <p className={styles.subtitle}>{regType === "KANYA" ? "Child under age 10" : "Elderly over 40 Years"}</p>
   </header>
 );
 
@@ -29,14 +29,13 @@ const RegisterButton: React.FC = () => (
   </button>
 );
 
-const DecorativeImage: React.FC = () => (
+const DecorativeImage: React.FC<RegistrationCardProps> = ({regType}) => (
   <div
     className={styles.decorativeImageWrapper}
     style={{ marginTop: "2px" }} // Move image down by 2px
   >
     <img
-//      src="https://cdn.builder.io/api/v1/image/assets/TEMP/95d4a608e61ea433aab341d72fab1cde2e320282"
-      src="../images/kanya-card-home.png" // Use local image
+      src={regType === "KANYA" ? "../images/kanya-card-home.png" : "../images/suvashini-card-home.png"} // Use local image
       alt="Decorative illustration"
       className={styles.decorativeImage}
       height="100" // Adjusted height
@@ -45,7 +44,11 @@ const DecorativeImage: React.FC = () => (
   </div>
 );
 
-const RegistrationCard: React.FC = () => {
+interface RegistrationCardProps {
+  regType: string;
+}
+
+const RegistrationCard: React.FC<RegistrationCardProps> = ({ regType }) => {
   return (
     <>
       <link
@@ -53,20 +56,18 @@ const RegistrationCard: React.FC = () => {
         rel="stylesheet"
       />
       <section className={styles.cardContainer}>
-        <div className={styles.contentWrapper}>
-          <CardHeader />
-          <RegisterButton />
-        </div>
-        <div
-          className={styles.triangleWrapper}
-          style={{ marginLeft: "-10%" }} // Move DecorativeTriangle to the left by 10%
-        >
+        {/* Triangle Positioned Absolutely in the Corner */}
+        <div className={styles.triangleWrapper}>
           <DecorativeTriangle />
         </div>
-        <DecorativeImage />
+
+        <div className={styles.contentWrapper}>
+          <CardHeader regType={regType} />
+          <RegisterButton />
+        </div>
+        <DecorativeImage regType={regType} />
       </section>
     </>
   );
 };
-
 export default RegistrationCard;

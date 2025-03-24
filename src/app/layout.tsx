@@ -1,6 +1,7 @@
 "use client";
 import { baselightTheme } from "@/utils/theme/DefaultColors";
 import { ThemeProvider } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -8,6 +9,14 @@ import Header from "./layout/header";
 import Footer from "./layout/footer";
 import { NotificationProvider } from "./context/NotificationContext";
 import { LoginProvider } from "./context/LoginContext";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      `Arima Madurai`, `-apple-system`, `Helvetica`, `sans-serif`
+    ].join(','),
+  },
+});
 
 export default function RootLayout({
   children,
@@ -17,14 +26,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider theme={baselightTheme}>
+        <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <LoginProvider>
-            <Container fixed maxWidth={false} disableGutters={true}>
+            <Container disableGutters={true} maxWidth={false}>
               <Header />
               <NotificationProvider>
-                <Box sx={{ bgcolor: '#F6F1F1', height: '100vh', width: '100vw' }}>
+                <Box sx={{ bgcolor: '#F6F1F1', width: '100vw' }}>
                   {children}
                 </Box>
               </NotificationProvider>

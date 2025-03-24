@@ -12,12 +12,13 @@ const Footer: React.FC = () => {
         width: '100%',
         backgroundColor: '#CFC4C4',
         color: 'white',
-        textAlign: 'center',
+        textAlign: 'left',
+        paddingLeft: '3%',
         py: 2,
       }}
     >
-      <Typography variant="body2">
-        © {new Date().getFullYear()} Your Company. All rights reserved.
+      <Typography variant="body2" color='#353434'>
+        © {new Date().getFullYear()}, Manasasmarami Kamakshi
       </Typography>
     </Box>
   );
