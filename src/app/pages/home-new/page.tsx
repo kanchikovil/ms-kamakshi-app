@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Box, Grid2, Typography } from '@mui/material';
 import FullWidthMessage from '@/app/components/FullWidthMessage';
 import RegistrationCard from '@/app/components/RegistrationCard';
-import SuvahiniRegistrationCard from '@/app/components/SuvahiniRegistrationCard';
 
 
 import Banner from '@/app/components/Banner';
@@ -26,8 +25,8 @@ export default function HomePage() {
         </Grid2>
         <Box sx={{
           position: 'absolute',
-          right: '6%',
-          top: '15%'
+          right: '3%',
+          top: '26%'
         }}>
           <RegistrationStatusCard />
         </Box>

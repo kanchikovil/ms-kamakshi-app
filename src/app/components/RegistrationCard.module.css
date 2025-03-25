@@ -2,8 +2,8 @@
   background-color: #cfc4c4;
   align-items: flex-start;
   gap: 10px;
-  width: 450px;
-  max-width: none;
+  min-width: 450px;
+  max-width: 30%;
   height: 200px;
   margin-left: auto;
   margin-right: auto;
@@ -60,7 +60,7 @@
 .title {
   color: #4f4500;
   font-family: Arima Madurai, cursive;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 400;
   margin: 0;
 }

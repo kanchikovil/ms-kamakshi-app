@@ -2,8 +2,9 @@
 import React from "react";
 import styles from "./RegistrationStatusCard.module.css";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import { Typography } from "@mui/material";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import { TextField, Typography } from "@mui/material";
 
 interface Event {
   date: string;
@@ -25,10 +26,28 @@ const RegistrationStatusCard: React.FC = () => {
         <h2 className={styles.title}>Check your registration status</h2>
         <div className={styles.registrationCheck}>
           <div className={styles.inputGroup}>
-            <input
-              type="text"
+            <TextField
+              type="number"
               placeholder="Enter Aadhar / Mobile number"
-              className={styles.input}
+              style={{
+                flexGrow: 1,
+                fontWeight: 900,
+                border: '1px solid #ccc',
+                borderRadius: 0,
+                fontSize: '10px',
+                fontFamily: 'Arima Madurai, -apple-system, Helvetica, sans-serif'
+              }}
+              sx={{
+                "& fieldset": { border: 'none' },
+                borderRadius: 0,
+                "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+                  display: "none",
+                },
+                "& input[type=number]": {
+                  MozAppearance: "textfield",
+                  padding: '8px'
+                },
+              }}
             />
             <button className={styles.checkButton}>CHECK STATUS</button>
           </div>
@@ -47,11 +66,11 @@ const RegistrationStatusCard: React.FC = () => {
         <div className={styles.eventsSection}>
           <div className={styles.eventsHeader}>
             <div className={styles.eventsTitle}>
-              <EmojiEventsIcon className={styles.icon} />
-              <h3>Upcoming Events</h3>
+              <WorkspacePremiumIcon className={styles.icon} />
+              <h3 style={{margin: 0}}>Upcoming Events</h3>
             </div>
-            <a href="#" className={styles.viewAll}>
-              VIEW ALL →
+            <a href="/" className={styles.viewAll}>
+              VIEW ALL <ArrowForwardIcon style={{height: 14}}/>
             </a>
           </div>
 
@@ -67,8 +86,10 @@ const RegistrationStatusCard: React.FC = () => {
         </div>
       </section>
       <div className={styles.statusCardFooterWrapper}>
-        <Typography style={{fontSize: 50, fontWeight: 100}} className={styles.footerHeading}>a divine<br />experience</Typography>
-        <div className={styles.footerDecorHolder}><img height={150} src={"../images/status-card-footer-decor.png"} /></div>
+        <div className={styles.footerHeaderHolder}>
+          <Typography style={{ fontSize: 40, fontWeight: 100, lineHeight: 1, marginTop: '5%' }} className={styles.footerHeading}>a divine experience</Typography>
+        </div>
+        <div className={styles.footerDecorHolder}><img height={100} src={"../images/status-card-footer-decor.png"} /></div>
       </div>
     </>
   );

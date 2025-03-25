@@ -26,6 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Arima+Madurai:wght@400;700;900&display=swap"
+        rel="stylesheet"
+      />
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
