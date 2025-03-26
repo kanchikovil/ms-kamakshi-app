@@ -151,7 +151,6 @@ const NavratriRegistrationForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
-        {formData.regType}
         {/* Registration Type */}
         <Grid item xs={12}>
           <TextField select name="regType" label="Registration Type" value={formData.regType} onChange={handleChange} fullWidth>
@@ -248,9 +247,9 @@ const NavratriRegistrationForm = () => {
 
           {/* Submit Button */}
           <Grid item xs={12}>
-            <Button variant="contained" type="submit">Register</Button>
+            <Button type="submit">Register</Button>
           </Grid>
-
+          
         </>)
         }
       </Grid>

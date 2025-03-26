@@ -13,7 +13,7 @@
     background-color: #ECE7E7;
 }
 
-.gridItem:not(:last-child)::after {
+.gridItem::after {
     content: attr(data-index);
     position: absolute;
     left: 10%;

@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import Grid from '@mui/material/Grid2';
-import { Box, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 interface RegistrationCardProps {
     regType: string;
@@ -34,7 +34,7 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                     <Grid size={{ xs: 8 }} display="flex" direction="row" alignItems="center" justifyContent="flex-start">
                         <Grid container direction="column" sx={{ gap: '2px', padding: 0, display: 'flex' }}>
                             <Typography
-                                fontSize="16px"
+                                fontSize="22px"
                                 color="#4F4500"
                                 fontWeight={700}
                                 sx={{ margin: 0, padding: 0, lineHeight: 1 }}>
@@ -111,16 +111,7 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                                 />
                             </Grid>
                             <Grid size={{ xs: 2 }}>
-                                <button style={{
-                                    background: '#693108',
-                                    color: '#fff',
-                                    padding: '8px 12px',
-                                    border: 'none',
-                                    borderRadius: 0,
-                                    cursor: "pointer",
-                                    fontWeight: "bold",
-                                    fontFamily: 'Arima Madurai, -apple-system, Helvetica, sans-serif'
-                                }}>VALIDATE</button>
+                                <Button type="submit">VALIDATE</Button>
                             </Grid>
                         </Grid>
                     </Grid>

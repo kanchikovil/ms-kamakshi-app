@@ -16,6 +16,48 @@ const theme = createTheme({
       `Arima Madurai`, `-apple-system`, `Helvetica`, `sans-serif`
     ].join(','),
   },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#ffffff',
+        }
+      }
+    }, MuiToggleButtonGroup: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#f0f0f0',
+        }
+      }
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'white',
+          '&.Mui-selected': {
+            backgroundColor: '#693108',
+            color: 'white'
+          }
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#693108', // Default background color
+          color: 'white', // Text color
+          borderRadius: 0,
+          '&:hover': {
+            backgroundColor: '#75762a', // Darker shade on hover
+          },
+          '&:disabled': {
+            backgroundColor: '#DDDDDDFF', // Disabled state color
+            color: '#979797FF',
+          },
+        },
+      },
+    },
+  }
 });
 
 export default function RootLayout({
@@ -26,10 +68,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Arima+Madurai:wght@400;700;900&display=swap"
-        rel="stylesheet"
-      />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Arima+Madurai:wght@400;700;900&display=swap"
+          rel="stylesheet"
+        />
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
