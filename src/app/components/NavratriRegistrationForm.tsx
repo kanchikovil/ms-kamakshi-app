@@ -151,6 +151,7 @@ const NavratriRegistrationForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
+        {formData.regType}
         {/* Registration Type */}
         <Grid item xs={12}>
           <TextField select name="regType" label="Registration Type" value={formData.regType} onChange={handleChange} fullWidth>
@@ -198,7 +199,7 @@ const NavratriRegistrationForm = () => {
             ))}
 
           {/* kanya Details*/}
-          {formData.regType === 'Kanya' && (['schoolStandard', 'schoolName'] as Array<keyof FormDataType>).map((field, index) => (
+          {formData.regType === 'kanya' && (['schoolStandard', 'schoolName'] as Array<keyof FormDataType>).map((field, index) => (
             <Grid item xs={12} sm={4} key={index}>
               <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
             </Grid>
@@ -220,7 +221,7 @@ const NavratriRegistrationForm = () => {
           ))}
 
           {/* Dress, Kolusu, Bangle Sizes */}
-          {formData.regType === 'Kanya' &&
+          {formData.regType === 'kanya' &&
             ([
               { name: 'dressSize', label: 'Girls Dress Size', options: [16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38] },
               { name: 'legchainSize', label: 'Leg Chain (Kolusu) Size', options: [5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5] },
