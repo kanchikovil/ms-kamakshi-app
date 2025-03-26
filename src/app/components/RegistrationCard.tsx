@@ -18,14 +18,14 @@ const DecorativeTriangle: React.FC = () => (
 
 export const RegCardHeader: React.FC<RegistrationCardProps> = ({ regType }) => (
   <header className={styles.header}>
-    <h1 className={styles.title}>{regType === "KANYA" ? "Kanya" : "Suvahini"}</h1>
+    <h1 className={styles.title}>{regType === "kanya" ? "Kanya" : "Suvahini"}</h1>
     <div className={styles.divider} role="separator" />
-    <p className={styles.subtitle}>{regType === "KANYA" ? "Child under age 10" : "Elderly over 40 Years"}</p>
+    <p className={styles.subtitle}>{regType === "kanya" ? "Child under age 10" : "Elderly over 40 Years"}</p>
   </header>
 );
 
-const RegisterButton: React.FC = () => (
-  <Link href={"/pages/navratri-registration"}>
+const RegisterButton: React.FC<RegistrationCardProps> = ({ regType }) => (
+  <Link href={`/pages/navratri-registration?registrationType=${regType}`}>
     <button className={styles.registerButton} type="button">
       REGISTER
     </button>
@@ -38,7 +38,7 @@ const DecorativeImage: React.FC<RegistrationCardProps> = ({ regType }) => (
     style={{ marginTop: "2px" }} // Move image down by 2px
   >
     <img
-      src={regType === "KANYA" ? "../images/kanya-card-home.png" : "../images/suvashini-card-home.png"} // Use local image
+      src={regType === "kanya" ? "../images/kanya-card-home.png" : "../images/suvashini-card-home.png"} // Use local image
       alt="Decorative illustration"
       className={styles.decorativeImage}
       height="100" // Adjusted height
@@ -62,7 +62,7 @@ const RegistrationCard: React.FC<RegistrationCardProps> = ({ regType }) => {
 
         <div className={styles.contentWrapper}>
           <RegCardHeader regType={regType} />
-          <RegisterButton />
+          <RegisterButton regType={regType} />
         </div>
         <DecorativeImage regType={regType} />
       </section>

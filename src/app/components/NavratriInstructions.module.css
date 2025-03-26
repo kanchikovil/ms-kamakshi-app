@@ -1,0 +1,40 @@
+.gridItem {
+    position: relative;
+    padding: 2em 1em;
+}
+
+.gridItem:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 1%;
+    right: 1%;
+    bottom: 0;
+    height: .8px;
+    background-color: #ECE7E7;
+}
+
+.gridItem:not(:last-child)::after {
+    content: attr(data-index);
+    position: absolute;
+    left: 10%;
+    top: -26px;
+    width: 22px;
+    padding: 1.5em;
+    height: 22px;
+    background-color: #75762a;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+  }
+
+.gridItem:first-child {
+    padding-top: 0;
+}
+
+.gridItem:last-child {
+    margin-bottom: 10%;
+}

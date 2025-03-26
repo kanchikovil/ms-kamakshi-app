@@ -15,6 +15,7 @@ const Footer: React.FC = () => {
         textAlign: 'left',
         paddingLeft: '3%',
         py: 2,
+        zIndex: 100
       }}
     >
       <Typography variant="body2" color='#353434'>

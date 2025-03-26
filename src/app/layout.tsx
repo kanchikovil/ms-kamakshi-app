@@ -37,7 +37,7 @@ export default function RootLayout({
             <Container disableGutters={true} maxWidth={false}>
               <Header />
               <NotificationProvider>
-                <Box sx={{ bgcolor: '#F6F1F1', width: '100vw' }}>
+                <Box sx={{ bgcolor: '#F6F1F1' }}>
                   {children}
                 </Box>
               </NotificationProvider>

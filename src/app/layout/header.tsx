@@ -24,10 +24,13 @@ export default function Header() {
             <AppBar position="static">
                 <Toolbar style={{
                     backgroundColor: "#642210",
-                    height: "2.5vh",
-                    width: "100vw",
+                    height: "65px",
+                    width: "100%",
                     backgroundImage: "linear-gradient(rgba(255,255,255, 0.1), rgba(255,255,255, 0.1)), url('/images/repeat-bg-pattern.jpg')",
-                    backgroundRepeat: "repeat-x"
+                    backgroundRepeat: "repeat-x",
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 100
                 }}>
                     <Box component="div" sx={{ flexGrow: 1, marginLeft: '2%' }}>
                         <Link href={"/"}>

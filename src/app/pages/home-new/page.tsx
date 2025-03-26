@@ -18,10 +18,10 @@ export default function HomePage() {
       </Grid2>
       <Grid2 size={12} spacing={2} padding={'2em'} direction={'row'} display={'flex'}>
         <Grid2 size={4}>
-          <RegistrationCard regType='KANYA' />
+          <RegistrationCard regType='kanya' />
         </Grid2>
         <Grid2 size={4}>
-          <RegistrationCard regType='SUVAHASINI' />
+          <RegistrationCard regType='suvahini' />
         </Grid2>
         <Box sx={{
           position: 'absolute',
