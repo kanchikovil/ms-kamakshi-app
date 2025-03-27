@@ -1,10 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./RegistrationStatusCard.module.css";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Button, TextField, Typography } from "@mui/material";
+import { getStatusByAadhar } from '../services/registrationService';
+import { useNotification } from "../context/NotificationContext";
 
 interface Event {
   date: string;
@@ -20,9 +22,36 @@ const events: Event[] = [
 
 const RegistrationStatusCard: React.FC = () => {
 
-  const checkRegStatusByAadhar = () => {
-    
+  const { showError } = useNotification();
+  const [aadharNumber, setAadharNumber] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [regDetails, setRegDetails] = useState();
+
+  const checkRegStatusByAadhar = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getStatusByAadhar(aadharNumber);
+      console.log(res.data);
+    } catch (e: any) {
+      showError(e?.response?.data?.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
+
+  const handleAadharChange = (event: any) => {
+    const { value } = event.target;
+
+    // Remove non-numeric characters
+    const numericValue = value.replace(/\D/g, "");
+
+    // Validate Aadhaar length
+    // if (numericValue.length > 0 && numericValue.length !== 12) {
+    //   showError("Aadhaar number must be exactly 12 digits.");
+    //   return;
+    // }
+    setAadharNumber(numericValue);
+  };
 
   return (
     <>
@@ -32,6 +61,7 @@ const RegistrationStatusCard: React.FC = () => {
         <div className={styles.registrationCheck}>
           <div className={styles.inputGroup}>
             <TextField
+              disabled={isLoading}
               placeholder="Enter Aadhar / Mobile number"
               type="text" // Use "text" instead of "number"
               inputProps={{
@@ -51,8 +81,9 @@ const RegistrationStatusCard: React.FC = () => {
                 "& fieldset": { border: 'none' },
                 borderRadius: 0
               }}
+              onChange={handleAadharChange}
             />
-            <Button onClick={() => checkRegStatusByAadhar()}>CHECK STATUS</Button>
+            <Button disabled={isLoading || (!isLoading && aadharNumber.length !== 12)} onClick={() => checkRegStatusByAadhar()}>{isLoading ? "Loading..." : "CHECK STATUS"}</Button>
           </div>
           {/* Scheduled Status */}
           <div className={styles.scheduledStatus}>
