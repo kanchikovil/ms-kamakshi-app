@@ -4,7 +4,7 @@ import styles from "./RegistrationStatusCard.module.css";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import { TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 
 interface Event {
   date: string;
@@ -19,6 +19,11 @@ const events: Event[] = [
 ];
 
 const RegistrationStatusCard: React.FC = () => {
+
+  const checkRegStatusByAadhar = () => {
+    
+  }
+
   return (
     <>
       <section className={styles.cardContainer}>
@@ -27,8 +32,13 @@ const RegistrationStatusCard: React.FC = () => {
         <div className={styles.registrationCheck}>
           <div className={styles.inputGroup}>
             <TextField
-              type="number"
               placeholder="Enter Aadhar / Mobile number"
+              type="text" // Use "text" instead of "number"
+              inputProps={{
+                maxLength: 12,
+                inputMode: "numeric", // Shows number keyboard on mobile
+                pattern: "[0-9]*", // Ensures only numbers
+              }}
               style={{
                 flexGrow: 1,
                 fontWeight: 900,
@@ -39,17 +49,10 @@ const RegistrationStatusCard: React.FC = () => {
               }}
               sx={{
                 "& fieldset": { border: 'none' },
-                borderRadius: 0,
-                "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-                  display: "none",
-                },
-                "& input[type=number]": {
-                  MozAppearance: "textfield",
-                  padding: '8px'
-                },
+                borderRadius: 0
               }}
             />
-            <button className={styles.checkButton}>CHECK STATUS</button>
+            <Button onClick={() => checkRegStatusByAadhar()}>CHECK STATUS</Button>
           </div>
           {/* Scheduled Status */}
           <div className={styles.scheduledStatus}>
@@ -67,10 +70,10 @@ const RegistrationStatusCard: React.FC = () => {
           <div className={styles.eventsHeader}>
             <div className={styles.eventsTitle}>
               <WorkspacePremiumIcon className={styles.icon} />
-              <h3 style={{margin: 0}}>Upcoming Events</h3>
+              <h3 style={{ margin: 0 }}>Upcoming Events</h3>
             </div>
             <a href="/" className={styles.viewAll}>
-              VIEW ALL <ArrowForwardIcon style={{height: 14}}/>
+              VIEW ALL <ArrowForwardIcon style={{ height: 14 }} />
             </a>
           </div>
 
