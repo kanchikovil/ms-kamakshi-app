@@ -43,7 +43,7 @@ const instructionData = {
     ]
 }
 
-export const NavratriInstructions: React.FC<RegistrationCardProps> = ({ regType }) => {
+export const NavratriInstructions: React.FC<RegistrationCardProps> = ({  }) => {
     return (
         <Grid container direction="column" spacing={1} sx={{
             backgroundColor: '#FFFFFF',

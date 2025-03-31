@@ -42,7 +42,7 @@ interface FormDataType {
 
 const NavratriRegistrationForm = () => {
 
-  const router = useRouter();
+//  const router = useRouter();
   const searchParams = useSearchParams();
 
   const registrationType = searchParams.get("registrationType") || "default";

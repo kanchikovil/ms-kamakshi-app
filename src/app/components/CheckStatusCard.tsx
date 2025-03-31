@@ -15,7 +15,7 @@ export default function CheckStatusCard() {
 
   const [expanded, setExpanded] = React.useState(false);
   const [aadharNumber, setAadharNumber] = React.useState('');
-  const [phoneNumber, setPhoneNumber] = React.useState('');
+  // const [phoneNumber, setPhoneNumber] = React.useState('');
   const [registrationDetails, setRegistrationDetails] = React.useState({
     attendeeName: '',
     approvalStatus: ''
@@ -56,7 +56,7 @@ export default function CheckStatusCard() {
           variant='standard'
           label="Phone Number"
           placeholder='Phone Number here...'
-          onChange={(e) => setPhoneNumber(e.target.value)}
+         //  onChange={(e) => setPhoneNumber(e.target.value)}
           required
           fullWidth
           slotProps={{

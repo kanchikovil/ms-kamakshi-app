@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, FormEvent } from "react";
-import axios from "axios";
+// import axios from "axios";
 import {
   Container,
   Typography,
@@ -26,7 +26,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs, { Dayjs } from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-import EditIcon from "@mui/icons-material/Edit";
+// import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import APP_CONFIG from "../utils/config";
@@ -55,7 +55,7 @@ interface EventDay {
 }
 
 export default function EventManager() {
-  const { showSuccess, showError } = useNotification();
+  const { showError } = useNotification();
   const defaultEventDetails: Event = {
     eventName: "",
     startDate: null,
@@ -72,19 +72,19 @@ export default function EventManager() {
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [events]);
 
   const fetchEvents = async () => {
     try {
       const response = await axios_instance.get<Event[]>(APP_CONFIG.apiBaseUrl + "/events");
       setEvents(response.data);
     } catch (error) {
-      showError('Failed to get Events');
+      showError('Failed to get Events'+error);
     }
   };
 
   const validateForm = () => {
-    let tempErrors: { [key: string]: string } = {};
+    const tempErrors: { [key: string]: string } = {};
     if (!form.eventName) tempErrors.eventName = "Event name is required";
     if (!form.startDate) tempErrors.startDate = "Start date is required";
     if (!form.endDate) tempErrors.endDate = "End date is required";
@@ -148,7 +148,7 @@ export default function EventManager() {
       setEditingEventId(null);
       setForm(defaultEventDetails);
     } catch (error) {
-      showError('Failed to create/update Event');
+      showError('Failed to create/update Event'+error);
     }
   };
 

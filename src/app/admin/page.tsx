@@ -43,7 +43,7 @@ function a11yProps(index: number) {
 const AdminPage = () => {
 
   const [value, setValue] = React.useState(0);
-  const { showSuccess, showError } = useNotification();
+  // const { showSuccess, showError } = useNotification();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
