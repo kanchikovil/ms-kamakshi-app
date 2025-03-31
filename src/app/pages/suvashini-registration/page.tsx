@@ -228,4 +228,4 @@ const SuvashiniRegistrationForm: React.FC<SuvashiniRegistrationFormProps> = ({ i
   );
 };
 
-export default SuvashiniRegistrationForm
+export default SuvashiniRegistrationForm;
