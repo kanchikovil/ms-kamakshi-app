@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid2';
 import NavratriRegistrationForm from '@/app/components/NavratriRegistrationForm';
 import { NavratriRegistraionHeader } from '@/app/components/NavratriRegistraionHeader';
 import { NavratriInstructions } from '@/app/components/NavratriInstructions';
-
+import { Suspense } from 'react';
 
 interface RegistrationFormProps {
   // initialData?: { userName: string, userPhone: string, id?: number };
@@ -15,7 +15,7 @@ interface RegistrationFormProps {
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ /*initialData , onSuccess*/ }) => {
   return (
-    <>
+    <Suspense>
       <NavratriRegistraionHeader regType='kanya' />
       <Grid container direction="row" spacing={1} sx={{
         backgroundColor: '#E8DFDFFF'
@@ -29,7 +29,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ /*initialData , onS
           </Box>
         </Grid>
       </Grid >
-    </>
+    </Suspense>
   );
 };
 
