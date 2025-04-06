@@ -19,7 +19,7 @@ import { Grid2, Box } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import APP_CONFIG from '../utils/config';
 import axios_instance from '../utils/axiosInstance';
 import { useNotification } from '../context/NotificationContext';
@@ -117,7 +117,11 @@ const RegistrationList: React.FC = () => {
                     <TableCell align="right">Maternal Gothram</TableCell>
                     <TableCell align="right">Mother Tongue</TableCell>
                     <TableCell align="right">Pooja Date</TableCell> */}
-                    <TableCell align="right">Attendence Status</TableCell>
+                    <TableCell align="left">Type</TableCell>
+                    <TableCell align="left">Date</TableCell>
+                    <TableCell align="left">Fathers Gothram</TableCell>
+                    <TableCell align="left">Fathers Vedam</TableCell>
+                    <TableCell align="left">Attendence Status</TableCell>
                     <TableCell align="right">Approval Status</TableCell>
                   </TableRow>
                 </TableHead>
@@ -131,11 +135,23 @@ const RegistrationList: React.FC = () => {
                         {registration.regId}
                       </TableCell>
                       <TableCell>
+                        {registration.regType}
+                      </TableCell>
+                      <TableCell>
+                        {registration.registeredAt ? dayjs(registration.registeredAt).format('DD/MM/YYYY') : ''}
+                      </TableCell>
+                      <TableCell>
+                        Father's Gothram here
+                      </TableCell>
+                      <TableCell>
+                      Father's Vedam here
+                      </TableCell>
+                      <TableCell>
                         {registration.regStatus}
                       </TableCell>
                       <TableCell align="right">
                         {(registration.approvalStatus !== 'APPROVED' && registration.approvalStatus !== 'REJECTED') ? (
-                          <Stack direction="row" spacing={1}>
+                          <Stack direction="row" spacing={1} justifyContent={'flex-end'}>
                             <IconButton aria-label="approve" color="success">
                               <CheckCircleOutlineIcon onClick={() => handleApproval(registration.regId || 0, 'APPROVED')} />
                             </IconButton>

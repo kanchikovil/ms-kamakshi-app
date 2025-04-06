@@ -4,5 +4,6 @@ export default interface Registration {
     regId?: number;
     regStatus: string;
     approvalStatus: string;
-    registeredDate: Dayjs;
+    registeredAt: Dayjs;
+    regType: string;
 }
