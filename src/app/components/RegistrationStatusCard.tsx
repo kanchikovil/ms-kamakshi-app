@@ -24,6 +24,8 @@ const RegistrationStatusCard: React.FC = () => {
 
   const { showError } = useNotification();
   const [aadharNumber, setAadharNumber] = useState<string>('');
+  const [registrationStatus, setRegistrationStatus] = useState<string>('--');
+  const [registrationDate, setRegistrationDate] = useState<string>('--');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [regDetails, setRegDetails] = useState();
 
@@ -31,6 +33,8 @@ const RegistrationStatusCard: React.FC = () => {
     try {
       setIsLoading(true);
       const res = await getStatusByAadhar(aadharNumber);
+      setRegistrationStatus(res.data.approvalStatus);
+      setRegistrationDate(res.data.eventDate);
       console.log(res.data);
     } catch (e: any) {
       showError(e?.response?.data?.message);
@@ -86,14 +90,16 @@ const RegistrationStatusCard: React.FC = () => {
             <Button disabled={isLoading || (!isLoading && aadharNumber.length !== 12)} onClick={() => checkRegStatusByAadhar()}>{isLoading ? "Loading..." : "CHECK STATUS"}</Button>
           </div>
           {/* Scheduled Status */}
+          {!isLoading && 
           <div className={styles.scheduledStatus}>
             <CalendarMonthIcon className={styles.icon} />
             <div>
-              <Typography className={styles.statusLabel}>Scheduled</Typography>
-              <Typography style={{ fontWeight: 700, fontSize: '10px' }} className={styles.date}>25/03/2025</Typography>
+              <Typography className={styles.statusLabel}>{registrationStatus}</Typography>
+              <Typography style={{ fontWeight: 700, fontSize: '10px' }} className={styles.date}>{registrationDate}</Typography>
               <Typography style={{ fontWeight: 700, fontSize: '10px' }} className={styles.time}>07.30 PM</Typography>
             </div>
           </div>
+          }
         </div>
 
         {/* Upcoming Events */}
