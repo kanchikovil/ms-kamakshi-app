@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { TextField, Button, Grid, MenuItem, Typography, ToggleButtonGroup, ToggleButton } from "@mui/material";
 import ReCAPTCHA from "react-google-recaptcha";
 import APP_CONFIG from "../utils/config";
@@ -45,6 +45,10 @@ const NavratriRegistrationForm = () => {
 //  const router = useRouter();
   const searchParams = useSearchParams();
 
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
   const registrationType = searchParams.get("registrationType") || "default";
 
   const [formData, setFormData] = useState<FormDataType>({
@@ -83,8 +87,6 @@ const NavratriRegistrationForm = () => {
   });
   const { showSuccess, showError } = useNotification();
 
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-
   // Handle form changes
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -112,6 +114,10 @@ const NavratriRegistrationForm = () => {
     return /^\d{12}$/.test(aadhar);
   };
 
+  const handleCaptchaChange = (token: string | null) => {
+    setCaptchaToken(token);
+  };
+
   // Phone number validation
   const validatePhone = () => {
     const phone = formData.attendeePhone + '';
@@ -129,10 +135,10 @@ const NavratriRegistrationForm = () => {
       showError("Invalid phone number. Please enter a 10-digit mobile number.");
       return;
     }
-    // if (!captchaToken) {
-    //   showError("Please complete the captcha verification.");
-    //   return;
-    // }
+    if (!captchaToken) {
+      showError("Please complete the captcha verification.");
+      return;
+    }
 
     const response = await fetch(APP_CONFIG.apiBaseUrl + "/registrations", {
       method: "POST",
@@ -240,8 +246,9 @@ const NavratriRegistrationForm = () => {
           {/* CAPTCHA */}
           <Grid item xs={12}>
             <ReCAPTCHA
-              sitekey="6LfVmewqAAAAAIPZGb3ASDDjjrG-meg07kZn5HwF"
-              onChange={(token) => setCaptchaToken(token)}
+              sitekey={APP_CONFIG.recaptchaSiteKey}
+              onChange={handleCaptchaChange}
+              ref={recaptchaRef}
             />
           </Grid>
 
