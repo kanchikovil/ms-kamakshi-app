@@ -72,7 +72,7 @@ export default function EventManager() {
 
   useEffect(() => {
     fetchEvents();
-  }, [events]);
+  }, []);
 
   const fetchEvents = async () => {
     try {
