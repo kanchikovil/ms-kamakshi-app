@@ -4,6 +4,29 @@ import ReCAPTCHA from "react-google-recaptcha";
 import APP_CONFIG from "../utils/config";
 import { useNotification } from "../context/NotificationContext";
 import { useRouter, useSearchParams } from "next/navigation";
+import axios_instance from "../utils/axiosInstance";
+import EventDaySelector, { EventDay } from "./EventDaySelector";
+import { Dayjs } from "dayjs";
+
+interface Event {
+  eventId?: number;
+  eventName: string;
+  startDate: Dayjs | null;
+  endDate: Dayjs | null;
+  registrationStartDate: Dayjs | null;
+  registrationEndDate: Dayjs | null;
+  eventDays?: EventDay[];
+}
+
+interface EventsResponse {
+  status: string;
+  data: Event[];
+}
+
+interface EventDaysResponse {
+  status: string;
+  data: EventDay[];
+}
 
 interface FormDataType {
   attendeeName: string;
@@ -12,6 +35,7 @@ interface FormDataType {
   regType: string;
   attendeeAadharNumber: number;
   attendeePhone: number;
+  attendeeEmail: string;
   attendeeAge: number;
   countryCode: string;
   horoscopeName: string;
@@ -42,7 +66,7 @@ interface FormDataType {
 
 const NavratriRegistrationForm = () => {
 
-//  const router = useRouter();
+  //  const router = useRouter();
   const searchParams = useSearchParams();
 
   const recaptchaRef = useRef<ReCAPTCHA>(null);
@@ -51,6 +75,8 @@ const NavratriRegistrationForm = () => {
 
   const registrationType = searchParams.get("registrationType") || "default";
 
+  const [eventDays, setEventDays] = useState<EventDay[]>();
+  const [eventDayError, setEventDayError] = useState(false);
   const [formData, setFormData] = useState<FormDataType>({
     attendeeName: "",
     eventId: 1,
@@ -59,6 +85,7 @@ const NavratriRegistrationForm = () => {
     regType: registrationType === "kanya" ? "kanya" : "suvahini",
     attendeeAadharNumber: 0,
     attendeePhone: 0,
+    attendeeEmail: "",
     countryCode: "+91",
     horoscopeName: "",
     slogamKnown: "",
@@ -92,6 +119,25 @@ const NavratriRegistrationForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const fetchEventDays = async () => {
+    try {
+      const eventsListRes = await axios_instance.get<EventsResponse>(APP_CONFIG.apiBaseUrl + "/events");
+      const eventsList = eventsListRes.data;
+      if (eventsList && Array.isArray(eventsList) && eventsList.length > 0) {
+        const eventId = eventsList[0].eventId
+        const response = await axios_instance.get<EventDaysResponse>(APP_CONFIG.apiBaseUrl + `/events/${eventId}/days`);
+        const eventDays: EventDay[] = response.data.data ?? [];
+        setEventDays(eventDays);
+      }
+    } catch (error) {
+      showError('Failed to get available slots: ' + error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEventDays();
+  }, []);
+
   useEffect(() => {
     handleChange({
       target: {
@@ -124,9 +170,26 @@ const NavratriRegistrationForm = () => {
     return /^\d{10}$/.test(phone);
   };
 
+  const validEventDay = () => {
+    if (formData.dayId === null) {
+      setEventDayError(true);
+      return false;
+    }
+    return true;
+  }
+
+  const validEmail = (): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(formData.attendeeEmail);
+  };
+
   // Submit form
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    if (!validEventDay()) {
+      showError("Please select atleast one Event Day.");
+      return;
+    }
     if (!validateAadhaar()) {
       showError("Invalid Aadhaar number. Please enter a valid 12-digit Aadhaar.");
       return;
@@ -167,10 +230,24 @@ const NavratriRegistrationForm = () => {
             <MenuItem value="suvahini">Suvahini</MenuItem>
           </TextField>
         </Grid>
+        <Grid item xs={12}>
+          <EventDaySelector
+            eventDays={eventDays ?? []}
+            selectedDayId={formData.dayId}
+            onChange={(id) => {
+              handleChange({
+                target: {
+                  name: "dayId",
+                  value: id
+                }
+              });
+            }}
+          />
+        </Grid>
 
         {formData.regType && (<>
           {/* Aadhaar Number */}
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <TextField required name="attendeeAadharNumber" label="Aadhaar Number" type="text" // Use "text" instead of "number" to control input manually
               inputProps={{ maxLength: 12, inputMode: "numeric", pattern: "[0-9]*" }} value={formData.attendeeAadharNumber} onChange={handleChange} fullWidth />
           </Grid>
@@ -182,9 +259,13 @@ const NavratriRegistrationForm = () => {
             <MenuItem value="+44">+44 (UK)</MenuItem>
           </TextField>
         </Grid> */}
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <TextField required name="attendeePhone" label="Mobile Number" type="text" // Use "text" instead of "number" to control input manually
               inputProps={{ maxLength: 10, inputMode: "numeric", pattern: "[0-9]*" }} value={formData.attendeePhone} onChange={handleChange} fullWidth />
+          </Grid>
+          <Grid item xs={4}>
+            <TextField required name="attendeeEmail" label="Email" type="text" // Use "text" instead of "number" to control input manually
+              value={formData.attendeeEmail} onChange={handleChange} fullWidth />
           </Grid>
 
           {/* Horoscope, Slogam, Classical Music */}
@@ -256,7 +337,7 @@ const NavratriRegistrationForm = () => {
           <Grid item xs={12}>
             <Button type="submit">Register</Button>
           </Grid>
-          
+
         </>)
         }
       </Grid>
