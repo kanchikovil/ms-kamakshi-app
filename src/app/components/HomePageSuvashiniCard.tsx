@@ -24,7 +24,7 @@ export default function HomePageSuvashiniCard() {
           Navarathri Registration
         </Typography>
         <Typography variant="h5" component="div">
-          Suvashini 
+          Suvasini 
         </Typography>
         <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>Elderly over 40 Years</Typography>
         <Typography variant="body2">

@@ -207,7 +207,7 @@ const RegistrationList: React.FC = () => {
                 {counts.totalCount}
               </Typography> */}
             <Typography variant="h5" component="div">
-              Kanyas & Suvashini
+              Kanyas & Suvasini
             </Typography>
             <Box alignItems={'flex-start'} display={'flex'} >
               <div>
@@ -217,7 +217,7 @@ const RegistrationList: React.FC = () => {
                 <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Kanyas</Typography>
               </div>
               <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Suvashini</Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Suvasini</Typography>
               </div>
               <div style={{ paddingLeft: '20px' }}>
                 <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Total</Typography>

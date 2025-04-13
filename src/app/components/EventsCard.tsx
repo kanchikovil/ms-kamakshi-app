@@ -32,7 +32,7 @@ export default function EventsCard(props: any) {
         </Typography>
         <Stack direction="row" spacing={1}>
           <Chip color="info" label="Kanya : 50" size="small" />
-          <Chip label="Suvashini : 45" size="small" />
+          <Chip label="Suvasini : 45" size="small" />
           {/* <Chip label="Hard" size="small" /> */}
         </Stack>
       </Box>
