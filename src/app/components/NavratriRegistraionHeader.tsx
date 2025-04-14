@@ -49,7 +49,7 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                                     margin: 0,
                                     padding: 0
                                 }}>
-                                    {regType === "kanya" ? "Kanya" : "Suvahini"}
+                                    {regType === "kanya" ? "Kanya" : "Suvasini"}
                                 </Typography>
 
                                 <Box component="div" role="separator" sx={{

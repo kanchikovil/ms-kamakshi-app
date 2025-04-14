@@ -21,7 +21,7 @@ export default function HomePage() {
           <RegistrationCard regType='kanya' />
         </Grid2>
         <Grid2 size={4}>
-          <RegistrationCard regType='suvahini' />
+          <RegistrationCard regType='suvasini' />
         </Grid2>
         <Box sx={{
           position: 'absolute',

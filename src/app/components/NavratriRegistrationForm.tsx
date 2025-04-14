@@ -59,9 +59,9 @@ interface FormDataType {
   kulaDevatha: string;
   place: string;
   address: string;
-  dressSize: string;
-  legchainSize: string;
-  bangleSize: string;
+  dressSize: number;
+  legchainSize: number;
+  bangleSize: number;
 }
 
 const NavratriRegistrationForm = () => {
@@ -82,7 +82,7 @@ const NavratriRegistrationForm = () => {
     eventId: 1,
     dayId: 1,
     attendeeAge: 0,
-    regType: registrationType === "kanya" ? "kanya" : "suvahini",
+    regType: registrationType === "kanya" ? "kanya" : "suvasini",
     attendeeAadharNumber: 0,
     attendeePhone: 0,
     attendeeEmail: "",
@@ -108,9 +108,9 @@ const NavratriRegistrationForm = () => {
     kulaDevatha: "",
     place: "",
     address: "",
-    dressSize: "",
-    legchainSize: "",
-    bangleSize: "",
+    dressSize: 0,
+    legchainSize: 0,
+    bangleSize: 0,
   });
   const { showSuccess, showError } = useNotification();
 
@@ -198,10 +198,10 @@ const NavratriRegistrationForm = () => {
       showError("Invalid phone number. Please enter a 10-digit mobile number.");
       return;
     }
-    if (!captchaToken) {
-      showError("Please complete the captcha verification.");
-      return;
-    }
+    // if (!captchaToken) {
+    //   showError("Please complete the captcha verification.");
+    //   return;
+    // }
 
     const response = await fetch(APP_CONFIG.apiBaseUrl + "/registrations", {
       method: "POST",
@@ -227,7 +227,7 @@ const NavratriRegistrationForm = () => {
               <em>Select Registration Type</em>
             </MenuItem>
             <MenuItem value="kanya">Kanya</MenuItem>
-            <MenuItem value="suvahini">Suvahini</MenuItem>
+            <MenuItem value="suvasini">Suvasini</MenuItem>
           </TextField>
         </Grid>
         <Grid item xs={12}>
@@ -291,8 +291,8 @@ const NavratriRegistrationForm = () => {
             </Grid>
           ))}
 
-          {/* suvahini Details*/}
-          {formData.regType === 'suvahini' && (['maternalGothram', 'husbandsName', 'husbandsGothram',
+          {/* suvasini Details*/}
+          {formData.regType === 'suvasini' && (['maternalGothram', 'husbandsName', 'husbandsGothram',
             'husbandsProfession', 'husbandVedam'] as Array<keyof FormDataType>).map((field, index) => (
               <Grid item xs={12} sm={4} key={index}>
                 <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
@@ -325,13 +325,13 @@ const NavratriRegistrationForm = () => {
               </Grid>
             ))}
           {/* CAPTCHA */}
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <ReCAPTCHA
               sitekey={APP_CONFIG.recaptchaSiteKey}
               onChange={handleCaptchaChange}
               ref={recaptchaRef}
             />
-          </Grid>
+          </Grid> */}
 
           {/* Submit Button */}
           <Grid item xs={12}>

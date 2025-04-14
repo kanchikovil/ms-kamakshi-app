@@ -18,7 +18,7 @@ const DecorativeTriangle: React.FC = () => (
 
 export const RegCardHeader: React.FC<RegistrationCardProps> = ({ regType }) => (
   <header className={styles.header}>
-    <h1 className={styles.title}>{regType === "kanya" ? "Kanya" : "Suvahini"}</h1>
+    <h1 className={styles.title}>{regType === "kanya" ? "Kanya" : "Suvasini"}</h1>
     <div className={styles.divider} role="separator" />
     <p className={styles.subtitle}>{regType === "kanya" ? "Child under age 10" : "Elderly over 40 Years"}</p>
   </header>
