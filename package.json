@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "set NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6Lf5kA0rAAAAAMTe1hlUUgFIZeXvwVn1YenjrS6N & SET API_BASE_URL=http://localhost:8080 & next dev --turbopack -p 3000",
+    "dev": "set NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6Lf5kA0rAAAAAMTe1hlUUgFIZeXvwVn1YenjrS6N & SET API_BASE_URL=http://localhost:3000/api & next dev --turbopack -p 8080",
     "build": "next build",
     "start": "next start",
     "startAzure": "./node_modules/next/dist/bin/next start",

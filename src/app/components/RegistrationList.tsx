@@ -82,6 +82,12 @@ const RegistrationList: React.FC = () => {
     rejectedCount: 0,
     pendingCount: 0
   });
+  const [countsbyDate, setCountsByDate] = useState<[{ date: string, total: number; kanya: number; suvasini: number }]>([{
+    date: '',
+    total: 0,
+    kanya: 0,
+    suvasini: 0
+  }]);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -103,7 +109,7 @@ const RegistrationList: React.FC = () => {
         // Ensure the response is an array before setting state
         if (Array.isArray(res.data?.data)) {
           setRegistrations(res.data?.data);
-          console.log(res.data?.data);
+          // console.log(res.data?.data);
         } else {
           setRegistrations([]); // Fallback to an empty array
         }
@@ -129,6 +135,20 @@ const RegistrationList: React.FC = () => {
       }
     }
     fetchCounts();
+  }, []);
+
+  // Fetch Registration Counts by Date
+  useEffect(() => {
+    async function fetchCountsByDate() {
+      try {
+        const countRes = await axios_instance(APP_CONFIG.apiBaseUrl + '/registrationscountbydate');
+        setCountsByDate(countRes.data?.data);
+        console.log('Count by Date :', countRes.data?.data);
+      } catch (error) {
+        console.error('Error fetching registration counts by date:', error);
+      }
+    }
+    fetchCountsByDate();
   }, []);
 
   // Handle Approval
@@ -193,7 +213,7 @@ const RegistrationList: React.FC = () => {
                           {column.label}
                         </TableCell>
                       ))}
-                       <TableCell align="right" sx={{ backgroundColor: 'lightblue' }}>Action</TableCell>
+                      <TableCell align="right" sx={{ backgroundColor: 'lightblue' }}>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -238,48 +258,6 @@ const RegistrationList: React.FC = () => {
                         );
                       })}
                   </TableBody>
-
-                  {/* <TableBody>
-                    {registrations?.map((registration) => (
-                      <TableRow
-                        key={registration.regId}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      >
-                        <TableCell>
-                          {registration.regId}
-                        </TableCell>
-                        <TableCell>
-                          {registration.regType}
-                        </TableCell>
-                        <TableCell>
-                          {registration.registeredAt ? dayjs(registration.registeredAt).format('DD/MM/YYYY') : ''}
-                        </TableCell>
-                        <TableCell>
-                          Father's Gothram here
-                        </TableCell>
-                        <TableCell>
-                          Father's Vedam here
-                        </TableCell>
-                        <TableCell>
-                          {registration.regStatus}
-                        </TableCell>
-                        <TableCell align="right">
-                          {(registration.approvalStatus !== 'APPROVED' && registration.approvalStatus !== 'REJECTED') ? (
-                            <Stack direction="row" spacing={1} justifyContent={'flex-end'}>
-                              <IconButton aria-label="approve" color="success">
-                                <CheckCircleOutlineIcon onClick={() => handleApproval(registration.regId || 0, 'APPROVED')} />
-                              </IconButton>
-                              <IconButton aria-label="reject" color="error">
-                                <CancelOutlined onClick={() => handleApproval(registration.regId || 0, 'REJECTED')} />
-                              </IconButton>
-                            </Stack>
-                          ) : (
-                            <Chip label={registration.approvalStatus} color="primary" size='small' />
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody> */}
                 </Table>
               </TableContainer>
               <TablePagination
@@ -306,19 +284,19 @@ const RegistrationList: React.FC = () => {
             </Typography>
             <Box alignItems={'flex-start'} display={'flex'} >
               <div>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Approved</Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Approved</Typography>
                 <Typography sx={{ color: 'green', mb: 1.5, fontSize: 20 }}>{counts.approvedCount}</Typography>
               </div>
               <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Rejected</Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Rejected</Typography>
                 <Typography sx={{ color: 'red', mb: 1.5, fontSize: 20 }}>{counts.rejectedCount}</Typography>
               </div>
               <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Total</Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Total</Typography>
                 <Typography sx={{ color: 'blue', mb: 1.5, fontSize: 20 }}>{counts.totalCount}</Typography>
               </div>
               <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>To Approve</Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>To Approve</Typography>
                 <Typography sx={{ color: 'grey', mb: 1.5, fontSize: 20 }}>{counts.pendingCount}</Typography>
               </div>
             </Box>
@@ -328,49 +306,40 @@ const RegistrationList: React.FC = () => {
               </Typography> */}
             <Typography variant="h5" component="div">
               Kanyas & Suvasini
+              <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
+                Approved Registrations...as of Today
+              </Typography>
             </Typography>
             <Box alignItems={'flex-start'} display={'flex'} >
               <div>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Date</Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Date</Typography>
               </div>
               <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Kanyas</Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Kanyas</Typography>
               </div>
               <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Suvasini</Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Suvasini</Typography>
               </div>
               <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Total</Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Total</Typography>
               </div>
             </Box>
-            <Box alignItems={'flex-start'} display={'flex'} >
-              <div>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Date 1</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{counts.approvedCount}</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{counts.rejectedCount}</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{counts.totalCount}</Typography>
-              </div>
-            </Box>
-            <Box alignItems={'flex-start'} display={'flex'} >
-              <div>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>Date 1</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{counts.approvedCount}</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{counts.rejectedCount}</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{counts.totalCount}</Typography>
-              </div>
-            </Box>
+            {countsbyDate.map((column) => (
+              <Box alignItems={'flex-start'} display={'flex'} >
+                <div>
+                  <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{column.date}</Typography>
+                </div>
+                <div style={{ paddingLeft: '20px' }}>
+                  <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{column.kanya}</Typography>
+                </div>
+                <div style={{ paddingLeft: '20px' }}>
+                  <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{column.suvasini}</Typography>
+                </div>
+                <div style={{ paddingLeft: '20px' }}>
+                  <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{column.total}</Typography>
+                </div>
+              </Box>
+            ))}
           </CardContent>
         </Card>
       </Grid2>
