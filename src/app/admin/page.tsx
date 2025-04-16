@@ -4,12 +4,13 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Box } from '@mui/material';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import RegistrationList from '../components/RegistrationList';
+// import RegistrationList from '../components/RegistrationList.xst';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import EventManager from '../components/EventManager';
-import { useNotification } from '../context/NotificationContext';
+// import { useNotification } from '../context/NotificationContext';
 import QRScanner from '../components/controls/QRScanner/QRScanner';
 import withAuth from '../utils/withAuth';
+import RegistrationListNew from '../components/RegistrationListNew';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -52,7 +53,7 @@ const AdminPage = () => {
 
   return (
 
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', height: '100hv' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(1)} />
@@ -63,7 +64,7 @@ const AdminPage = () => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={1}>
-        <RegistrationList />
+        <RegistrationListNew />
       </CustomTabPanel>
       {/* <CustomTabPanel value={value} index={1}>
         <VendorOrderList />
