@@ -143,5 +143,200 @@
   display: flex;
   position: relative;
   flex: 1;
+  height:100;
   margin-left: 10%;
+}
+@media (max-width: 1257px) and (min-width: 1020px){
+  .cardContainer {
+    max-width: 400px; 
+    padding: 40px;  
+    margin-top: 50;
+    margin-left: 50;
+  }
+
+  .title {
+    font-size: 18px; 
+  }
+
+  .registrationCheck {
+    margin-bottom: 15px; 
+  }
+
+  .checkButton {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+
+.scheduledStatus {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  border-radius: 5px;
+  margin-left: 10; 
+  margin: 0 auto; 
+  width: fit-content;
+}
+
+
+  .icon {
+    font-size: 24px !important;
+    justify-content: center;
+  }
+
+  .statusLabel {
+    font-size: 10px; 
+    margin: 3px;
+  }
+
+  .date,
+  .time {
+    font-size: 9px;
+    margin: 3px;
+  }
+
+  .eventsSection {
+    padding-top: 10px;
+  }
+
+  .eventsTitle {
+    font-size: 14px;
+  }
+
+  .viewAll {
+    font-size: 12px;
+  }
+
+  .eventItem {
+    font-size: 12px;
+    padding: 3px 0;
+  }
+
+  .eventDate,
+  .eventTime {
+    min-width: 70px;
+  }
+
+  .eventTitle {
+    font-weight: 600;
+    color: #6b6b00;
+  }
+
+  .footerHeading {
+    font-size: 30px!important;
+    font-weight: 2100;
+  }
+
+  .footerHeaderHolder,
+  .footerDecorHolder {
+    margin-left: 20%; 
+    max-height: 65px !important;
+  }
+}
+@media (max-width: 1250px){
+  .cardContainer {
+    max-width: 300px;
+    padding: 40px;    
+    margin-top: 30;
+    margin-left: 100;
+  }
+}
+@media (max-width: 1025px){
+  .cardContainer {
+     padding: 20px;
+     margin-right:100;
+     align-items: center;
+  border-radius: 0;
+  max-width: 500px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: "Arima Madurai", sans-serif;
+  z-index: 100;
+
+  }
+}
+
+@media (max-width: 599px) {
+  .cardContainer {
+    max-width: 100%;       
+    padding: 15px;         
+    margin: 10px auto;   
+    box-shadow: none;  
+    border-radius: 5px; 
+  }
+
+  .title {
+    font-size: 16px;    
+    text-align: center; 
+  }
+
+  .registrationCheck {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .checkButton {
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;  
+  }
+
+  .scheduledStatus {
+    margin-left: 0;
+    align-items: flex-start;
+  }
+
+.scheduledStatus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  margin-left: 0; 
+  margin: 0 auto; 
+  width: fit-content;
+}
+
+  .statusLabel {
+    font-size: 10px;
+  }
+
+  .date,
+  .time {
+    font-size: 9px;
+  }
+
+  .eventsSection {
+    padding-top: 10px;
+  }
+
+  .eventsTitle {
+    font-size: 14px;
+  }
+
+  .viewAll {
+    font-size: 12px;
+  }
+
+  .eventItem {
+    font-size: 12px;
+    padding: 3px 0;
+  }
+
+  .eventDate,
+  .eventTime {
+    min-width: 60px;
+  }
+
+  .footerHeading {
+    font-size: 22px !important;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .footerHeaderHolder,
+  .footerDecorHolder {
+    margin-left: 0;
+    max-height: 50px !important;
+  }
 }

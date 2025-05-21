@@ -129,7 +129,7 @@ const RegistrationStatusCard: React.FC = () => {
         <div className={styles.footerHeaderHolder}>
           <Typography style={{ fontSize: 40, fontWeight: 100, lineHeight: 1, marginTop: '5%' }} className={styles.footerHeading}>a divine experience</Typography>
         </div>
-        <div className={styles.footerDecorHolder}><img height={100} src={"../images/status-card-footer-decor.png"} /></div>
+        <div className={styles.footerDecorHolder}><img  src={"../images/status-card-footer-decor.png"} /></div>
       </div>
     </>
   );
