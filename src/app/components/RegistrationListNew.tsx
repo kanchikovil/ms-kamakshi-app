@@ -14,6 +14,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import {  GridActionsColDef } from '@mui/x-data-grid';
+
 
 import {
   DataGrid,
@@ -21,11 +23,13 @@ import {
   GridEventListener,
   GridRowEditStopReasons,
   GridRowId,
-  GridActionsCellItem,
+  
   GridRowsProp,
   GridRowModesModel,
 } from '@mui/x-data-grid';
+import { GridActionsCellItem } from '@mui/x-data-grid-pro';
 
+ 
 declare module '@mui/x-data-grid' {
   interface ToolbarPropsOverrides {
     setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -117,7 +121,7 @@ export default function RegistrationListNew() {
     }
   };
 
-  const columns: GridColDef[] = [
+  const columns: (GridColDef | GridActionsColDef)[] = [
     { field: 'regId', headerName: 'ID', width: 50, type: 'number', editable: false },
     { field: 'regType', headerName: 'Type', width: 100, editable: false },
     { field: 'age', headerName: 'Age', width: 100, type: 'number', editable: false },
@@ -147,33 +151,34 @@ export default function RegistrationListNew() {
         return <span style={{ color }}>{status}</span>;
       }
     },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Actions',
-      width: 120,
-      getActions: ({ id }) => {
-        const row = registrations.find((reg) => String(reg.regId) === String(id));
+{
+  field: 'actions',
+  type: 'actions',
+  headerName: 'Actions',
+  width: 120,
+  getActions: ({ id }) => {
+    const row = registrations.find((reg) => String(reg.regId) === String(id));
 
-        if (row?.approvalStatus === 'AWAITING') {
-          return [
-            <GridActionsCellItem
-              icon={<CheckIcon />}
-              label="Approve"
-              onClick={() => handleApprove(id)}
-              showInMenu={false}
-            />,
-            <GridActionsCellItem
-              icon={<CloseIcon />}
-              label="Reject"
-              onClick={() => handleReject(id)}
-              showInMenu={false}
-            />
-          ];
-        }
-        return [];
-      },
+    if (row?.approvalStatus === 'AWAITING') {
+      return [
+        <GridActionsCellItem
+          icon={<CheckIcon />}
+          label="Approve"
+          onClick={() => handleApprove(id)}
+          showInMenu={false}
+        />,
+        <GridActionsCellItem
+          icon={<CloseIcon />}
+          label="Reject"
+          onClick={() => handleReject(id)}
+          showInMenu={false}
+        />
+      ];
     }
+    return []; 
+  },
+}
+
   ];
 
   if (loading) return <p>Loading registrations...</p>;
@@ -195,17 +200,21 @@ export default function RegistrationListNew() {
           {registrations.length === 0 ? (
             <p>No registrations found.</p>
           ) : (
-            <DataGrid
-              getRowId={(row) => row.regId}
-              rows={registrations}
-              columns={columns}
-              editMode="row"
-              onRowEditStop={handleRowEditStop}
-              initialState={{
-                pagination: { paginationModel: { pageSize: 5 } },
-              }}
-              pageSizeOptions={[5, 10, 25]}
-            />
+    <DataGrid
+  getRowId={(row) => row.regId}
+  rows={registrations}
+  columns={columns}
+  editMode="row"
+  onRowEditStop={handleRowEditStop}
+  initialState={{
+    pagination: {
+      pageSize: 5,
+    },
+  }}
+  rowsPerPageOptions={[5, 10, 25]}  // <-- Use rowsPerPageOptions for v5
+/>
+
+
           )}
         </Box>
       </Grid2>
