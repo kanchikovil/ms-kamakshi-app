@@ -8,7 +8,8 @@ import { approveRegistration } from '../services/registrationService';
 import dayjs from 'dayjs';
 import APP_CONFIG from '../utils/config';
 import axios_instance from '../utils/axiosInstance';
-import Grid2 from '@mui/material/Grid2';
+import Grid2 from '@mui/material/Unstable_Grid2';
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
