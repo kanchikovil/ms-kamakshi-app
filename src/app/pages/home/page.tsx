@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid2';
-import { Stack, Typography } from '@mui/material';
+import Grid2 from '@mui/material/Unstable_Grid2';
 import HomePageKanya from '@/app/components/HomePageKanyaCard';
 import HomePageSuvashiniCard from '@/app/components/HomePageSuvashiniCard';
 import ImageCarousel from '@/app/components/ImageCarousel';

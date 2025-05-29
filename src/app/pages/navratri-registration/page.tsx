@@ -2,7 +2,7 @@
 // src/components/RegistrationForm.tsx
 import React from 'react';
 import { Box, TextField, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid2 from '@mui/material/Unstable_Grid2';
 import NavratriRegistrationForm from '@/app/components/NavratriRegistrationForm';
 import { NavratriRegistraionHeader } from '@/app/components/NavratriRegistraionHeader';
 import { NavratriInstructions } from '@/app/components/NavratriInstructions';

@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
-import Grid from '@mui/material/Grid2';
+import Grid2 from '@mui/material/Unstable_Grid2';
+
 import { Box, Button, TextField, Typography } from '@mui/material';
 
 interface RegistrationCardProps {
