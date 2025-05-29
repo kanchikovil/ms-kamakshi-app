@@ -8,7 +8,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Grid2 } from '@mui/material';
+import Grid2 from '@mui/material/Unstable_Grid2';
+
 import ScheduleSendIcon from '@mui/icons-material/ScheduleSend';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import Button from '@mui/material/Button';
@@ -40,7 +41,7 @@ const VendorOrderList: React.FC = () => {
 
   return (
     <Grid2 container spacing={2}>
-      <Grid2 size={12} >
+      <Grid2 xs={12}>
         {/* Registration List */}
         <div style={{ flex: 1 }}>
           <h2>Vendor Orders</h2>
