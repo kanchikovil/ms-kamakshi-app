@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, FormEvent } from "react";
+
 // import axios from "axios";
 import {
   Container,
@@ -202,81 +203,110 @@ export default function EventManager() {
           Event Manager
         </Typography>
 
-        {showForm && (
-          <Card sx={{ mt: 2, p: 2 }}>
-            <CardContent>
-              <form onSubmit={handleSubmit}>
-                <Stack spacing={2}>
-                  <TextField
-                    fullWidth
-                    label="Event Name"
-                    value={form.eventName}
-                    onChange={(e) => setForm({ ...form, eventName: e.target.value })}
-                    error={!!errors.eventName}
-                    helperText={errors.eventName}
+{showForm && (
+  <Card sx={{ mt: 2, p: 2 }}>
+    <CardContent>
+      <form onSubmit={handleSubmit}>
+        <Stack spacing={2}>
+          <TextField
+            fullWidth
+            label="Event Name"
+            value={form.eventName}
+            onChange={(e) => setForm({ ...form, eventName: e.target.value })}
+            error={!!errors.eventName}
+            helperText={errors.eventName}
+          />
+          <DatePicker
+            label="Start Date"
+            value={form.startDate}
+            onChange={(date) => setForm({ ...form, startDate: date })}
+            minDate={dayjs()}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          <DatePicker
+            label="End Date"
+            value={form.endDate}
+            onChange={(date) => setForm({ ...form, endDate: date })}
+            minDate={dayjs()}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          <DatePicker
+            label="Registration Start Date"
+            value={form.registrationStartDate}
+            onChange={(date) => setForm({ ...form, registrationStartDate: date })}
+            minDate={dayjs()}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          <DatePicker
+            label="Registration End Date"
+            value={form.registrationEndDate}
+            onChange={(date) => setForm({ ...form, registrationEndDate: date })}
+            minDate={dayjs()}
+            renderInput={(params) => <TextField {...params} />}
+          />
+
+          <Typography variant="h6">Event Days</Typography>
+          {form.eventDays?.map((day, index) => (
+            <Stack key={index} direction="row" spacing={2} alignItems="center">
+              <DatePicker
+                label="Date"
+                value={day.eventDate}
+                onChange={(date) => {
+                  const newDays = [...form.eventDays!];
+                  newDays[index].eventDate = date;
+                  setForm({ ...form, eventDays: newDays });
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+              <TextField
+                label="Max Registrations"
+                type="number"
+                value={day.maxRegistrations || ""}
+                onChange={(e) => {
+                  const newDays = [...form.eventDays!];
+                  newDays[index].maxRegistrations = Number(e.target.value);
+                  setForm({ ...form, eventDays: newDays });
+                }}
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={day.isLocalsDay || false}
+                    onChange={(e) => {
+                      const newDays = [...form.eventDays!];
+                      newDays[index].isLocalsDay = e.target.checked;
+                      setForm({ ...form, eventDays: newDays });
+                    }}
                   />
-                  <DatePicker label="Start Date" value={form.startDate} onChange={(date) => setForm({ ...form, startDate: date })} minDate={dayjs()} />
-                  <DatePicker label="End Date" value={form.endDate} onChange={(date) => setForm({ ...form, endDate: date })} minDate={dayjs()} />
-                  <DatePicker label="Registration Start Date" value={form.registrationStartDate} onChange={(date) => setForm({ ...form, registrationStartDate: date })} minDate={dayjs()} />
-                  <DatePicker label="Registration End Date" value={form.registrationEndDate} onChange={(date) => setForm({ ...form, registrationEndDate: date })} minDate={dayjs()} />
+                }
+                label="Is Locals Day?"
+              />
+              <TextField
+                label="Available Seats"
+                type="number"
+                value={day.availableSeats || ""}
+                onChange={(e) => {
+                  const newDays = [...form.eventDays!];
+                  newDays[index].availableSeats = Number(e.target.value);
+                  setForm({ ...form, eventDays: newDays });
+                }}
+              />
+              <IconButton onClick={() => removeEventDay(index)}><DeleteIcon /></IconButton>
+            </Stack>
+          ))}
+          <Button startIcon={<AddIcon />} onClick={addEventDay}>Add Event Day</Button>
 
-                  <Typography variant="h6">Event Days</Typography>
-                  {form.eventDays?.map((day, index) => (
-                    <Stack key={index} direction="row" spacing={2} alignItems="center">
-                      <DatePicker label="Date" value={day.eventDate} onChange={(date) => {
-                        const newDays = [...form.eventDays!];
-                        newDays[index].eventDate = date;
-                        setForm({ ...form, eventDays: newDays });
-                      }} />
-                      <TextField
-                        label="Max Registrations"
-                        type="number"
-                        value={day.maxRegistrations || ""}
-                        onChange={(e) => {
-                          const newDays = [...form.eventDays!];
-                          newDays[index].maxRegistrations = Number(e.target.value); // Convert to number
-                          setForm({ ...form, eventDays: newDays });
-                        }}
-                      />
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={day.isLocalsDay || false}
-                            onChange={(e) => {
-                              const newDays = [...form.eventDays!];
-                              newDays[index].isLocalsDay = e.target.checked;
-                              setForm({ ...form, eventDays: newDays });
-                            }}
-                          />
-                        }
-                        label="Is Locals Day?"
-                      />
-                      <TextField
-                        label="Available Seats"
-                        type="number"
-                        value={day.availableSeats || ""}
-                        onChange={(e) => {
-                          const newDays = [...form.eventDays!];
-                          newDays[index].availableSeats = Number(e.target.value); // Convert to number
-                          setForm({ ...form, eventDays: newDays });
-                        }}
-                      />
-                      <IconButton onClick={() => removeEventDay(index)}><DeleteIcon /></IconButton>
-                    </Stack>
-                  ))}
-                  <Button startIcon={<AddIcon />} onClick={addEventDay}>Add Event Day</Button>
-
-                  <Button type="submit" variant="contained" color="success">
-                    {editingEventId ? "Update Event" : "Create Event"}
-                  </Button>
-                  <Button variant="contained" color="error" onClick={handleCancel}>
-                    Cancel
-                  </Button>
-                </Stack>
-              </form>
-            </CardContent>
-          </Card>
-        )}
+          <Button type="submit" variant="contained" color="success">
+            {editingEventId ? "Update Event" : "Create Event"}
+          </Button>
+          <Button variant="contained" color="error" onClick={handleCancel}>
+            Cancel
+          </Button>
+        </Stack>
+      </form>
+    </CardContent>
+  </Card>
+)}
 
         {(!showForm && <>
           <Button variant="contained" color="primary" onClick={addEvent}>
