@@ -38,31 +38,29 @@ export default function CheckStatusCard() {
           Registered Already ?
         </Typography>
         <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>Check your Status here...</Typography>
-        <TextField
-          id="outlined-disabled"
-          variant='standard'
-          label="Aadhar Number"
-          placeholder='Aadhar number here...'
-          onChange={(e) => setAadharNumber(e.target.value)}
-          required
-          fullWidth
-          slotProps={{
-            htmlInput: { maxLength: 12 },
-          }}
-        />
+       <TextField
+  id="outlined-disabled"
+  variant='standard'
+  label="Aadhar Number"
+  placeholder='Aadhar number here...'
+  onChange={(e) => setAadharNumber(e.target.value)}
+  required
+  fullWidth
+  inputProps={{ maxLength: 12 }}
+/>
+
         <Typography sx={{ color: 'text.secondary', margin: 1 }}>Or</Typography>
         <TextField
-          id="outlined-disabled"
-          variant='standard'
-          label="Phone Number"
-          placeholder='Phone Number here...'
-         //  onChange={(e) => setPhoneNumber(e.target.value)}
-          required
-          fullWidth
-          slotProps={{
-            htmlInput: { maxLength: 12 },
-          }}
-        />
+  id="outlined-disabled"
+  variant='standard'
+  label="Aadhar Number"
+  placeholder='Aadhar number here...'
+  onChange={(e) => setAadharNumber(e.target.value)}
+  required
+  fullWidth
+  inputProps={{ maxLength: 12 }}
+/>
+
       </CardContent>
       <CardActions>
         <Button size="small" onClick={handleExpandClick}>Check Status</Button>
