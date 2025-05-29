@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { useNotification } from '../context/NotificationContext';
 import Registration from '../types/Registration';
 import { approveRegistration } from '../services/registrationService';
@@ -10,21 +8,23 @@ import APP_CONFIG from '../utils/config';
 import axios_instance from '../utils/axiosInstance';
 import Grid2 from '@mui/material/Unstable_Grid2';
 
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+
 import {
-  GridRowsProp,
-  GridRowModesModel,
   DataGrid,
   GridColDef,
-  GridActionsCellItem,
   GridEventListener,
-  GridRowId,
   GridRowEditStopReasons,
+  GridRowId,
+  GridActionsCellItem,
+  GridRowsProp,
+  GridRowModesModel,
 } from '@mui/x-data-grid';
-
 
 declare module '@mui/x-data-grid' {
   interface ToolbarPropsOverrides {
@@ -35,42 +35,33 @@ declare module '@mui/x-data-grid' {
   }
 }
 
-
 export default function RegistrationListNew() {
-
   const { showError } = useNotification();
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [counts, setCounts] = useState<{ totalCount: number; approvedCount: number; rejectedCount: number, pendingCount: number }>({
+  const [counts, setCounts] = useState({
     totalCount: 0,
     approvedCount: 0,
     rejectedCount: 0,
     pendingCount: 0
   });
-  const [countsbyDate, setCountsByDate] = useState<[{ date: string, total: number; kanya: number; suvasini: number }]>([{
-    date: '',
-    total: 0,
-    kanya: 0,
-    suvasini: 0
-  }]);
+  const [countsbyDate, setCountsByDate] = useState([
+    { date: '', total: 0, kanya: 0, suvasini: 0 }
+  ]);
 
-
-  // Fetch Registrations List
   useEffect(() => {
     async function fetchRegistrations() {
       try {
         const res = await axios_instance.get(APP_CONFIG.apiBaseUrl + "/registrations");
-        // Ensure the response is an array before setting state
         if (Array.isArray(res.data?.data)) {
           setRegistrations(res.data?.data);
-          // console.log(res.data?.data);
         } else {
-          setRegistrations([]); // Fallback to an empty array
+          setRegistrations([]);
         }
       } catch (error) {
         showError("Error fetching registrations");
         console.error("Error fetching registrations:", error);
-        setRegistrations([]); // Ensure it's an array even on error
+        setRegistrations([]);
       } finally {
         setLoading(false);
       }
@@ -78,20 +69,10 @@ export default function RegistrationListNew() {
     fetchRegistrations();
   }, []);
 
-  // Fetch Registration Counts
   useEffect(() => {
-    async function fetchCounts() {
-      try {
-        const countRes = await axios_instance(APP_CONFIG.apiBaseUrl + '/registrations-count');
-        setCounts(countRes.data?.data);
-      } catch (error) {
-        console.error('Error fetching registration counts:', error);
-      }
-    }
     fetchCounts();
   }, []);
 
-  // Fetch Registration Counts by Date
   useEffect(() => {
     async function fetchCountsByDate() {
       try {
@@ -105,37 +86,30 @@ export default function RegistrationListNew() {
     fetchCountsByDate();
   }, []);
 
-  // Handle Approval
-  const handleApproval = async (id: GridRowId, status: string) => {
-    const regToUpdt = registrations.find((row) => row.regId === id);
-    if (regToUpdt?.regId !== undefined) {
-      await approveRegistration(regToUpdt.regId, status);
-    } else {
-      console.error('Registration ID is undefined');
-    }
-
-    // Refresh the lists and counts
-    setRegistrations((prev) =>
-      prev.map((reg) => (reg.regId === id ? { ...reg, approvalStatus: status } : reg))
-    );
-
-    // Refresh counts
-    fetchCounts();
-  };
-
-  // Fetch updated counts
-  async function fetchCounts() {
+  const fetchCounts = async () => {
     try {
-      const countRes = await fetch(APP_CONFIG.apiBaseUrl + '/registrations-count');
-      const countData = await countRes.json();
-      setCounts(countData.data);
+      const countRes = await axios_instance.get(APP_CONFIG.apiBaseUrl + '/registrations-count');
+      setCounts(countRes.data?.data);
     } catch (error) {
       console.error('Error fetching registration counts:', error);
     }
-  }
+  };
 
-  if (loading) return <p>Loading registrations...</p>;
+  const handleApproval = async (id: GridRowId, status: string) => {
+    const regToUpdate = registrations.find((row) => row.regId === id);
+    if (regToUpdate?.regId !== undefined) {
+      await approveRegistration(regToUpdate.regId, status);
+      setRegistrations((prev) =>
+        prev.map((reg) => (reg.regId === id ? { ...reg, approvalStatus: status } : reg))
+      );
+      fetchCounts();
+    } else {
+      console.error('Registration ID is undefined');
+    }
+  };
 
+  const handleApprove = (id: GridRowId) => handleApproval(id, 'APPROVED');
+  const handleReject = (id: GridRowId) => handleApproval(id, 'REJECTED');
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -144,137 +118,80 @@ export default function RegistrationListNew() {
   };
 
   const columns: GridColDef[] = [
-    { field: 'regId', headerName: 'ID', align: 'left', width: 50, type: 'number', editable: false },
+    { field: 'regId', headerName: 'ID', width: 50, type: 'number', editable: false },
+    { field: 'regType', headerName: 'Type', width: 100, editable: false },
+    { field: 'age', headerName: 'Age', width: 100, type: 'number', editable: false },
+    { field: 'motherToungue', headerName: 'Mother Tongue', width: 150, editable: false },
+    { field: 'fathersGothram', headerName: 'Father Gothram', width: 150, editable: false },
+    { field: 'dayId', headerName: 'Day', width: 100, type: 'number', editable: false },
     {
-      field: 'regType',
-      headerName: 'Type',
-      type: 'string',
-      width: 100,
-      align: 'left',
-      editable: false,
-    },
-    {
-      field: 'age',
-      headerName: 'Age',
-      type: 'number',
-      width: 100,
-      align: 'left',
-      editable: false,
-    },
-    {
-      field: 'motherToungue',
-      headerName: 'Mother Tongue',
-      type: 'string',
-      width: 150,
-      align: 'left',
-      editable: false,
-    },
-    {
-      field: 'fathersGothram',
-      headerName: 'Father Gothram',
-      type: 'string',
-      width: 150,
-      align: 'left',
-      editable: false,
-    },
-    {
-      field: 'dayId',
-      headerName: 'Day',
-      width: 100,
-      align: 'left',
-      editable: false,
-      type: 'number',
-    },
-{
-  field: 'registeredAt',
-  headerName: 'Registered On',
-  width: 120,
-  align: 'left',
-  editable: false,
-  type: 'date',
-  valueFormatter: (params) => {
-    // Use params.value, not params directly
-    return params.value ? dayjs(params.value).format('DD/MM/YYYY') : '';
-  }
-},
-
-    {
-      field: 'regStatus',
-      headerName: 'Attendance',
+      field: 'registeredAt',
+      headerName: 'Registered On',
       width: 120,
-      align: 'left',
+      type: 'date',
       editable: false,
-      type: 'string',
+      valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : ''
     },
+    { field: 'regStatus', headerName: 'Attendance', width: 120, editable: false },
     {
       field: 'approvalStatus',
       headerName: 'Approval Status',
       width: 120,
-      align: 'left',
       editable: false,
-      type: 'string',
       renderCell: (params) => {
         const status = params.value;
         let color = 'black';
-        if (status === 'APPROVED') {
-          color = 'green';
-        } else if (status === 'REJECTED') {
-          color = 'red';
-        } else if (status === 'AWAITING') {
-          color = 'orange';
-        }
+        if (status === 'APPROVED') color = 'green';
+        else if (status === 'REJECTED') color = 'red';
+        else if (status === 'AWAITING') color = 'orange';
         return <span style={{ color }}>{status}</span>;
       }
     },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Actions',
-      width: 120,
-      align: 'left',
-      cellClassName: 'actions',
-      getActions: ({ id }) => {
-        const row = registrations.find((reg) => reg.regId === id);
-        if (row?.approvalStatus === 'AWAITING') {
-          return [
-            <GridActionsCellItem
-              icon={<CheckCircleOutlineIcon />}
-              label="Approve"
-              className="textPrimary"
-              onClick={() => id !== undefined && handleApproval(id, 'APPROVED')}
-              color="success"
-            />,
-            <GridActionsCellItem
-              icon={<CancelOutlinedIcon />}
-              label="Reject"
-              onClick={() => id !== undefined && handleApproval(id, 'REJECTED')}
-              color="error"
-            />,
-          ];
-        }
+{
+  field: 'actions',
+  type: 'actions',
+  getActions: ({ id }) => {
+    const row = registrations.find((reg) => String(reg.regId) === String(id));
+    if (row?.approvalStatus === 'AWAITING') {
+      return [
+        <GridActionsCellItem
+          icon={<CheckIcon />}
+          label="Approve"
+          onClick={() => handleApprove(id)}
+        />,
+        <GridActionsCellItem
+          icon={<CloseIcon />}
+          label="Reject"
+          onClick={() => handleReject(id)}
+        />
+      ];
+    }
+    return [];
+  }
+}
+
         return [];
       },
-    },
+    }
   ];
 
-  return (
+  if (loading) return <p>Loading registrations...</p>;
 
+  return (
     <Grid2 container spacing={2} marginTop={-3}>
-      <Grid2 size={9} >
-        <Box
-          sx={{
-            height: 500,
-            width: '100%',
-            '& .actions': {
-              color: 'text.secondary',
-            },
-            '& .textPrimary': {
-              color: 'text.primary',
-            },
-          }}
-        >
+      <Grid2 xs={9}>
+        <Box sx={{
+          height: 500,
+          width: '100%',
+          '& .MuiDataGrid-columnHeader': {
+            backgroundColor: '#693108',
+            color: '#fff',
+            fontWeight: 'bold',
+            fontSize: 16,
+          },
+        }}>
           <h2>Registrations</h2>
-          {!registrations || registrations?.length === 0 ? (
+          {registrations.length === 0 ? (
             <p>No registrations found.</p>
           ) : (
             <DataGrid
@@ -287,86 +204,24 @@ export default function RegistrationListNew() {
                 pagination: { paginationModel: { pageSize: 5 } },
               }}
               pageSizeOptions={[5, 10, 25]}
-              sx={{
-                
-                '& .MuiDataGrid-columnHeader': {
-                  backgroundColor: '#693108',
-                  color: '#fff',
-                  fontWeight: 'bold',
-                  fontSize: 16,
-                },
-              }}
             />
           )}
         </Box>
       </Grid2>
-      <Grid2 size={3} display={'flex'} spacing={4}>
+      <Grid2 xs={3} display={'flex'} flexDirection={'column'} spacing={4}>
         <Card sx={{ minWidth: 250 }}>
-          <CardContent sx={{ padding: 2 }} key={counts.totalCount}>
-            <Typography variant="h5" component="div">
-              Registration Status
-            </Typography>
-            <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-              as of Today
-            </Typography>
-            <Box alignItems={'flex-start'} display={'flex'} >
-              <div>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Approved</Typography>
-                <Typography sx={{ color: 'green', mb: 1.5, fontSize: 20 }}>{counts.approvedCount}</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Rejected</Typography>
-                <Typography sx={{ color: 'red', mb: 1.5, fontSize: 20 }}>{counts.rejectedCount}</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Total</Typography>
-                <Typography sx={{ color: 'blue', mb: 1.5, fontSize: 20 }}>{counts.totalCount}</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>To Approve</Typography>
-                <Typography sx={{ color: 'grey', mb: 1.5, fontSize: 20 }}>{counts.pendingCount}</Typography>
-              </div>
+          <CardContent>
+            <Typography variant="h5">Registration Status</Typography>
+            <Typography sx={{ color: 'text.secondary', fontSize: 14 }}>as of Today</Typography>
+            <Box display="flex" flexDirection="column" gap={1}>
+              <Typography sx={{ fontWeight: 'bold' }}>Approved: <span style={{ color: 'green' }}>{counts.approvedCount}</span></Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>Rejected: <span style={{ color: 'red' }}>{counts.rejectedCount}</span></Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>Total: <span style={{ color: 'blue' }}>{counts.totalCount}</span></Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>To Approve: <span style={{ color: 'orange' }}>{counts.pendingCount}</span></Typography>
             </Box>
-            <Typography variant="h5" component="div">
-              Kanyas & Suvasini
-              <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-                Approved Registrations...as of Today
-              </Typography>
-            </Typography>
-            <Box alignItems={'flex-start'} display={'flex'} >
-              <div>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Date</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Kanyas</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Suvasini</Typography>
-              </div>
-              <div style={{ paddingLeft: '20px' }}>
-                <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15, fontWeight: 'bold' }}>Total</Typography>
-              </div>
-            </Box>
-            {countsbyDate.map((column, index) => (
-              <Box alignItems={'flex-start'} display={'flex'} key={index}>
-                <div>
-                  <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{column.date}</Typography>
-                </div>
-                <div style={{ paddingLeft: '20px' }}>
-                  <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{column.kanya}</Typography>
-                </div>
-                <div style={{ paddingLeft: '20px' }}>
-                  <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{column.suvasini}</Typography>
-                </div>
-                <div style={{ paddingLeft: '20px' }}>
-                  <Typography sx={{ color: 'text.secondary', mb: 1.5, fontSize: 15 }}>{column.total}</Typography>
-                </div>
-              </Box>
-            ))}
           </CardContent>
         </Card>
       </Grid2>
     </Grid2>
-
   );
 }
