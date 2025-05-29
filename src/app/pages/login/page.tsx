@@ -97,10 +97,16 @@ import {
   Box,
   Alert,
   IconButton,
+  Snackbar,
+
 } from "@mui/material";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import APP_CONFIG from "@/app/utils/config";
 import { useLogin } from "@/app/context/LoginContext";
+import ErrorIcon from '@mui/icons-material/Error';
+
+
 
 export default function LoginPage() {
   const { login } = useLogin();
@@ -108,6 +114,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -121,11 +129,21 @@ export default function LoginPage() {
       localStorage.setItem("token", response.data.token);
       login(response.data.token);
       router.push("/admin");
-    } catch (err: any) {
-      
-      setError(err.response?.data?.message || "Login failed. Please try again.");
-    }
+    }catch (err: any) {
+      setError(err.response?.data?.error || "Incorrect username or password.");
+
+  setSnackbarOpen(true);
+}
+
   };
+  const handleSnackbarClose = (
+  event?: React.SyntheticEvent | Event,
+  reason?: string
+) => {
+  if (reason === "clickaway") return;
+  setSnackbarOpen(false);
+};
+
 
   return (
     <Container maxWidth="md"
@@ -162,16 +180,54 @@ export default function LoginPage() {
           variant="h5"
           gutterBottom
           align="center"
-          sx={{ fontWeight: 600, mb: 3 }}
+          sx={{ fontWeight: 500, mb: 3 }}
         >
           Admin Login
         </Typography>
+<Snackbar
+  open={snackbarOpen}
+  onClose={handleSnackbarClose}
+  autoHideDuration={3000}
+  anchorOrigin={{ vertical: "top", horizontal: "center" }}
+  sx={{ mt: 6, width: { xs: "90%", sm: 400 } }}
+>
+  <Alert
+    onClose={handleSnackbarClose}
+    severity="error"
+    icon={<ErrorIcon sx={{ color: "white" }} />}
+    sx={{
+      width: "100%",
+      bgcolor: "error.dark",
+      color: "white",
+      fontWeight: "bold",
+      boxShadow: 3,
+      minHeight: "40px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      textAlign: "center",
 
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
+      // Override internal styles
+      "& .MuiAlert-message": {
+        textAlign: "center",
+        width: "100%",
+      },
+      "& .MuiAlert-icon": {
+        marginRight: 0,
+        marginLeft: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+    }}
+  >
+    {error}
+  </Alert>
+</Snackbar>
+
+
+
+
 
         <form onSubmit={handleLogin}>
           <TextField
@@ -182,7 +238,7 @@ export default function LoginPage() {
             margin="normal"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            required
+            
           />
           <TextField
             label="Password"
@@ -192,7 +248,7 @@ export default function LoginPage() {
             margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+           
           />
           <Button
             type="submit"
