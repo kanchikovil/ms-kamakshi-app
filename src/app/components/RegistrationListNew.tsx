@@ -147,29 +147,30 @@ export default function RegistrationListNew() {
         return <span style={{ color }}>{status}</span>;
       }
     },
-{
-  field: 'actions',
-  type: 'actions',
-  getActions: ({ id }) => {
-    const row = registrations.find((reg) => String(reg.regId) === String(id));
-    if (row?.approvalStatus === 'AWAITING') {
-      return [
-        <GridActionsCellItem
-          icon={<CheckIcon />}
-          label="Approve"
-          onClick={() => handleApprove(id)}
-        />,
-        <GridActionsCellItem
-          icon={<CloseIcon />}
-          label="Reject"
-          onClick={() => handleReject(id)}
-        />
-      ];
-    }
-    return [];
-  }
-}
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 120,
+      getActions: ({ id }) => {
+        const row = registrations.find((reg) => String(reg.regId) === String(id));
 
+        if (row?.approvalStatus === 'AWAITING') {
+          return [
+            <GridActionsCellItem
+              icon={<CheckIcon />}
+              label="Approve"
+              onClick={() => handleApprove(id)}
+              showInMenu={false}
+            />,
+            <GridActionsCellItem
+              icon={<CloseIcon />}
+              label="Reject"
+              onClick={() => handleReject(id)}
+              showInMenu={false}
+            />
+          ];
+        }
         return [];
       },
     }
