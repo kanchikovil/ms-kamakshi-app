@@ -10,6 +10,7 @@ import APP_CONFIG from '../utils/config';
 import axios_instance from '../utils/axiosInstance';
 import Grid2 from '@mui/material/Unstable_Grid2';
 
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -179,22 +180,24 @@ export default function RegistrationListNew() {
     {
       field: 'dayId',
       headerName: 'Day',
-      width: 20,
+      width: 100,
       align: 'left',
       editable: false,
       type: 'number',
     },
-    {
-      field: 'registeredAt',
-      headerName: 'Registered On',
-      width: 120,
-      align: 'left',
-      editable: false,
-      type: 'date',
-      valueFormatter: (params) => {
-        return dayjs(params).format('DD/MM/YYYY');
-      }
-    },
+{
+  field: 'registeredAt',
+  headerName: 'Registered On',
+  width: 120,
+  align: 'left',
+  editable: false,
+  type: 'date',
+  valueFormatter: (params) => {
+    // Use params.value, not params directly
+    return params.value ? dayjs(params.value).format('DD/MM/YYYY') : '';
+  }
+},
+
     {
       field: 'regStatus',
       headerName: 'Attendance',

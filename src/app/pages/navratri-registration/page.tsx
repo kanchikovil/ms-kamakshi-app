@@ -1,34 +1,39 @@
-'use client'
+'use client';
 // src/components/RegistrationForm.tsx
-import React from 'react';
-import { Box, TextField, Typography } from '@mui/material';
-import Grid2 from '@mui/material/Unstable_Grid2';
+import React, { Suspense } from 'react';
+import { Box, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import NavratriRegistrationForm from '@/app/components/NavratriRegistrationForm';
 import { NavratriRegistraionHeader } from '@/app/components/NavratriRegistraionHeader';
 import { NavratriInstructions } from '@/app/components/NavratriInstructions';
-import { Suspense } from 'react';
 
 interface RegistrationFormProps {
-  // initialData?: { userName: string, userPhone: string, id?: number };
-  // onSuccess: () => void;
+  // initialData?: { userName: string; userPhone: string; id?: number };
+  // onSuccess?: () => void;
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({ /*initialData , onSuccess*/ }) => {
+const RegistrationForm: React.FC<RegistrationFormProps> = () => {
   return (
-    <Suspense>
-      <NavratriRegistraionHeader regType='kanya' />
-      <Grid container direction="row" spacing={1} sx={{
-        backgroundColor: '#E8DFDFFF'
-      }}>
-        <Grid size={{ xs: 4 }}>
-          <NavratriInstructions regType='kanya' />
+    <Suspense fallback={<div>Loading...</div>}>
+      <NavratriRegistraionHeader regType="kanya" />
+      <Grid container spacing={1} sx={{ backgroundColor: '#E8DFDFFF' }}>
+        <Grid item xs={4}>
+          <NavratriInstructions regType="kanya" />
         </Grid>
-        <Grid size={{ xs: 8 }}>
-          <Box sx={{ height: '100%', fontSize: 30, borderRadius: 1, margin: 1, padding: '2%' }}>
+        <Grid item xs={8}>
+          <Box
+            sx={{
+              height: '100%',
+              fontSize: 30,
+              borderRadius: 1,
+              margin: 1,
+              padding: '2%',
+            }}
+          >
             <NavratriRegistrationForm />
           </Box>
         </Grid>
-      </Grid >
+      </Grid>
     </Suspense>
   );
 };

@@ -1,7 +1,6 @@
 "use client";
 import * as React from "react";
 import Grid2 from '@mui/material/Unstable_Grid2';
-
 import { Typography } from '@mui/material';
 import styles from "./NavratriInstructions.module.css";
 
@@ -46,23 +45,34 @@ const instructionData = {
 
 export const NavratriInstructions: React.FC<RegistrationCardProps> = ({  }) => {
     return (
-        <Grid container direction="column" spacing={1} sx={{
+        <Grid2 container direction="column" spacing={1} sx={{
             backgroundColor: '#FFFFFF',
             marginLeft: "10%",
-            height: "100%",
-            padding: "1.5em 3em"
+            padding: "1.5em 3em",
+            // remove height or set minHeight if needed
         }}>
-            <Grid className={styles.gridItem} size={{ xs: 12 }}>
-                <Typography color="#75762A" fontSize={18} fontWeight={700}>{instructionData.titile}</Typography>
-            </Grid>
-            <Grid className={styles.gridItem} size={{ xs: 12 }}>
-                <Typography color="#616060" fontSize={16} fontWeight={900}>{instructionData.summary}</Typography>
-            </Grid>
+            <Grid2 className={styles.gridItem} xs={12}>
+                <Typography color="#75762A" fontSize={18} fontWeight={700}>
+                    {instructionData.titile}
+                </Typography>
+            </Grid2>
+            <Grid2 className={styles.gridItem} xs={12}>
+                <Typography color="#616060" fontSize={16} fontWeight={900}>
+                    {instructionData.summary}
+                </Typography>
+            </Grid2>
             {instructionData.sections?.map((item, index) => (
-                <Grid key={index} className={styles.gridItem} size={{ xs: 12 }} data-index={(index + 1).toString().padStart(2, "0")}>
-                    <Typography color="#616060" fontSize={12} fontWeight={400}>{item?.content}</Typography>
-                </Grid>
+                <Grid2
+                    key={index}
+                    className={styles.gridItem}
+                    xs={12}
+                    data-index={(index + 1).toString().padStart(2, "0")}
+                >
+                    <Typography color="#616060" fontSize={12} fontWeight={400}>
+                        {item?.content}
+                    </Typography>
+                </Grid2>
             ))}
-        </Grid>
+        </Grid2>
     );
 };

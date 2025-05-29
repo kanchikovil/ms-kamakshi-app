@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import Grid2 from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import { Box, Button, TextField, Typography } from '@mui/material';
 
@@ -17,14 +17,14 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
             top: 0,
             zIndex: 100
         }}>
-            <Grid size={{ xs: 4 }}>
+            <Grid xs={4}>
                 <Grid container direction="row" spacing={1} sx={{
                     backgroundColor: '#F5F3F3',
                     marginLeft: "10%",
                     height: "100%"
                 }}>
-                    <Grid size={{ xs: 3 }} display="flex" direction="row" alignItems="center" justifyContent="center">
-                        <Grid size={12} sx={{
+                    <Grid xs={3} display="flex" direction="row" alignItems="center" justifyContent="center">
+                        <Grid xs={12} sx={{
                             height: '70px',
                             width: '70px',
                             borderRadius: '100%',
@@ -32,7 +32,7 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                             backgroundSize: 'cover'
                         }}></Grid>
                     </Grid>
-                    <Grid size={{ xs: 8 }} display="flex" direction="row" alignItems="center" justifyContent="flex-start">
+                    <Grid xs={8} display="flex" direction="row" alignItems="center" justifyContent="flex-start">
                         <Grid container direction="column" sx={{ gap: '2px', padding: 0, display: 'flex' }}>
                             <Typography
                                 fontSize="22px"
@@ -76,17 +76,17 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid size={{ xs: 8 }}>
+            <Grid xs={8}>
                 <Grid container direction="row" spacing={1} alignItems="left" justifyContent="left" alignContent="center">
-                    <Grid size={{ xs: 4 }} sx={{
+                    <Grid xs={4} sx={{
                         paddingTop: "2%",
                         marginLeft: "2%"
                     }}>
                         <Grid container direction="row" spacing={1} justifyContent="center" alignItems="center">
-                            <Grid size={{ xs: 5 }}>
+                            <Grid xs={5}>
                                 <Typography fontSize={'16px'} color={'#3C3C3E'} fontWeight={900} >Validate Aadhar</Typography>
                             </Grid>
-                            <Grid size={{ xs: 5 }}>
+                            <Grid xs={5}>
                                 <TextField
                                     type="number"
                                     placeholder="Aadhar number"
@@ -111,7 +111,7 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                                     }}
                                 />
                             </Grid>
-                            <Grid size={{ xs: 2 }}>
+                            <Grid xs={2}>
                                 <Button type="submit">VALIDATE</Button>
                             </Grid>
                         </Grid>
