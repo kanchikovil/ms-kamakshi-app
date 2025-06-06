@@ -1,4 +1,4 @@
-.gridItem {
+/* .gridItem {
     position: relative;
     padding: 2em 1em;
 }
@@ -37,4 +37,47 @@
 
 .gridItem:last-child {
     margin-bottom: 10%;
+} */
+.gridItem {
+    position: relative;
+    padding: 1em 1.2em 1.2em 3em;  /* reduced all paddings */
+    border-left: 4px solid #75762a;
+    margin-bottom: 1.2em; /* slightly less margin */
+    background-color: #FAFAF2;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.gridItem:hover {
+    background-color: #F0F0D6;
+}
+
+.gridItem:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 13px;
+    top: 100%;
+    width: 4px;
+    height: 1em;  /* slightly shorter connector line */
+    background-color: #75762a;
+    opacity: 0.7;
+}
+
+.gridItem::after {
+    content: attr(data-index);
+    position: absolute;
+    left: -40px;
+    top: 1em; /* aligns to top instead of middle */
+    width: 28px;
+    height: 28px;
+    background-color: #75762a;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    user-select: none;
 }
