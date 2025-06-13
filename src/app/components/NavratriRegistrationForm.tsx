@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { TextField, Button, Grid, MenuItem, Typography, ToggleButtonGroup, ToggleButton } from "@mui/material";
+import { TextField, Button, Grid, MenuItem, Typography, ToggleButtonGroup, ToggleButton, useMediaQuery } from "@mui/material";
 import ReCAPTCHA from "react-google-recaptcha";
 import APP_CONFIG from "../utils/config";
 import { useNotification } from "../context/NotificationContext";
@@ -7,7 +7,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import axios_instance from "../utils/axiosInstance";
 import EventDaySelector, { EventDay } from "./EventDaySelector";
 import { Dayjs } from "dayjs";
-
+import { Collapse, IconButton } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { margin } from "@mui/system";
 interface Event {
   eventId?: number;
   eventName: string;
@@ -70,10 +73,14 @@ const NavratriRegistrationForm = () => {
   const searchParams = useSearchParams();
 
   const recaptchaRef = useRef<ReCAPTCHA>(null);
+const [openToggles, setOpenToggles] = React.useState<{ [key: string]: boolean }>({});
+
 
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const registrationType = searchParams.get("registrationType") || "default";
+  const isMobile = useMediaQuery('(max-width:640px)');
+
 
   const [eventDays, setEventDays] = useState<EventDay[]>();
   const [eventDayError, setEventDayError] = useState(false);
@@ -113,7 +120,12 @@ const NavratriRegistrationForm = () => {
     bangleSize: 0,
   });
   const { showSuccess, showError } = useNotification();
-
+const handleFieldToggle = (fieldName: string) => {
+  setOpenToggles((prev) => ({
+    ...prev,
+    [fieldName]: !prev[fieldName],
+  }));
+};
   // Handle form changes
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -307,23 +319,55 @@ const NavratriRegistrationForm = () => {
           ))}
 
           {/* Dress, Kolusu, Bangle Sizes */}
-          {formData.regType === 'kanya' &&
-            ([
-              { name: 'dressSize', label: 'Girls Dress Size', options: [16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38] },
-              { name: 'legchainSize', label: 'Leg Chain (Kolusu) Size', options: [5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5] },
-              { name: 'bangleSize', label: 'Bangle Size', options: [1.8, 1.10, 1.12, 2.0, 2.2, 2.4, 2.6, 2.8] }
-            ] as { name: keyof FormDataType; label: string; options: number[] }[]).map((item, index) => (
-              <Grid item xs={12} sm={12} key={index}>
-                <Typography>{item.label}</Typography>
-                <ToggleButtonGroup value={formData[item.name]} exclusive onChange={handleToggleChange(item.name)}>
-                  {item.options.map((size) => (
-                    <ToggleButton key={size} value={size}>
-                      <Typography variant='caption'>{size}</Typography>
-                    </ToggleButton>
-                  ))}
-                </ToggleButtonGroup>
-              </Grid>
+  {formData.regType === 'kanya' &&
+  ([
+    { name: 'dressSize', label: 'Girls Dress Size', options: [16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38] },
+    { name: 'legchainSize', label: 'Leg Chain (Kolusu) Size', options: [5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5] },
+    { name: 'bangleSize', label: 'Bangle Size', options: [1.8, 1.10, 1.12, 2.0, 2.2, 2.4, 2.6, 2.8] }
+  ] as { name: keyof FormDataType; label: string; options: number[] }[]).map((item, index) => (
+    <Grid item xs={12} sm={12} key={index}>
+      <Typography fontSize={isMobile ? 13 : 14} fontWeight={600} mb={1} display="flex" alignItems="center">
+        {item.label}
+        {isMobile && (
+          <IconButton size="small" onClick={() => handleFieldToggle(item.name)}>
+            {openToggles[item.name] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </IconButton>
+        )}
+      </Typography>
+
+      {isMobile ? (
+        <Collapse in={openToggles[item.name]}>
+          <ToggleButtonGroup
+            value={formData[item.name]}
+            exclusive
+            orientation="vertical"
+            onChange={handleToggleChange(item.name)}
+            sx={{ flexDirection: 'column', gap: 1 }}
+          >
+            {item.options.map((size) => (
+              <ToggleButton key={size} value={size}>
+                <Typography variant="caption">{size}</Typography>
+              </ToggleButton>
             ))}
+          </ToggleButtonGroup>
+        </Collapse>
+      ) : (
+        <ToggleButtonGroup
+          value={formData[item.name]}
+          exclusive
+          orientation="horizontal"
+          onChange={handleToggleChange(item.name)}
+        >
+          {item.options.map((size) => (
+            <ToggleButton key={size} value={size}>
+              <Typography variant="caption">{size}</Typography>
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+      )}
+    </Grid>
+  ))}
+
           {/* CAPTCHA */}
           {/* <Grid item xs={12}>
             <ReCAPTCHA
@@ -334,7 +378,7 @@ const NavratriRegistrationForm = () => {
           </Grid> */}
 
           {/* Submit Button */}
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ margin: '2px' }}>
             <Button type="submit">Register</Button>
           </Grid>
 
