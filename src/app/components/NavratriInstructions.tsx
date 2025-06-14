@@ -58,7 +58,7 @@ const instructionData = {
 }
 
 export const NavratriInstructions: React.FC<RegistrationCardProps> = ({ }) => {
-  const isMobile = useMediaQuery('(max-width:1060px)');
+  const isMobile = useMediaQuery('(max-width:1070px)');
   const [open, setOpen] = React.useState(false);
   const [dialogOpen, setDialogOpen] = React.useState(false);
 const handleDialogToggle = () => setDialogOpen(!dialogOpen);
@@ -124,7 +124,7 @@ const handleDialogToggle = () => setDialogOpen(!dialogOpen);
         display: 'flex',
         justifyContent: 'left',
         alignItems: 'left',
-        margin:'-10px',
+        margin:'-30px',
         marginLeft:'-50px'
       }}
     >

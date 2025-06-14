@@ -16,11 +16,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <NavratriRegistraionHeader regType="kanya" />
-      <Grid container spacing={1} sx={{ backgroundColor: '#E8DFDFFF' }}>
-        <Grid item xs={4}>
-          <NavratriInstructions regType="kanya" />
-        </Grid>
-        <Grid item xs={8}>
+<Grid container spacing={1} sx={{ backgroundColor: '#E8DFDFFF' }}>
+  <Grid item xs={12} md={4}>
+    <NavratriInstructions regType="kanya" />
+  </Grid>
+  <Grid item xs={12} md={8}>
+
           <Box
             sx={{
               height: '100%',
