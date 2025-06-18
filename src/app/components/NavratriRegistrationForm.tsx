@@ -10,7 +10,7 @@ import { Dayjs } from "dayjs";
 import { Collapse, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { margin } from "@mui/system";
+import { Box, margin } from "@mui/system";
 interface Event {
   eventId?: number;
   eventName: string;
@@ -330,41 +330,67 @@ const handleFieldToggle = (fieldName: string) => {
         {item.label}
         {isMobile && (
           <IconButton size="small" onClick={() => handleFieldToggle(item.name)}>
-            {openToggles[item.name] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+  
           </IconButton>
         )}
       </Typography>
+{isMobile ? (
 
-      {isMobile ? (
-        <Collapse in={openToggles[item.name]}>
-          <ToggleButtonGroup
-            value={formData[item.name]}
-            exclusive
-            orientation="vertical"
-            onChange={handleToggleChange(item.name)}
-            sx={{ flexDirection: 'column', gap: 1 }}
-          >
-            {item.options.map((size) => (
-              <ToggleButton key={size} value={size}>
-                <Typography variant="caption">{size}</Typography>
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup>
-        </Collapse>
-      ) : (
-        <ToggleButtonGroup
-          value={formData[item.name]}
-          exclusive
-          orientation="horizontal"
-          onChange={handleToggleChange(item.name)}
-        >
-          {item.options.map((size) => (
-            <ToggleButton key={size} value={size}>
-              <Typography variant="caption">{size}</Typography>
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
-      )}
+<ToggleButtonGroup
+  value={formData[item.name]}
+  exclusive
+  onChange={handleToggleChange(item.name)}
+  sx={{ flexWrap: 'wrap' }}
+>
+  {item.options.map((size) => (
+    <ToggleButton
+      key={size}
+      value={size}
+      sx={{
+        mr: 0.5,
+        mb: 0.5,
+        minWidth: 36,
+        padding: '4px 8px',
+        backgroundColor: '#fff',
+        '&.Mui-selected': {
+          backgroundColor: '#693108',
+          color: '#fff'
+        }
+      }}
+    >
+      <Typography variant="caption">{size}</Typography>
+    </ToggleButton>
+  ))}
+</ToggleButtonGroup>
+
+) : (
+  <ToggleButtonGroup
+    value={formData[item.name]}
+    exclusive
+    orientation="horizontal"
+    onChange={handleToggleChange(item.name)}
+  >
+    {item.options.map((size) => (
+      <ToggleButton
+        key={size}
+        value={size}
+        sx={{
+          mr: 0.5,
+          minWidth: 36,
+          padding: '4px 8px',
+         '&.Mui-selected': {
+            backgroundColor: '#693108',
+            color: '#fff'
+          }
+        }}
+      >
+        <Typography variant="caption">{size}</Typography>
+      </ToggleButton>
+    ))}
+  </ToggleButtonGroup>
+)}
+
+
     </Grid>
   ))}
 

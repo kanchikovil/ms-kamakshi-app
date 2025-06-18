@@ -183,55 +183,75 @@ export default function RegistrationListNew() {
 
   if (loading) return <p>Loading registrations...</p>;
 
-  return (
-    <Grid2 container spacing={2} marginTop={-3}>
-      <Grid2 xs={9}>
-        <Box sx={{
-          height: 500,
-          width: '100%',
-          '& .MuiDataGrid-columnHeader': {
-            backgroundColor: '#693108',
-            color: '#fff',
-            fontWeight: 'bold',
-            fontSize: 16,
-          },
-        }}>
-          <h2>Registrations</h2>
+return (
+  <Box sx={{ padding: { xs: 1, md: 3 } }}>
+    <Grid2 container spacing={2} marginTop={{ xs: 0, md: -3 }}>
+      {/* DataGrid Section */}
+      <Grid2 xs={12} md={9}>
+        <Box
+          sx={{
+            width: '100%',
+            overflowX: 'auto',
+            '& .MuiDataGrid-columnHeader': {
+              backgroundColor: '#693108',
+              color: '#fff',
+              fontWeight: 'bold',
+              fontSize: 16,
+            },
+          }}
+        >
+          <Typography variant="h6" fontSize={{ xs: 18, md: 24 }} mb={1}>
+            Registrations
+          </Typography>
           {registrations.length === 0 ? (
-            <p>No registrations found.</p>
+            <Typography>No registrations found.</Typography>
           ) : (
-    <DataGrid
-  getRowId={(row) => row.regId}
-  rows={registrations}
-  columns={columns}
-  editMode="row"
-  onRowEditStop={handleRowEditStop}
-  initialState={{
-    pagination: {
-      pageSize: 5,
-    },
-  }}
-  rowsPerPageOptions={[5, 10, 25]}  // <-- Use rowsPerPageOptions for v5
-/>
-
-
+            <Box sx={{ minWidth: 600, height: 500 }}>
+              <DataGrid
+                getRowId={(row) => row.regId}
+                rows={registrations}
+                columns={columns}
+                editMode="row"
+                onRowEditStop={handleRowEditStop}
+                initialState={{
+                  pagination: { pageSize: 5 },
+                }}
+                rowsPerPageOptions={[5, 10, 25]}
+              />
+            </Box>
           )}
         </Box>
       </Grid2>
-      <Grid2 xs={3} display={'flex'} flexDirection={'column'} spacing={4}>
-        <Card sx={{ minWidth: 250 }}>
+
+      {/* Status Card Section */}
+      <Grid2 xs={12} md={3}>
+        <Card sx={{ width: '100%', minWidth: 250 }}>
           <CardContent>
-            <Typography variant="h5">Registration Status</Typography>
-            <Typography sx={{ color: 'text.secondary', fontSize: 14 }}>as of Today</Typography>
-            <Box display="flex" flexDirection="column" gap={1}>
-              <Typography sx={{ fontWeight: 'bold' }}>Approved: <span style={{ color: 'green' }}>{counts.approvedCount}</span></Typography>
-              <Typography sx={{ fontWeight: 'bold' }}>Rejected: <span style={{ color: 'red' }}>{counts.rejectedCount}</span></Typography>
-              <Typography sx={{ fontWeight: 'bold' }}>Total: <span style={{ color: 'blue' }}>{counts.totalCount}</span></Typography>
-              <Typography sx={{ fontWeight: 'bold' }}>To Approve: <span style={{ color: 'orange' }}>{counts.pendingCount}</span></Typography>
+            <Typography variant="h6" fontSize={{ xs: 18, md: 20 }}>
+              Registration Status
+            </Typography>
+            <Typography sx={{ color: 'text.secondary', fontSize: { xs: 12, md: 14 } }}>
+              as of Today
+            </Typography>
+            <Box display="flex" flexDirection="column" gap={1} mt={2}>
+              <Typography sx={{ fontWeight: 'bold' }}>
+                Approved: <span style={{ color: 'green' }}>{counts.approvedCount}</span>
+              </Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>
+                Rejected: <span style={{ color: 'red' }}>{counts.rejectedCount}</span>
+              </Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>
+                Total: <span style={{ color: 'blue' }}>{counts.totalCount}</span>
+              </Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>
+                To Approve: <span style={{ color: 'orange' }}>{counts.pendingCount}</span>
+              </Typography>
             </Box>
           </CardContent>
         </Card>
       </Grid2>
     </Grid2>
-  );
+  </Box>
+);
+
 }

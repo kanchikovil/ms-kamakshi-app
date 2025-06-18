@@ -4,7 +4,6 @@ import React from "react";
 import {
   FormControl,
   FormLabel,
-  RadioGroup,
   FormControlLabel,
   Radio,
   Typography,
@@ -15,7 +14,7 @@ import {
 
 export interface EventDay {
   dayId: number;
-  eventDate: string; // format: YYYY-MM-DD
+  eventDate: string;
   availableSeats: number;
   isLocalDay: boolean;
 }
@@ -43,14 +42,19 @@ const EventDaySelector: React.FC<Props> = ({
       required
     >
       <FormLabel component="legend">Select a Day</FormLabel>
-      <RadioGroup
-        sx={{ width: "100%", flexDirection: "row", flexWrap: "wrap", gap: 1 }}
-        value={selectedDayId?.toString() || ""}
-        onChange={(e) => {
-          const val = e.target.value;
-          if (val !== "") onChange(Number(val));
-        }}
-      >
+
+      {/* Horizontal Scroll Wrapper */}
+<Box
+  sx={{
+    display: "flex",
+    overflowX: "auto",
+    gap: 2,
+    paddingY: 1,
+    flexWrap: "nowrap",          // Prevent items from wrapping to next line
+    '&::-webkit-scrollbar': { display: 'none' }, // hide scrollbar on iOS
+  }}
+>
+
         {eventDays.map((day) => {
           const isDisabled = day.availableSeats <= 0;
 
@@ -58,16 +62,23 @@ const EventDaySelector: React.FC<Props> = ({
             <FormControlLabel
               key={day.dayId}
               value={day.dayId.toString()}
-              control={<Radio />}
+              control={
+                <Radio
+                  checked={selectedDayId === day.dayId}
+                  onChange={() => onChange(day.dayId)}
+                />
+              }
               disabled={isDisabled}
               sx={{
+                minWidth: 180,
                 border: "1px solid grey",
-                padding: ".5em .5em .5em 0",
+                padding: "0.5em",
                 borderRadius: "8px",
-                backgroundColor: "#ffffff",
-                margin: 0,
+                backgroundColor: "#fff",
                 opacity: isDisabled ? 0.5 : 1,
                 pointerEvents: isDisabled ? "none" : "auto",
+                flexShrink: 0,
+                margin: 0,
               }}
               label={
                 <Box display="flex" flexDirection="column" gap={0.5}>
@@ -87,7 +98,7 @@ const EventDaySelector: React.FC<Props> = ({
             />
           );
         })}
-      </RadioGroup>
+      </Box>
 
       {error && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>

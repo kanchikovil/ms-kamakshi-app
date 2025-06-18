@@ -73,17 +73,26 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <LoginProvider>
-            <Container disableGutters={true} maxWidth={false}>
+            <Container
+              disableGutters
+              maxWidth={false}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '100vh', // Ensures full height layout
+                bgcolor: '#F6F1F1',
+              }}
+            >
               <Header />
               <NotificationProvider>
-                <Box sx={{ bgcolor: '#F6F1F1' }}>
+                {/* This is the main scrollable area */}
+                <Box component="main" sx={{ flex: 1 }}>
                   {children}
                 </Box>
               </NotificationProvider>
-              <Footer />
+              <Footer /> {/* Now footer stays at the bottom correctly */}
             </Container>
           </LoginProvider>
         </ThemeProvider>
@@ -91,3 +100,4 @@ export default function RootLayout({
     </html>
   );
 }
+

@@ -33,6 +33,8 @@ import AddIcon from "@mui/icons-material/Add";
 import APP_CONFIG from "../utils/config";
 import { useNotification } from "../context/NotificationContext";
 import axios_instance from "../utils/axiosInstance";
+import { useMediaQuery } from "@mui/material";
+
 
 dayjs.extend(isBetween);
 
@@ -70,6 +72,8 @@ export default function EventManager() {
   const [editingEventId, setEditingEventId] = useState<number | null>(null);
   const [form, setForm] = useState<Event>(defaultEventDetails);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const isMobile = useMediaQuery("(max-width:600px)");
+
 
   useEffect(() => {
     fetchEvents();
@@ -207,7 +211,8 @@ export default function EventManager() {
   <Card sx={{ mt: 2, p: 2 }}>
     <CardContent>
       <form onSubmit={handleSubmit}>
-        <Stack spacing={2}>
+        <Stack spacing={2} direction={isMobile ? "column" : "row"} flexWrap="wrap">
+
           <TextField
             fullWidth
             label="Event Name"
@@ -247,7 +252,8 @@ export default function EventManager() {
 
           <Typography variant="h6">Event Days</Typography>
           {form.eventDays?.map((day, index) => (
-            <Stack key={index} direction="row" spacing={2} alignItems="center">
+            <Stack key={index} direction={isMobile ? "column" : "row"} spacing={2} alignItems="flex-start" width="100%">
+
               <DatePicker
                 label="Date"
                 value={day.eventDate}
@@ -315,7 +321,8 @@ export default function EventManager() {
           <Typography variant="h5" sx={{ mt: 4 }}>
             Event List
           </Typography>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} sx={{ overflowX: isMobile ? "auto" : "unset" }}>
+
             <Table>
               <TableHead>
                 <TableRow>
