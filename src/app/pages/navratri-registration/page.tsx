@@ -41,22 +41,26 @@
 
 // export default RegistrationForm;
 'use client';
+
 import React, { Suspense } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import NavratriRegistrationForm from '@/app/components/NavratriRegistrationForm';
 import { NavratriRegistraionHeader } from '@/app/components/NavratriRegistraionHeader';
 import { NavratriInstructions } from '@/app/components/NavratriInstructions';
 import { useSearchParams } from 'next/navigation';
 
-const RegistrationForm: React.FC = () => {
-  const searchParams = useSearchParams();
-  const regType = searchParams.get('registrationType') || 'kanya'; 
 
-  console.log("Current regType from URL:", regType); // ✅ optional debug
+export const dynamic = 'force-dynamic';
+
+const RegistrationFormContent = () => {
+  const searchParams = useSearchParams();
+  const regType = searchParams.get('registrationType') || 'kanya';
+
+  console.log("Current regType from URL:", regType);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <>
       <NavratriRegistraionHeader regType={regType} />
       <Grid container spacing={1} sx={{ backgroundColor: '#E8DFDFFF' }}>
         <Grid item xs={12} md={4}>
@@ -76,6 +80,14 @@ const RegistrationForm: React.FC = () => {
           </Box>
         </Grid>
       </Grid>
+    </>
+  );
+};
+
+const RegistrationForm: React.FC = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RegistrationFormContent />
     </Suspense>
   );
 };
