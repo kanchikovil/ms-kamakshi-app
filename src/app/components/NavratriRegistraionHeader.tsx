@@ -191,7 +191,8 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                                height: isSmallMobile ? '90px' : isMobile ? '90px' : '70px',
                                 width: isSmallMobile ? '80px' : isMobile ? '90px' : '70px',
                                 borderRadius: '100%',
-                                backgroundImage: "url('../images/kanya-card-home.png')",
+                                backgroundImage: `url('../images/${regType === "kanya" ? "kanya-card-home.png" : "suvashini-card-home.png"}')`,
+
                                 backgroundSize: 'cover',
                                
                             }}
