@@ -55,9 +55,10 @@ import RegistrationStatusCard from '@/app/components/RegistrationStatusCard';
 
 export default function HomePage() {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTabletOnly = useMediaQuery('(min-width:601px) and (max-width:1024px)');
-  const isDesktopOnly = useMediaQuery('(min-width:1025px)');
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // 0 - 600
+const isTabletOnly = useMediaQuery('(min-width:601px) and (max-width:1024px)'); // 601 - 1024
+const isMidDesktop = useMediaQuery('(min-width:1025px) and (max-width:1276px)'); // 1025 - 1275
+const isDesktopOnly = useMediaQuery('(min-width:1276px)'); // 1276+
 
   return (
     <Box sx={{ pb: '80px' }}>
@@ -130,6 +131,59 @@ export default function HomePage() {
           </Box>
         </Box>
       )}
+      {isMidDesktop && (
+              <Grid container spacing={0}>
+      
+                <Grid item xs={12}><Banner /></Grid>
+                <Grid item xs={12}><FullWidthMessage message="Navaratri Registration" /></Grid>
+      
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  spacing={2}
+                  padding={'2em'}
+                  direction="row"
+                  alignItems="center"
+                >
+      <Grid item xs={3.8} sx={{ mr: 1 }}>
+        <RegistrationCard regType="kanya" />
+      </Grid>
+      <Grid item xs={3.8}>
+        <RegistrationCard regType="suvasini" />
+      </Grid>
+      
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      right: '3%',
+                      top: '20%',
+                    }}
+                  >
+                    <RegistrationStatusCard />
+                  </Box>
+                </Grid>
+      
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  spacing={2}
+                  padding={'0 2em 3em 3em'}
+                  direction="row"
+                  alignItems="center"
+                >
+                  <Grid item xs={8}>
+                    <Typography fontSize={12}>
+                      Dolor sapien consectetur et eget sagittis mauris pharetra pellentesque. Adipiscing orci dui pulvinar lectus adipiscing.
+                      Velit egestas amet suspendisse dolor vitae cursus. Lacus nunc adipiscing sit et ac ac. Mi volutpat in sed at egestas in.
+                      Consequat ac feugiat vitae semper sit adipiscing nec nisl quis. Platea interdum felis nunc porta amet cras morbi.
+                      Sollicitudin eget non proin fermentum et pretiumsssss.
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            )}
 
       {isDesktopOnly && (
         <Grid container spacing={0}>
@@ -155,7 +209,7 @@ export default function HomePage() {
             <Box
               sx={{
                 position: 'absolute',
-                right: '3%',
+                right: '1.2%',
                 top: '26%',
               }}
             >
