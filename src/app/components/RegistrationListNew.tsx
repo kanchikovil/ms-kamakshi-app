@@ -422,36 +422,43 @@ export default function RegistrationListNew() {
             {registrations.length === 0 ? (
               <Typography>No registrations found.</Typography>
             ) : (
-              <Box sx={{ minWidth: 600, height: 500 }}>
-                <DataGrid
-                  getRowId={(row) => row.regId}
-                  rows={registrations}
-                  columns={columns}
-                  editMode="row"
-                  onRowEditStop={handleRowEditStop}
-                  initialState={{
-                    pagination: {
-                      paginationModel: { pageSize: 5, page: 0 },
-                    },
-                  }}
-                  pageSizeOptions={[5, 10, 25]}
-                  disableColumnMenu
-                  sx={{
-                    minWidth: 600,
-                    height: 500,
-                    '& .MuiDataGrid-columnHeaders': {
-                      backgroundColor: '#693108',
-                      color: '#000000',
-                      fontWeight: 'bold',
-                    },
-                    '& .MuiDataGrid-columnHeaderTitle': {
-                      fontWeight: 'bold',
-                    },
-                    border: '1px solid #ddd',
-                    borderRadius: 2,
-                  }}
-                />
-              </Box>
+              <Box
+  sx={{
+    width: '100%',
+    height: 500,
+    overflowX: 'auto', // Add horizontal scroll on small screens
+  }}
+>
+  <DataGrid
+    getRowId={(row) => row.regId}
+    rows={registrations}
+    columns={columns}
+    editMode="row"
+    onRowEditStop={handleRowEditStop}
+    initialState={{
+      pagination: {
+        paginationModel: { pageSize: 5, page: 0 },
+      },
+    }}
+    pageSizeOptions={[5, 10, 25]}
+    disableColumnMenu
+    sx={{
+      width: '1000px', // Give DataGrid a fixed width to allow scroll
+      maxWidth: '1000px',
+      '& .MuiDataGrid-columnHeaders': {
+        backgroundColor: '#693108',
+        color: '#000000',
+        fontWeight: 'bold',
+      },
+      '& .MuiDataGrid-columnHeaderTitle': {
+        fontWeight: 'bold',
+      },
+      border: '1px solid #ddd',
+      borderRadius: 2,
+    }}
+  />
+</Box>
+
             )}
           </Box>
         </Grid2>
