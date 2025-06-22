@@ -266,6 +266,7 @@ import Typography from '@mui/material/Typography';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import dayjs from 'dayjs';
 import {
@@ -284,23 +285,25 @@ import axios_instance from '../utils/axiosInstance';
 
 export default function RegistrationListNew() {
   const { showError } = useNotification();
+  const isWide = useMediaQuery('(min-width:1110px)');
+
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [counts, setCounts] = useState({
     totalCount: 0,
     approvedCount: 0,
     rejectedCount: 0,
-    pendingCount: 0
+    pendingCount: 0,
   });
 
   useEffect(() => {
     async function fetchRegistrations() {
       try {
-        const res = await axios_instance.get(APP_CONFIG.apiBaseUrl + "/registrations");
+        const res = await axios_instance.get(APP_CONFIG.apiBaseUrl + '/registrations');
         setRegistrations(Array.isArray(res.data?.data) ? res.data?.data : []);
       } catch (error) {
-        showError("Error fetching registrations");
-        console.error("Error fetching registrations:", error);
+        showError('Error fetching registrations');
+        console.error('Error fetching registrations:', error);
       } finally {
         setLoading(false);
       }
@@ -353,7 +356,7 @@ export default function RegistrationListNew() {
       headerName: 'Registered On',
       width: 120,
       valueFormatter: ({ value }: { value: string | Date }) =>
-        value ? dayjs(value).format('DD/MM/YYYY') : ''
+        value ? dayjs(value).format('DD/MM/YYYY') : '',
     },
     { field: 'regStatus', headerName: 'Attendance', width: 120 },
     {
@@ -367,7 +370,7 @@ export default function RegistrationListNew() {
         else if (status === 'REJECTED') color = 'red';
         else if (status === 'AWAITING') color = 'orange';
         return <span style={{ color }}>{status}</span>;
-      }
+      },
     },
     {
       field: 'actions',
@@ -405,68 +408,20 @@ export default function RegistrationListNew() {
         }
 
         return null;
-      }
-    }
+      },
+    },
   ];
 
   if (loading) return <p>Loading registrations...</p>;
 
   return (
     <Box sx={{ padding: { xs: 1, md: 3 } }}>
-      <Grid2 container spacing={2} marginTop={{ xs: 0, md: -3 }}>
-        <Grid2 xs={12} md={9}>
-          <Box>
-            <Typography variant="h6" fontSize={{ xs: 18, md: 24 }} mb={1}>
-              Registrations
-            </Typography>
-            {registrations.length === 0 ? (
-              <Typography>No registrations found.</Typography>
-            ) : (
-              <Box
-  sx={{
-    width: '100%',
-    height: 500,
-    overflowX: 'auto', // Add horizontal scroll on small screens
-  }}
->
-  <DataGrid
-    getRowId={(row) => row.regId}
-    rows={registrations}
-    columns={columns}
-    editMode="row"
-    onRowEditStop={handleRowEditStop}
-    initialState={{
-      pagination: {
-        paginationModel: { pageSize: 5, page: 0 },
-      },
-    }}
-    pageSizeOptions={[5, 10, 25]}
-    disableColumnMenu
-    sx={{
-      width: '1000px', // Give DataGrid a fixed width to allow scroll
-      maxWidth: '1000px',
-      '& .MuiDataGrid-columnHeaders': {
-        backgroundColor: '#693108',
-        color: '#000000',
-        fontWeight: 'bold',
-      },
-      '& .MuiDataGrid-columnHeaderTitle': {
-        fontWeight: 'bold',
-      },
-      border: '1px solid #ddd',
-      borderRadius: 2,
-    }}
-  />
-</Box>
-
-            )}
-          </Box>
-        </Grid2>
-
-        <Grid2 xs={12} md={3}>
-          <Card sx={{ width: '100%', minWidth: 250 }}>
+      <Grid2 container spacing={2} direction={isWide ? 'row' : 'column'}>
+        {/* Status Card */}
+        <Grid2 xs={12} md={3}  sx={{ mb: isWide ? 0 : 2 }}>
+          <Card sx={{ width: '100%', minWidth: 250, mt:10 }}>
             <CardContent>
-              <Typography variant="h6" fontSize={{ xs: 18, md: 20 }}>
+              <Typography variant="h6" fontSize={{ xs: 18, md: 20  }}>
                 Registration Status
               </Typography>
               <Typography sx={{ color: 'text.secondary', fontSize: { xs: 12, md: 14 } }}>
@@ -488,6 +443,56 @@ export default function RegistrationListNew() {
               </Box>
             </CardContent>
           </Card>
+        </Grid2>
+
+        {/* Table */}
+        <Grid2 xs={12} md={9}>
+          <Box>
+            <Typography variant="h6" fontSize={{ xs: 18, md: 24 }} mb={1}>
+              Registrations
+            </Typography>
+            {registrations.length === 0 ? (
+              <Typography>No registrations found.</Typography>
+            ) : (
+              <Box sx={{ width: '100%', overflowX: 'auto' }}>
+                <Box
+  sx={{
+    width: '100%',
+    height: 500,
+    minWidth: { xs: '100%', md: 600 },
+  }}
+>
+
+                  <DataGrid
+                    getRowId={(row) => row.regId}
+                    rows={registrations}
+                    columns={columns}
+                    editMode="row"
+                    onRowEditStop={handleRowEditStop}
+                    initialState={{
+                      pagination: {
+                        paginationModel: { pageSize: 5, page: 0 },
+                      },
+                    }}
+                    pageSizeOptions={[5, 10, 25]}
+                    disableColumnMenu
+                    sx={{
+                      '& .MuiDataGrid-columnHeaders': {
+                        backgroundColor: '#693108',
+                        color: '#000000',
+                        fontWeight: 'bold',
+                      },
+                      '& .MuiDataGrid-columnHeaderTitle': {
+                        fontWeight: 'bold',
+                      },
+                      border: '1px solid #ddd',
+                      borderRadius: 2,
+                    }}
+                  />
+                </Box>
+              </Box>
+            )}
+          </Box>
         </Grid2>
       </Grid2>
     </Box>
