@@ -137,7 +137,8 @@ const handleFieldToggle = (fieldName: string) => {
       const eventsList = eventsListRes.data;
       if (eventsList && Array.isArray(eventsList) && eventsList.length > 0) {
         const eventId = eventsList[0].eventId
-        const response = await axios_instance.get<EventDaysResponse>(APP_CONFIG.apiBaseUrl + `/events/${eventId}/days/${registrationType}`);
+//        const response = await axios_instance.get<EventDaysResponse>(APP_CONFIG.apiBaseUrl + `/events/${eventId}/days/${registrationType}/${formData.attendeeAge}`);
+        const response = await axios_instance.get<EventDaysResponse>(APP_CONFIG.apiBaseUrl + `/events/${eventId}/days/${registrationType}}`);
         const eventDays: EventDay[] = response.data.data ?? [];
         setEventDays(eventDays);
       }
@@ -233,7 +234,7 @@ const handleFieldToggle = (fieldName: string) => {
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         {/* Registration Type */}
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <TextField select name="regType" label="Registration Type" value={formData.regType} onChange={handleChange} fullWidth>
             <MenuItem value="" disabled>
               <em>Select Registration Type</em>
@@ -241,7 +242,7 @@ const handleFieldToggle = (fieldName: string) => {
             <MenuItem value="kanya">Kanya</MenuItem>
             <MenuItem value="suvasini">Suvasini</MenuItem>
           </TextField>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12}>
           <EventDaySelector
             eventDays={eventDays ?? []}

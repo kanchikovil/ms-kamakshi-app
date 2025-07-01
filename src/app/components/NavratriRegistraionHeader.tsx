@@ -175,26 +175,26 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                         marginLeft: isMobile ? '0' : "10%",
                         marginBottom: isMobile ? '0' : "2%",
                         height: isMobile ? 'auto' : "107%",
-                         width: isSmallMobile
-                        ? "100%"             
-                        : isMobile
-                        ? "310%"              
-                        : "90.5%",           
+                        width: isSmallMobile
+                            ? "100%"
+                            : isMobile
+                                ? "310%"
+                                : "90.5%",
                         padding: isMobile ? '0.5em' : '0',
                         boxSizing: "border-box",
-                        justifyContent:"center"
+                        justifyContent: "center"
                     }}
                 >
                     <Grid xs={3} display="flex" alignItems="center" justifyContent="left">
                         <Box
                             sx={{
-                               height: isSmallMobile ? '90px' : isMobile ? '90px' : '70px',
+                                height: isSmallMobile ? '90px' : isMobile ? '90px' : '70px',
                                 width: isSmallMobile ? '80px' : isMobile ? '90px' : '70px',
                                 borderRadius: '100%',
                                 backgroundImage: `url('../images/${regType === "kanya" ? "kanya-card-home.png" : "suvashini-card-home.png"}')`,
 
                                 backgroundSize: 'cover',
-                               
+
                             }}
                         />
                     </Grid>
@@ -238,52 +238,71 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                                 </Typography>
                             </Grid>
 
-{isMobile && (
-    <Grid container spacing={1} mt={1} direction="column" alignItems="center">
-        <Grid xs={12}>
-            <Typography
-                fontSize="14px"
-                color="#3C3C3E"
-                fontWeight={900}
-                align="center"
-            >
-                Validate Aadhar
-            </Typography>
-        </Grid>
+                            {isMobile && (
+                                <Grid container spacing={1} mt={1} direction="column" alignItems="center">
+                                    <Grid xs={12}>
+                                        <Typography
+                                            fontSize="14px"
+                                            color="#3C3C3E"
+                                            fontWeight={900}
+                                            align="center"
+                                        >
+                                            Validate Aadhar & Age
+                                        </Typography>
+                                    </Grid>
 
-        <Grid  xs={12} sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <TextField
-                type="number"
-                placeholder="Aadhar number"
-                sx={{
-                    backgroundColor: "#fff",
-                    borderRadius: 0,
-                    fontSize: '14px',
-                    maxWidth: '300px',
-                    width: '100%',
-                    "& fieldset": { border: 'none' },
-                    "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-                        display: "none",
-                    },
-                    "& input[type=number]": {
-                        MozAppearance: "textfield",
-                        padding: '8px'
-                    },
-                }}
-            />
-        </Grid>
-
-        <Grid  xs={12} sx={{ mt: 1 }}>
-            <Button
-                variant="contained"
-                size="small"
-                sx={{ width: '100px', display: 'block', margin: '0 auto' }}
-            >
-                VALIDATE
-            </Button>
-        </Grid>
-    </Grid>
-)}
+                                    <Grid xs={12} sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                        <TextField
+                                            type="number"
+                                            placeholder="Aadhar number"
+                                            sx={{
+                                                backgroundColor: "#fff",
+                                                borderRadius: 0,
+                                                fontSize: '14px',
+                                                maxWidth: '300px',
+                                                width: '100%',
+                                                "& fieldset": { border: 'none' },
+                                                "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+                                                    display: "none",
+                                                },
+                                                "& input[type=number]": {
+                                                    MozAppearance: "textfield",
+                                                    padding: '8px'
+                                                },
+                                            }}
+                                        />
+                                    </Grid>
+                                <Grid xs={8}>
+                                    <TextField
+                                        fullWidth
+                                        type="number"
+                                        placeholder="Age"
+                                        sx={{
+                                            backgroundColor: "#fff",
+                                            borderRadius: 0,
+                                            fontSize: '14px',
+                                            "& fieldset": { border: 'none' },
+                                            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+                                                display: "none",
+                                            },
+                                            "& input[type=number]": {
+                                                MozAppearance: "textfield",
+                                                padding: '8px'
+                                            },
+                                        }}
+                                    />
+                                </Grid>
+                                    <Grid xs={12} sx={{ mt: 1 }}>
+                                        <Button
+                                            variant="contained"
+                                            size="small"
+                                            sx={{ width: '100px', display: 'block', margin: '0 auto' }}
+                                        >
+                                            VALIDATE
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            )}
 
 
                         </Grid>
@@ -310,7 +329,7 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                                 color={'#3C3C3E'}
                                 fontWeight={900}
                             >
-                                Validate Aadhar
+                                Validate Aadhar&nbsp;&&nbsp;Age
                             </Typography>
                         </Grid>
 
@@ -321,6 +340,26 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                                         fullWidth
                                         type="number"
                                         placeholder="Aadhar number"
+                                        sx={{
+                                            backgroundColor: "#fff",
+                                            borderRadius: 0,
+                                            fontSize: '14px',
+                                            "& fieldset": { border: 'none' },
+                                            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+                                                display: "none",
+                                            },
+                                            "& input[type=number]": {
+                                                MozAppearance: "textfield",
+                                                padding: '8px'
+                                            },
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid xs={8}>
+                                    <TextField
+                                        fullWidth
+                                        type="number"
+                                        placeholder="Age"
                                         sx={{
                                             backgroundColor: "#fff",
                                             borderRadius: 0,
