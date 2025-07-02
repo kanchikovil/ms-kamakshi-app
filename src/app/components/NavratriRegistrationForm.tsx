@@ -138,7 +138,7 @@ const handleFieldToggle = (fieldName: string) => {
       if (eventsList && Array.isArray(eventsList) && eventsList.length > 0) {
         const eventId = eventsList[0].eventId
 //        const response = await axios_instance.get<EventDaysResponse>(APP_CONFIG.apiBaseUrl + `/events/${eventId}/days/${registrationType}/${formData.attendeeAge}`);
-        const response = await axios_instance.get<EventDaysResponse>(APP_CONFIG.apiBaseUrl + `/events/${eventId}/days/${registrationType}}`);
+        const response = await axios_instance.get<EventDaysResponse>(APP_CONFIG.apiBaseUrl + `/events/${eventId}/days/${registrationType}`);
         const eventDays: EventDay[] = response.data.data ?? [];
         setEventDays(eventDays);
       }
