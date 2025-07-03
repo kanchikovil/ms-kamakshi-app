@@ -85,10 +85,13 @@ const EventDaySelector: React.FC<Props> = ({
                   <Typography variant="body1">
                     {new Date(day.eventDate).toDateString()}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body2" color="error">
                     {isDisabled
                       ? "No seats available"
                       : `${day.availableSeats} seat(s) available`}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                   Age Group : { `${day.minAge} ~ ${day.maxAge}`}
                   </Typography>
                   {day.isLocalDay && (
                     <Chip size="small" label="Local Day" color="primary" />

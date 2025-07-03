@@ -347,7 +347,11 @@ export default function RegistrationListNew() {
   const columns: GridColDef[] = [
     { field: 'regId', headerName: 'ID', width: 50, type: 'number' },
     { field: 'regType', headerName: 'Type', width: 100 },
-    { field: 'age', headerName: 'Age', width: 100, type: 'number' },
+    { field: 'attendeeDetails', headerName: 'Age', width: 100, type: 'number',
+    //    valueGetter: (params) => {
+    //    return params.row.attendeeDetails[0].attendeeAge;
+    //  }
+    },
     { field: 'motherToungue', headerName: 'Mother Tongue', width: 150 },
     { field: 'fathersGothram', headerName: 'Father Gothram', width: 150 },
     { field: 'dayId', headerName: 'Day', width: 100 },
@@ -355,8 +359,12 @@ export default function RegistrationListNew() {
       field: 'registeredAt',
       headerName: 'Registered On',
       width: 120,
-      valueFormatter: ({ value }: { value: string | Date }) =>
-        value ? dayjs(value).format('DD/MM/YYYY') : '',
+        valueFormatter: (value) => {
+          if (value) {
+            return dayjs(value).format('DD-MM-YYYY'); // Example format
+          }
+          return ''; // Return empty string or other fallback for null/invalid dates
+        },
     },
     { field: 'regStatus', headerName: 'Attendance', width: 120 },
     {
