@@ -17,6 +17,9 @@ export interface EventDay {
   eventDate: string;
   availableSeats: number;
   isLocalDay: boolean;
+  isKanyaDay?: boolean;
+  minAge: number;
+  maxAge: number;
 }
 
 interface Props {
