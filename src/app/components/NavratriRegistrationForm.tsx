@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { TextField, Button, Grid, MenuItem, Typography, ToggleButtonGroup, ToggleButton, useMediaQuery } from "@mui/material";
+import { TextField, Button, Grid, MenuItem, Typography, ToggleButtonGroup, ToggleButton, useMediaQuery  } from "@mui/material";
 import ReCAPTCHA from "react-google-recaptcha";
 import APP_CONFIG from "../utils/config";
 import { useNotification } from "../context/NotificationContext";
@@ -120,6 +120,12 @@ const [openToggles, setOpenToggles] = React.useState<{ [key: string]: boolean }>
     bangleSize: 0,
   });
   const { showSuccess, showError } = useNotification();
+  const schoolStandards = [
+  '1st', '2nd', '3rd', '4th', '5th',
+  '6th', '7th', '8th', '9th', '10th',
+  '11th', '12th'
+];
+
 const handleFieldToggle = (fieldName: string) => {
   setOpenToggles((prev) => ({
     ...prev,
@@ -299,11 +305,50 @@ const handleFieldToggle = (fieldName: string) => {
             ))}
 
           {/* kanya Details*/}
-          {formData.regType === 'kanya' && (['schoolStandard', 'schoolName'] as Array<keyof FormDataType>).map((field, index) => (
-            <Grid item xs={12} sm={4} key={index}>
-              <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
-            </Grid>
-          ))}
+          {formData.regType === 'kanya' &&
+            (['schoolStandard', 'schoolName'] as Array<keyof FormDataType>).map((field, index) => (
+              <Grid item xs={12} sm={4} key={index}>
+                {field === 'schoolStandard' ? (
+                  <TextField
+                    select
+                    label="School Standard"
+                    name={field}
+                    value={formData[field]}
+                    onChange={handleChange}
+                    fullWidth
+                    size="small" 
+                    variant="outlined" 
+                    SelectProps={{
+                      MenuProps: {
+                        PaperProps: {
+                          style: {
+                            maxHeight: 250, 
+                            width: 'auto',
+                          },
+                        },
+                      },
+                    }}
+                  >
+                    {schoolStandards.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                ) : (
+                  <TextField
+                    label="School Name"
+                    name={field}
+                    value={formData[field]}
+                    onChange={handleChange}
+                    fullWidth
+                    size="small"
+                    variant="outlined"
+                  />
+                )}
+              </Grid>
+            ))}
+
 
           {/* suvasini Details*/}
           {formData.regType === 'suvasini' && (['maternalGothram', 'husbandsName', 'husbandsGothram',

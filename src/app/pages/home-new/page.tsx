@@ -66,17 +66,17 @@ export default function HomePage() {
     {
       label: 'Navaratri 2024',
       images: [
-        { src: '/images/image1.jpg', title: 'Day 1', subtitle: 'Opening Ceremony' },
-        { src: '/images/image2.jpg', title: 'Day 2', subtitle: 'Cultural Program' },
-        { src: '/images/image3.jpg', title: 'Day 3', subtitle: 'Special Pooja' },
+        { src: '/images/img1.jpg', title: 'Day 1', subtitle: 'Opening Ceremony' },
+        { src: '/images/img2.jpg', title: 'Day 2', subtitle: 'Cultural Program' },
+        { src: '/images/img3.jpg', title: 'Day 3', subtitle: 'Special Pooja' },
       ],
     },
     {
       label: 'Navaratri 2023',
       images: [
-        { src: '/images/image4.jpg', title: 'Day 1', subtitle: 'Opening Ceremony' },
-        { src: '/images/image5.jpg', title: 'Day 2', subtitle: 'Cultural Program' },
-        { src: '/images/image6.jpg', title: 'Day 3', subtitle: 'Special Pooja' },
+        { src: '/images/img4.jpg', title: 'Day 1', subtitle: 'Opening Ceremony' },
+        { src: '/images/img5.jpg', title: 'Day 2', subtitle: 'Cultural Program' },
+        { src: '/images/img6.jpg', title: 'Day 3', subtitle: 'Special Pooja' },
       ],
     },
     // Add more categories as needed
