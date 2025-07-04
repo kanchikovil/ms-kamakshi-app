@@ -99,10 +99,11 @@ export default function HomePage() {
           </Grid>
           <Grid item xs={12} sx={{ maxWidth: 600, width: '100%', px: 2, mt: 2, mb: 4 }}>
             <Typography fontSize={12} textAlign="center">
-              Dolor sapien consectetur et eget sagittis mauris pharetra pellentesque. Adipiscing orci dui pulvinar lectus adipiscing.
-              Velit egestas amet suspendisse dolor vitae cursus. Lacus nunc adipiscing sit et ac ac. Mi volutpat in sed at egestas in.
-              Consequat ac feugiat vitae semper sit adipiscing nec nisl quis. Platea interdum felis nunc porta amet cras morbi.
-              Sollicitudin eget non proin fermentum et pretium.
+                The Kamakshi Amman Temple in Kanchipuram, one of the 51 Shakti Peethas and a key center of Shaktism. Dedicated to Goddess Kamakshi, a powerful form of Parvati, the temple becomes the heart of devotion during Navaratri. 
+                The festival celebrates feminine energy (Shakti) and the triumph of good over evil. <strong>Kanya Pooja</strong> is the ritual worship of young girls, <strong>typically between the ages of 2 and 10</strong>, who are considered to be embodiments of Devi Durga or Kamakshi. In Shakta traditions, the divine feminine (Shakti)
+                 is believed to reside in all women, and in young girls, this energy is seen as untainted and powerful.
+                 One of the deeply revered rituals performed is the <strong>Sowbhagya Suvasini Pooja</strong> (also spelled as <strong>Suvasini Pooja</strong>). This pooja is a traditional worship of married women, believed to embody the blessings of Sri Kamakshi Devi, the goddess of prosperity, 
+                 fertility, and auspiciousness.
             </Typography>
           </Grid>
           <Grid item xs={12} sx={{ maxWidth: 600, width: '100%', px: 2, mt: 2, mb: 4 }}>
@@ -148,10 +149,11 @@ export default function HomePage() {
 
           <Box sx={{ width: '100%', maxWidth: '768px', px: 2, mt: 2, mb: 4 }}>
             <Typography fontSize={12} textAlign="center">
-              Dolor sapien consectetur et eget sagittis mauris pharetra pellentesque. Adipiscing orci dui pulvinar lectus adipiscing.
-              Velit egestas amet suspendisse dolor vitae cursus. Lacus nunc adipiscing sit et ac ac. Mi volutpat in sed at egestas in.
-              Consequat ac feugiat vitae semper sit adipiscing nec nisl quis. Platea interdum felis nunc porta amet cras morbi.
-              Sollicitudin eget non proin fermentum et pretium.
+                The Kamakshi Amman Temple in Kanchipuram, one of the 51 Shakti Peethas and a key center of Shaktism. Dedicated to Goddess Kamakshi, a powerful form of Parvati, the temple becomes the heart of devotion during Navaratri. 
+                The festival celebrates feminine energy (Shakti) and the triumph of good over evil. <strong>Kanya Pooja</strong> is the ritual worship of young girls, <strong>typically between the ages of 2 and 10</strong>, who are considered to be embodiments of Devi Durga or Kamakshi. In Shakta traditions, the divine feminine (Shakti)
+                 is believed to reside in all women, and in young girls, this energy is seen as untainted and powerful.
+                 One of the deeply revered rituals performed is the <strong>Sowbhagya Suvasini Pooja</strong> (also spelled as <strong>Suvasini Pooja</strong>). This pooja is a traditional worship of married women, believed to embody the blessings of Sri Kamakshi Devi, the goddess of prosperity, 
+                 fertility, and auspiciousness.
             </Typography>
           </Box>
         </Box>
@@ -200,10 +202,11 @@ export default function HomePage() {
           >
             <Grid item xs={8}>
               <Typography fontSize={12}>
-                Dolor sapien consectetur et eget sagittis mauris pharetra pellentesque. Adipiscing orci dui pulvinar lectus adipiscing.
-                Velit egestas amet suspendisse dolor vitae cursus. Lacus nunc adipiscing sit et ac ac. Mi volutpat in sed at egestas in.
-                Consequat ac feugiat vitae semper sit adipiscing nec nisl quis. Platea interdum felis nunc porta amet cras morbi.
-                Sollicitudin eget non proin fermentum et pretiumsssss.
+                The Kamakshi Amman Temple in Kanchipuram, one of the 51 Shakti Peethas and a key center of Shaktism. Dedicated to Goddess Kamakshi, a powerful form of Parvati, the temple becomes the heart of devotion during Navaratri. 
+                The festival celebrates feminine energy (Shakti) and the triumph of good over evil. <strong>Kanya Pooja</strong> is the ritual worship of young girls, <strong>typically between the ages of 2 and 10</strong>, who are considered to be embodiments of Devi Durga or Kamakshi. In Shakta traditions, the divine feminine (Shakti)
+                 is believed to reside in all women, and in young girls, this energy is seen as untainted and powerful.
+                 One of the deeply revered rituals performed is the <strong>Sowbhagya Suvasini Pooja</strong> (also spelled as <strong>Suvasini Pooja</strong>). This pooja is a traditional worship of married women, believed to embody the blessings of Sri Kamakshi Devi, the goddess of prosperity, 
+                 fertility, and auspiciousness.
               </Typography>
             </Grid>
           </Grid>
@@ -264,37 +267,37 @@ export default function HomePage() {
             </Box>
           </Grid>
 
-          {/* <Grid
-            container
-            item
-            xs={12}
-            spacing={2}
-            padding={'0 2em 3em 3em'}
-            direction="row"
-            alignItems="center"
-          >
-            <Grid item xs={8}>
-              <Typography fontSize={12}>
-                Dolor sapien consectetur et eget sagittis mauris pharetra pellentesque. Adipiscing orci dui pulvinar lectus adipiscing.
-                Velit egestas amet suspendisse dolor vitae cursus. Lacus nunc adipiscing sit et ac ac. Mi volutpat in sed at egestas in.
-                Consequat ac feugiat vitae semper sit adipiscing nec nisl quis. Platea interdum felis nunc porta amet cras morbi.
-                Sollicitudin eget non proin fermentum et pretium.
-              </Typography>
-            </Grid>
-          </Grid> */}
           <Grid
             container
             item
             xs={12}
             spacing={2}
-            padding={'0 2em 3em 3em'}
+            padding={'0 2em 2em 2em'}
+            direction="row"
+            alignItems="center"
+            alignContent="justify"
+          >
+            <Grid item xs={8}>
+              <Typography fontSize={16}>
+                The Kamakshi Amman Temple in Kanchipuram, one of the 51 Shakti Peethas and a key center of Shaktism. Dedicated to Goddess Kamakshi, a powerful form of Parvati, the temple becomes the heart of devotion during Navaratri. 
+                The festival celebrates feminine energy (Shakti) and the triumph of good over evil. <strong>Kanya Pooja</strong> is the ritual worship of young girls, <strong>typically between the ages of 2 and 10</strong>, who are considered to be embodiments of Devi Durga or Kamakshi. In Shakta traditions, the divine feminine (Shakti)
+                 is believed to reside in all women, and in young girls, this energy is seen as untainted and powerful.
+                 One of the deeply revered rituals performed is the <strong>Sowbhagya Suvasini Pooja</strong> (also spelled as <strong>Suvasini Pooja</strong>). This pooja is a traditional worship of married women, believed to embody the blessings of Sri Kamakshi Devi, the goddess of prosperity, 
+                 fertility, and auspiciousness.
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid
+            container
+            item
+            xs={12}
+            spacing={2}
+            padding={'2em 0em 2em 0em'}
             direction="row"
             alignItems="center"
           >
+            <Grid item xs={12}><FullWidthMessage message="Past Events ..." /></Grid>
             <Grid item xs={8}>
-              <Typography fontSize={22}>
-                Past event collection here
-              </Typography>
               <Box sx={{ width: '100%', maxWidth: 600 }}>
                 <Tabs value={carouselTab} onChange={(_, v) => setCarouselTab(v)} variant="scrollable" scrollButtons="auto">
                   {carouselCategories.map((cat, idx) => (
