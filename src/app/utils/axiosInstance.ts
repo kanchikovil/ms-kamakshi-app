@@ -5,6 +5,7 @@ const axios_instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api", // Set API base URL
 });
 
+
 // Add request interceptor to attach token
 axios_instance.interceptors.request.use(
     (config) => {
