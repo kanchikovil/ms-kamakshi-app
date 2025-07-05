@@ -29,8 +29,8 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
-      - name: Zip entire app (including public folder)
-        run: zip -r release.zip . -x "*.git*" "node_modules/*"
+      - name: Zip artifact for deployment
+        run: zip release.zip ./.next -r
 
         # run: npm run package
           
