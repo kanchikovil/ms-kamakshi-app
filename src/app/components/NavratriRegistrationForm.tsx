@@ -125,6 +125,32 @@ const [openToggles, setOpenToggles] = React.useState<{ [key: string]: boolean }>
   '6th', '7th', '8th', '9th', '10th',
   '11th', '12th'
 ];
+const [gothrams, setGothrams] = useState<string[]>([]);
+const [vedams, setVedams] = useState<string[]>([]);
+
+
+const fetchGothramsAndVedams = async () => {
+  try {
+    const gothramRes = await axios_instance.get(APP_CONFIG.apiBaseUrl + "/gothrams");
+    const vedamRes = await axios_instance.get(APP_CONFIG.apiBaseUrl + "/vedams");
+
+    setGothrams(gothramRes.data ?? []);  // Make sure API returns an array
+    setVedams(vedamRes.data ?? []);
+  } catch (error) {
+    showError("Failed to fetch dropdown data: " + error);
+  }
+};
+useEffect(() => {
+  fetchGothramsAndVedams();
+}, []);
+
+const gothramFields = ['fathersGothram', 'mothersVedam'];
+const vedamFields = ['fathersVedam', 'mothersVedam'];
+const fieldOptions = {
+  fathersGothram: gothrams, // array from backend, e.g. ['Kashyapa', 'Vasishta']
+  fathersVedam: vedams,     // array from backend, e.g. ['Rig', 'Yajur']
+  mothersVedam: vedams
+};
 
 const handleFieldToggle = (fieldName: string) => {
   setOpenToggles((prev) => ({
@@ -296,13 +322,51 @@ const handleFieldToggle = (fieldName: string) => {
           ))}
 
           {/* Parents Details */}
-          {(['attendeeName', 'attendeeAge', 'motherTongue', 'fathersName',
+          {/* {(['attendeeName', 'attendeeAge', 'motherTongue', 'fathersName',
             'fathersGothram', 'fathersVedam', 'fathersProfession',
             'mothersName', 'mothersVedam', 'mothersProfession'] as Array<keyof FormDataType>).map((field, index) => (
               <Grid item xs={12} sm={4} key={index}>
                 <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
               </Grid>
-            ))}
+            ))} */}
+{([
+  'attendeeName', 'attendeeAge', 'motherTongue', 'fathersName',
+  'fathersGothram', 'fathersVedam', 'fathersProfession',
+  'mothersName', 'mothersVedam', 'mothersProfession'
+] as Array<keyof FormDataType>).map((field, index) => (
+  <Grid item xs={12} sm={4} key={index}>
+    {fieldOptions[field as keyof typeof fieldOptions] ? (
+      <TextField
+        select
+        label={field.replace(/([A-Z])/g, ' $1')}
+        name={field}
+        value={formData[field] || ''}
+        onChange={handleChange}
+        fullWidth
+      >
+    {(fieldOptions[field as keyof typeof fieldOptions] as any[]).map((option) => {
+  const value = typeof option === 'string' ? option : option.name;
+  return (
+    <MenuItem key={value} value={value}>
+      {value}
+    </MenuItem>
+  );
+})}
+
+      </TextField>
+    ) : (
+      <TextField
+        label={field.replace(/([A-Z])/g, ' $1')}
+        name={field}
+        value={formData[field] || ''}
+        onChange={handleChange}
+        fullWidth
+      />
+    )}
+  </Grid>
+))}
+
+
 
           {/* kanya Details*/}
           {formData.regType === 'kanya' &&
