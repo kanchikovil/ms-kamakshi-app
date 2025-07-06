@@ -81,6 +81,7 @@ const [openToggles, setOpenToggles] = React.useState<{ [key: string]: boolean }>
   const registrationType = searchParams.get("registrationType") || "default";
   const isMobile = useMediaQuery('(max-width:640px)');
 
+const [errors, setErrors] = useState<{ attendeeAge?: string }>({});
 
   const [eventDays, setEventDays] = useState<EventDay[]>();
   const [eventDayError, setEventDayError] = useState(false);
@@ -128,7 +129,8 @@ const [openToggles, setOpenToggles] = React.useState<{ [key: string]: boolean }>
 const [gothrams, setGothrams] = useState<string[]>([]);
 const [vedams, setVedams] = useState<string[]>([]);
 
-
+const [selectedDayId, setSelectedDayId] = useState<number | null>(null);
+const [ageLimits, setAgeLimits] = useState({ min: 1, max: 100 });
 const fetchGothramsAndVedams = async () => {
   try {
     const gothramRes = await axios_instance.get(APP_CONFIG.apiBaseUrl + "/gothrams");
@@ -147,8 +149,8 @@ useEffect(() => {
 const gothramFields = ['fathersGothram', 'mothersVedam'];
 const vedamFields = ['fathersVedam', 'mothersVedam'];
 const fieldOptions = {
-  fathersGothram: gothrams, // array from backend, e.g. ['Kashyapa', 'Vasishta']
-  fathersVedam: vedams,     // array from backend, e.g. ['Rig', 'Yajur']
+  fathersGothram: gothrams, 
+  fathersVedam: vedams,     
   mothersVedam: vedams
 };
 
@@ -162,6 +164,21 @@ const handleFieldToggle = (fieldName: string) => {
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+useEffect(() => {
+  const age = Number(formData.attendeeAge);
+  if (
+    formData.attendeeAge &&
+    (age < ageLimits.min || age > ageLimits.max)
+  ) {
+    setErrors((prev) => ({
+      ...prev,
+      attendeeAge: `Age must be between ${ageLimits.min} and ${ageLimits.max}`,
+    }));
+  } else {
+    setErrors((prev) => ({ ...prev, attendeeAge: '' }));
+  }
+}, [formData.attendeeAge, ageLimits]);
+
 
   const fetchEventDays = async () => {
     try {
@@ -179,6 +196,21 @@ const handleFieldToggle = (fieldName: string) => {
       showError('Failed to get available slots: ' + error);
     }
   };
+
+
+//   setSelectedDayId(dayId);
+
+//   const selectedDay = eventDays.find((day) => day.dayId === dayId);
+//   if (selectedDay) {
+//     setAgeLimits({
+//       min: selectedDay.minAge,
+//       max: selectedDay.maxAge,
+//     });
+//   } else {
+//     // fallback if not found
+//     setAgeLimits({ min: 1, max: 100 });
+//   }
+// };
 
   useEffect(() => {
     fetchEventDays();
@@ -276,7 +308,7 @@ const handleFieldToggle = (fieldName: string) => {
             <MenuItem value="suvasini">Suvasini</MenuItem>
           </TextField>
         </Grid> */}
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <EventDaySelector
             eventDays={eventDays ?? []}
             selectedDayId={formData.dayId}
@@ -289,7 +321,33 @@ const handleFieldToggle = (fieldName: string) => {
               });
             }}
           />
-        </Grid>
+        </Grid> */}
+<Grid item xs={12}>
+  <EventDaySelector
+    eventDays={eventDays ?? []}
+    selectedDayId={formData.dayId}
+    onChange={(id) => {
+      // Update dayId in formData
+      handleChange({
+        target: {
+          name: "dayId",
+          value: id,
+        },
+      });
+
+      // 👇 Find selected day using dayId and set age limits
+      const selectedDay = (eventDays ?? []).find((day) => day.dayId === id);
+      if (selectedDay) {
+        setAgeLimits({
+          min: selectedDay.minAge,
+          max: selectedDay.maxAge,
+        });
+      } else {
+        setAgeLimits({ min: 1, max: 100 }); // fallback
+      }
+    }}
+  />
+</Grid>
 
         {formData.regType && (<>
           {/* Aadhaar Number */}
@@ -335,7 +393,21 @@ const handleFieldToggle = (fieldName: string) => {
   'mothersName', 'mothersVedam', 'mothersProfession'
 ] as Array<keyof FormDataType>).map((field, index) => (
   <Grid item xs={12} sm={4} key={index}>
-    {fieldOptions[field as keyof typeof fieldOptions] ? (
+    {field === 'attendeeAge' ? (
+      // ✅ Custom handling for attendeeAge field
+      <TextField
+        type="number"
+        label="Attendee Age"
+        name="attendeeAge"
+        value={formData.attendeeAge || ''}
+        onChange={handleChange}
+        inputProps={{ min: ageLimits.min, max: ageLimits.max }}
+        fullWidth
+        error={Boolean(errors.attendeeAge)}
+        helperText={errors.attendeeAge}
+      />
+    ) : fieldOptions[field as keyof typeof fieldOptions] ? (
+      // Dropdown (select) input
       <TextField
         select
         label={field.replace(/([A-Z])/g, ' $1')}
@@ -344,17 +416,17 @@ const handleFieldToggle = (fieldName: string) => {
         onChange={handleChange}
         fullWidth
       >
-    {(fieldOptions[field as keyof typeof fieldOptions] as any[]).map((option) => {
-  const value = typeof option === 'string' ? option : option.name;
-  return (
-    <MenuItem key={value} value={value}>
-      {value}
-    </MenuItem>
-  );
-})}
-
+        {(fieldOptions[field as keyof typeof fieldOptions] as any[]).map((option) => {
+          const value = typeof option === 'string' ? option : option.name;
+          return (
+            <MenuItem key={value} value={value}>
+              {value}
+            </MenuItem>
+          );
+        })}
       </TextField>
     ) : (
+      // Normal input for text fields
       <TextField
         label={field.replace(/([A-Z])/g, ' $1')}
         name={field}
@@ -365,6 +437,7 @@ const handleFieldToggle = (fieldName: string) => {
     )}
   </Grid>
 ))}
+
 
 
 
