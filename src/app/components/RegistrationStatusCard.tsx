@@ -13,6 +13,7 @@ interface Event {
   date: string;
   time: string;
   title: string;
+  image: string;
 }
 
 const events: Event[] = [
