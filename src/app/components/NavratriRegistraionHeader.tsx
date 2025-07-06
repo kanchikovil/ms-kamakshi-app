@@ -247,7 +247,7 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                                             fontWeight={900}
                                             align="center"
                                         >
-                                            Validate Aadhar & Age
+                                            Validate Aadhar
                                         </Typography>
                                     </Grid>
 
@@ -272,26 +272,6 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                                             }}
                                         />
                                     </Grid>
-                                <Grid xs={8}>
-                                    <TextField
-                                        fullWidth
-                                        type="number"
-                                        placeholder="Age"
-                                        sx={{
-                                            backgroundColor: "#fff",
-                                            borderRadius: 0,
-                                            fontSize: '14px',
-                                            "& fieldset": { border: 'none' },
-                                            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-                                                display: "none",
-                                            },
-                                            "& input[type=number]": {
-                                                MozAppearance: "textfield",
-                                                padding: '8px'
-                                            },
-                                        }}
-                                    />
-                                </Grid>
                                     <Grid xs={12} sx={{ mt: 1 }}>
                                         <Button
                                             variant="contained"
@@ -329,7 +309,7 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                                 color={'#3C3C3E'}
                                 fontWeight={900}
                             >
-                                Validate Aadhar&nbsp;&&nbsp;Age
+                                Validate Aadhar
                             </Typography>
                         </Grid>
 
@@ -355,27 +335,6 @@ export const NavratriRegistraionHeader: React.FC<RegistrationCardProps> = ({ reg
                                         }}
                                     />
                                 </Grid>
-                                <Grid xs={8}>
-                                    <TextField
-                                        fullWidth
-                                        type="number"
-                                        placeholder="Age"
-                                        sx={{
-                                            backgroundColor: "#fff",
-                                            borderRadius: 0,
-                                            fontSize: '14px',
-                                            "& fieldset": { border: 'none' },
-                                            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-                                                display: "none",
-                                            },
-                                            "& input[type=number]": {
-                                                MozAppearance: "textfield",
-                                                padding: '8px'
-                                            },
-                                        }}
-                                    />
-                                </Grid>
-
                                 <Grid xs={4}>
                                     <Button
                                         fullWidth
