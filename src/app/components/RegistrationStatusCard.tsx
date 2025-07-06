@@ -7,6 +7,7 @@ import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Button, TextField, Typography } from "@mui/material";
 import { getStatusByAadhar } from '../services/registrationService';
 import { useNotification } from "../context/NotificationContext";
+import { Card, CardContent, CardHeader, Grid } from "@mui/material";
 
 interface Event {
   date: string;
@@ -15,9 +16,9 @@ interface Event {
 }
 
 const events: Event[] = [
-  { date: "10/03/2025", time: "06.30 am", title: "Golder Deer Vahanam" },
-  { date: "10/03/2025", time: "07.30 pm", title: "Silver Vrushabha Vahanam" },
-  { date: "10/03/2025", time: "06.30 pm", title: "Silver Deer Vahanam" },
+  { date: "10/03/2025", time: "06.30 am", title: "Golder Deer Vahanam", image: "/images/golden-deer.jpg" },
+  { date: "10/03/2025", time: "07.30 pm", title: "Silver Vrushabha Vahanam", image: "/images/silver-vrushabha.jpg" },
+  { date: "10/03/2025", time: "06.30 pm", title: "Silver Deer Vahanam", image: "/images/silver-deer.jpg" },
 ];
 
 const RegistrationStatusCard: React.FC = () => {
@@ -90,15 +91,15 @@ const RegistrationStatusCard: React.FC = () => {
             <Button disabled={isLoading || (!isLoading && aadharNumber.length !== 12)} onClick={() => checkRegStatusByAadhar()}>{isLoading ? "Loading..." : "CHECK STATUS"}</Button>
           </div>
           {/* Scheduled Status */}
-          {!isLoading && 
-          <div className={styles.scheduledStatus}>
-            <CalendarMonthIcon className={styles.icon} />
-            <div>
-              <Typography className={styles.statusLabel}>{registrationStatus}</Typography>
-              <Typography style={{ fontWeight: 700, fontSize: '10px' }} className={styles.date}>{registrationDate}</Typography>
-              <Typography style={{ fontWeight: 700, fontSize: '10px' }} className={styles.time}>07.30 PM</Typography>
+          {!isLoading &&
+            <div className={styles.scheduledStatus}>
+              <CalendarMonthIcon className={styles.icon} />
+              <div>
+                <Typography className={styles.statusLabel}>{registrationStatus}</Typography>
+                <Typography style={{ fontWeight: 700, fontSize: '10px' }} className={styles.date}>{registrationDate}</Typography>
+                <Typography style={{ fontWeight: 700, fontSize: '10px' }} className={styles.time}>07.30 PM</Typography>
+              </div>
             </div>
-          </div>
           }
         </div>
 
@@ -114,7 +115,7 @@ const RegistrationStatusCard: React.FC = () => {
             </a>
           </div>
 
-          <ul className={styles.eventList}>
+          {/* <ul className={styles.eventList}>
             {events.map((event, index) => (
               <li key={index} className={styles.eventItem}>
                 <span className={styles.eventDate}>{event.date}</span>
@@ -122,14 +123,39 @@ const RegistrationStatusCard: React.FC = () => {
                 <span className={styles.eventTitle}>{event.title}</span>
               </li>
             ))}
-          </ul>
+          </ul> */}
+          <Grid container spacing={2} className={styles.eventList}>
+            {events.map((event, index) => (
+              <Grid item xs={12} sm={4} key={event.date + event.title + index}>
+                <Card className={styles.eventCard} variant="outlined" sx={{ minHeight: 160, display: 'flex', flexDirection: 'column' }}>
+                  {/* Event Image */}
+                  <img
+                    src={event.image || "/images/default-event.jpg"}
+                    alt={event.title}
+                    style={{ width: '100%', height: 100, objectFit: 'cover', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
+                  />
+                  <CardHeader
+                    title={event.title}
+                    // subheader={`${event.date} | ${event.time}`}
+                    titleTypographyProps={{ fontSize: 16, fontWeight: 700 }}
+                    subheaderTypographyProps={{ fontSize: 13 }}
+                    sx={{ pt: 1, pb: 0.5 }}
+                  />
+                  <CardContent sx={{ pt: 0 }}>
+                    {`${event.date} | ${event.time}`}
+                    {/* You can add more event details here if needed */}
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
         </div>
       </section>
       <div className={styles.statusCardFooterWrapper}>
         <div className={styles.footerHeaderHolder}>
           <Typography style={{ fontSize: 40, fontWeight: 100, lineHeight: 1, marginTop: '5%' }} className={styles.footerHeading}>a divine experience</Typography>
         </div>
-        <div className={styles.footerDecorHolder}><img  src={"../images/status-card-footer-decor.png"} /></div>
+        <div className={styles.footerDecorHolder}><img src={"../images/status-card-footer-decor.png"} /></div>
       </div>
     </>
   );
