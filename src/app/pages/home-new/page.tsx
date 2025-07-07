@@ -47,12 +47,13 @@
 'use client';
 import * as React from 'react';
 import { Box, Typography, useMediaQuery, useTheme, Grid, Tabs, Tab, ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import Link from 'next/link';
 
 import FullWidthMessage from '@/app/components/FullWidthMessage';
 import RegistrationCard from '@/app/components/RegistrationCard';
 import Banner from '@/app/components/Banner';
 import RegistrationStatusCard from '@/app/components/RegistrationStatusCard';
-
+import { useRouter } from 'next/navigation';
 export default function HomePage() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // 0 - 600
@@ -61,6 +62,8 @@ export default function HomePage() {
   const isDesktopOnly = useMediaQuery('(min-width:1276px)'); // 1276+  
 
   const [carouselTab, setCarouselTab] = React.useState(0);
+  const router = useRouter();
+
 
   const carouselCategories = [
     {
@@ -106,9 +109,44 @@ export default function HomePage() {
                  fertility, and auspiciousness.
             </Typography>
           </Grid>
-          <Grid item xs={12} sx={{ maxWidth: 600, width: '100%', px: 2, mt: 2, mb: 4 }}>
-            Past event collection here
-          </Grid>
+        <Grid item xs={12} sx={{ maxWidth: 600, width: '100%', px: 2, mt: 2, mb: 4 }}>
+  <Typography fontSize={16} textAlign="center" gutterBottom>
+    Past Events
+  </Typography>
+  <Tabs
+    value={carouselTab}
+    onChange={(_, v) => setCarouselTab(v)}
+    variant="scrollable"
+    scrollButtons="auto"
+    sx={{ mb: 2 }}
+  >
+    {carouselCategories.map((cat, idx) => (
+      <Tab key={cat.label} label={cat.label} />
+    ))}
+  </Tabs>
+  <ImageList cols={1} gap={8}>
+    {carouselCategories[carouselTab].images.map((img, idx) => (
+      <ImageListItem key={img.src} style={{ cursor: 'pointer' }}>
+        <Link
+          href={{
+            pathname: '/gallery',
+            query: { category: carouselCategories[carouselTab].label },
+          }}
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <img
+            src={img.src}
+            alt={img.title}
+            loading="lazy"
+            style={{ borderRadius: 8, width: '100%', height: 200, objectFit: 'cover' }}
+          />
+          <ImageListItemBar title={img.title} subtitle={img.subtitle} />
+        </Link>
+      </ImageListItem>
+    ))}
+  </ImageList>
+</Grid>
+
         </Grid>
       )}
 
@@ -156,6 +194,44 @@ export default function HomePage() {
                  fertility, and auspiciousness.
             </Typography>
           </Box>
+          <Box sx={{ width: '100%', maxWidth: '768px', px: 2, mt: 2, mb: 4 }}>
+          <Typography fontSize={16} textAlign="center" gutterBottom>
+            Past Events
+          </Typography>
+          <Tabs
+            value={carouselTab}
+            onChange={(_, v) => setCarouselTab(v)}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{ mb: 2 }}
+          >
+            {carouselCategories.map((cat) => (
+              <Tab key={cat.label} label={cat.label} />
+            ))}
+          </Tabs>
+          <ImageList cols={2} gap={8}>
+            {carouselCategories[carouselTab].images.map((img) => (
+              <ImageListItem key={img.src} style={{ cursor: 'pointer' }}>
+                <Link
+                  href={{
+                    pathname: '/gallery',
+                    query: { category: carouselCategories[carouselTab].label },
+                  }}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <img
+                    src={img.src}
+                    alt={img.title}
+                    loading="lazy"
+                    style={{ borderRadius: 8, width: '100%', height: 180, objectFit: 'cover' }}
+                  />
+                  <ImageListItemBar title={img.title} subtitle={img.subtitle} />
+                </Link>
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </Box>
+
         </Box>
       )}
       {isMidDesktop && (
@@ -219,15 +295,25 @@ export default function HomePage() {
             <Box sx={{ mt: 2 }}>
               <ImageList cols={isMobile ? 1 : 3} gap={8}>
                 {carouselCategories[carouselTab].images.map((img, idx) => (
-                  <ImageListItem key={img.src}>
-                    <img
-                      src={img.src}
-                      alt={img.title}
-                      loading="lazy"
-                      style={{ borderRadius: 8, width: '100%', height: 180, objectFit: 'cover' }}
-                    />
-                    <ImageListItemBar title={img.title} subtitle={img.subtitle} />
-                  </ImageListItem>
+<ImageListItem key={img.src} style={{ cursor: 'pointer' }}>
+  <Link
+    href={{
+      pathname: '/gallery',
+      query: { category: carouselCategories[carouselTab].label },
+    }}
+    style={{ textDecoration: 'none', color: 'inherit' }}
+  >
+ 
+    <img
+      src={img.src}
+      alt={img.title}
+      loading="lazy"
+      style={{ borderRadius: 8, width: '100%', height: 180, objectFit: 'cover' }}
+    />
+    <ImageListItemBar title={img.title} subtitle={img.subtitle} />
+  </Link>
+</ImageListItem>
+
                 ))}
               </ImageList>
             </Box>
@@ -307,7 +393,15 @@ export default function HomePage() {
                 <Box sx={{ mt: 2 }}>
                   <ImageList cols={isMobile ? 1 : 3} gap={8}>
                     {carouselCategories[carouselTab].images.map((img, idx) => (
-                      <ImageListItem key={img.src}>
+                    <ImageListItem key={img.src} style={{ cursor: 'pointer' }}>
+                      <Link
+                        href={{
+                          pathname: '/gallery',
+                          query: { category: carouselCategories[carouselTab].label },
+                        }}
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+
                         <img
                           src={img.src}
                           alt={img.title}
@@ -315,7 +409,9 @@ export default function HomePage() {
                           style={{ borderRadius: 8, width: '100%', height: 180, objectFit: 'cover' }}
                         />
                         <ImageListItemBar title={img.title} subtitle={img.subtitle} />
-                      </ImageListItem>
+                      </Link>
+                    </ImageListItem>
+
                     ))}
                   </ImageList>
                 </Box>
