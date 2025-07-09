@@ -347,13 +347,13 @@ export default function RegistrationListNew() {
   const columns: GridColDef[] = [
     { field: 'regId', headerName: 'ID', width: 50, type: 'number' },
     { field: 'regType', headerName: 'Type', width: 100 },
-    { field: 'attendeeDetails', headerName: 'Age', width: 100, type: 'number',
-    //    valueGetter: (params) => {
-    //    return params.row.attendeeDetails[0].attendeeAge;
-    //  }
+    { field: 'AttendeeDetail.attendeeAge', headerName: 'Age', width: 100, type: 'number', 
+      valueGetter: (value, row) => { return row.AttendeeDetail.attendeeAge; }
     },
-    { field: 'motherToungue', headerName: 'Mother Tongue', width: 150 },
-    { field: 'fathersGothram', headerName: 'Father Gothram', width: 150 },
+    { field: 'AttendeeDetail.motherToungue', headerName: 'Mother Tongue', width: 150, 
+      valueGetter: (value, row) => { return row.AttendeeDetail.motherTongue; } },
+    { field: 'AttendeeDetail.fathersGothram', headerName: 'Father Gothram', width: 150, 
+      valueGetter: (value, row) => { return row.AttendeeDetail.fathersGothram; } },
     { field: 'dayId', headerName: 'Day', width: 100 },
     {
       field: 'registeredAt',
