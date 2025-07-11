@@ -11,8 +11,13 @@ import {
   IconButton,
   useMediaQuery,
   useTheme,
+  Button,
 } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // ✅ Use a cleaner icon
+
+
 
 const allImages = {
   "Navaratri 2024": [
@@ -76,6 +81,8 @@ type GalleryCategory = keyof typeof allImages;
 export default function GalleryClient() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category") ?? "Navaratri 2024";
+  const router = useRouter();
+
 
   const category: GalleryCategory = (
     categoryParam in allImages ? categoryParam : "Navaratri 2024"
@@ -96,7 +103,37 @@ export default function GalleryClient() {
   return (
     <Box
       sx={{ pt: isMobile ? 4 : 6, pb: isMobile ? 2 : 4, px: isMobile ? 2 : 4 }}
+      
     >
+<Box
+  sx={{
+    display: "flex",
+    justifyContent: "flex-start",
+    mb: 2,
+  }}
+>
+  <Button
+    variant="contained"
+    onClick={() => router.back()}
+    startIcon={<ArrowBackIcon />}
+    sx={{
+      backgroundColor: "#ffffff",
+      color: "#000000",
+      textTransform: "none",
+      fontWeight: 500,
+      px: 2,
+      py: 1,
+      boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+      "&:hover": {
+        backgroundColor: "#f0a1a1",
+      },
+    }}
+  >
+    Back
+  </Button>
+</Box>
+
+
       <Typography variant="h5" gutterBottom textAlign="center">
         {category} Gallery
       </Typography>

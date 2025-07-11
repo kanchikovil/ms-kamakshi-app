@@ -146,12 +146,16 @@ const NavratriRegistrationForm = () => {
     fetchGothramsAndVedams();
   }, []);
 
-  const gothramFields = ['fathersGothram', 'mothersVedam'];
+  const gothramFields = ['fathersGothram', 'mothersVedam','husbandsGothram'];
   const vedamFields = ['fathersVedam', 'mothersVedam'];
   const fieldOptions = {
     fathersGothram: gothrams,
     fathersVedam: vedams,
-    mothersVedam: vedams
+    mothersVedam: vedams,
+    husbandsGothram: gothrams,
+    husbandVedam: vedams,
+    maternalGothram: gothrams
+
   };
 
   const handleFieldToggle = (fieldName: string) => {
@@ -485,12 +489,50 @@ const NavratriRegistrationForm = () => {
 
 
           {/* suvasini Details*/}
-          {formData.regType === 'suvasini' && (['maternalGothram', 'husbandsName', 'husbandsGothram',
-            'husbandsProfession', 'husbandVedam'] as Array<keyof FormDataType>).map((field, index) => (
-              <Grid item xs={12} sm={4} key={index}>
-                <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
-              </Grid>
-            ))}
+{formData.regType === 'suvasini' && (
+  [
+    'maternalGothram',
+    'husbandsName',
+    'husbandsGothram',
+    'husbandsProfession',
+    'husbandVedam'
+  ] as Array<keyof FormDataType>
+).map((field, index) => (
+  <Grid item xs={12} sm={4} key={index}>
+    {fieldOptions[field as keyof typeof fieldOptions] ? (
+      <TextField
+        select
+        label={field.replace(/([A-Z])/g, ' $1').trim()}
+        name={field}
+        value={formData[field] || ''}
+        onChange={handleChange}
+        fullWidth
+      >
+        <MenuItem value="" disabled>
+          {`Select ${field.replace(/([A-Z])/g, ' ').trim()}`}
+        </MenuItem>
+        {(fieldOptions[field as keyof typeof fieldOptions] as any[]).map((option) => {
+          const value = typeof option === 'string' ? option : option.name;
+          return (
+            <MenuItem key={value} value={value}>
+              {value}
+            </MenuItem>
+          );
+        })}
+      </TextField>
+    ) : (
+      <TextField
+        label={field.replace(/([A-Z])/g, ' $1').trim()}
+        name={field}
+        value={formData[field] || ''}
+        onChange={handleChange}
+        fullWidth
+      />
+    )}
+  </Grid>
+))}
+
+
 
           {/* Address & Devatha */}
           {(['kulaDevatha', 'place', 'address'] as Array<keyof FormDataType>).map((field, index) => (

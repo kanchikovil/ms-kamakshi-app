@@ -18,7 +18,7 @@ interface Event {
 
 const events: Event[] = [
   { date: "10/03/2025", time: "06.30 am", title: "Golder Deer Vahanam", image: "/images/golden-deer.jpg" },
-  { date: "10/03/2025", time: "07.30 pm", title: "Silver Vrushabha Vahanam", image: "/images/silver-vrushabha.jpg" },
+  { date: "10/03/2025", time: "07.30 pm", title: "Silver Vrushabha Vahanam", image: "/images/silver-vrushabha.jpeg" },
   { date: "10/03/2025", time: "06.30 pm", title: "Silver Deer Vahanam", image: "/images/silver-deer.jpg" },
 ];
 
