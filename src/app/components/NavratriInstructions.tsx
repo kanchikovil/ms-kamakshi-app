@@ -27,33 +27,19 @@ const instructionData = {
     summary: "Kanya who hasn’t started her menstrual cycle should enroll and adhere to the following guidelines",
     sections: [
         {
-            content: `Only one parent of guardian is permitted to accompany Kanya
-             to the designated location (Sri Kamakshi Kalyana Mandapam, North Mada Street, 
-             Big Kanchipuram Tamil Nadu 631 502) by 7.00 am`
-        }, {
-            content: `Following breakfast, the participant should proceed with the rituals 
-            of Vastra Dharanam and Sowmangalya Bhushanams. By 09.30am, a procession will commence 
-            towards Ambal Devasthanam (Vasantha Mandapam) The pooja will then take place, lasting for
-             a duration of 90 minutes. After the pooja lunch will be served at the Kalyana Mandapam`
-        }, {
-            content: `Only one parent of guardian is permitted to accompany Kanya
-             to the designated location (Sri Kamakshi Kalyana Mandapam, North Mada Street, 
-             Big Kanchipuram Tamil Nadu 631 502) by 7.00 am`
-        }, {
-            content: `Following breakfast, the participant should proceed with the rituals 
-            of Vastra Dharanam and Sowmangalya Bhushanams. By 09.30am, a procession will commence 
-            towards Ambal Devasthanam (Vasantha Mandapam) The pooja will then take place, lasting for
-             a duration of 90 minutes. After the pooja lunch will be served at the Kalyana Mandapam`
-        }, {
-            content: `Only one parent of guardian is permitted to accompany Kanya
-             to the designated location (Sri Kamakshi Kalyana Mandapam, North Mada Street, 
-             Big Kanchipuram Tamil Nadu 631 502) by 7.00 am`
-        }, {
-            content: `Following breakfast, the participant should proceed with the rituals 
-            of Vastra Dharanam and Sowmangalya Bhushanams. By 09.30am, a procession will commence 
-            towards Ambal Devasthanam (Vasantha Mandapam) The pooja will then take place, lasting for
-             a duration of 90 minutes. After the pooja lunch will be served at the Kalyana Mandapam`
-        }
+            content: `Fill in the Required Details:
+            Ensure that all mandatory fields are completed accurately. This includes 
+            contact details, and any other relevant information requested in the registration form.`
+        }, 
+        {
+            content: `Kanchi kovil admin will verify the registration details and approve the registration.
+            Once approved, you will receive a confirmation email with further instructions.`
+        }, 
+        {
+            content: `For any queries or assistance, please contact the Kanchi Kovil administration at
+            kanchikovil2024@gmail.com or 98765 43210`
+        }, 
+       
     ]
 }
 
