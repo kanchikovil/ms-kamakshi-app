@@ -215,8 +215,7 @@ export default function EventManager() {
           <Card sx={{ mt: 2, p: 2 }}>
             <CardContent>
               <form onSubmit={handleSubmit}>
-                <Stack spacing={2} direction={isMobile ? "column" : "row"} flexWrap="wrap">
-
+                <Stack spacing={2} direction={isMobile ? "column" : "row"} flexWrap="wrap" gap={1.5}>
                   <TextField
                     fullWidth
                     label="Event Name"
