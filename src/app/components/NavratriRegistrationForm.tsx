@@ -123,7 +123,7 @@ const NavratriRegistrationForm = () => {
     bangleSize: 0,
   });
   const { showSuccess, showError } = useNotification();
-  const schoolStandards = [
+  const schoolStandards = [ 'PreKg', 'LKG', 'UKG',
     '1st', '2nd', '3rd', '4th', '5th',
     '6th', '7th', '8th', '9th', '10th',
     '11th', '12th'
