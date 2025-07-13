@@ -352,12 +352,12 @@ export default function RegistrationListNew() {
     (reg) => reg.regType?.toLowerCase() === tab
   );
 
-  const columns: GridColDef[] = [
+  // Define columns for both tabs
+  const baseColumns: GridColDef[] = [
     { field: 'regId', headerName: 'ID', width: 50, type: 'number' },
     { field: 'regType', headerName: 'Type', width: 100 },
     { field: 'attendeeAge', headerName: 'Age', width: 100, type: 'number' },
-    { field: 'motherToungue', headerName: 'Mother Tongue', width: 150, },
-    { field: 'fathersGothram', headerName: 'Father Gothram', width: 150, },
+    { field: 'fathersGothram', headerName: 'Father Gothram', width: 150 },
     { field: 'dayId', headerName: 'Day', width: 100 },
     {
       field: 'registeredAt',
@@ -365,9 +365,9 @@ export default function RegistrationListNew() {
       width: 120,
       valueFormatter: (value) => {
         if (value) {
-          return dayjs(value).format('DD-MM-YYYY'); // Example format
+          return dayjs(value).format('DD-MM-YYYY');
         }
-        return ''; // Return empty string or other fallback for null/invalid dates
+        return '';
       },
     },
     { field: 'regStatus', headerName: 'Attendance', width: 120 },
@@ -423,6 +423,18 @@ export default function RegistrationListNew() {
       },
     },
   ];
+
+  // Insert subCaste column only for Suvasini
+  const columns =
+    tab === 'suvasini'
+      ? [
+          baseColumns[0],
+          baseColumns[1],
+          baseColumns[2],
+          { field: 'subCaste', headerName: 'Sub Caste', width: 150 },
+          ...baseColumns.slice(3),
+        ]
+      : baseColumns;
 
   if (loading) return <p>Loading registrations...</p>;
 
