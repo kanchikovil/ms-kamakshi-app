@@ -23,13 +23,13 @@
 //   GridEventListener,
 //   GridRowEditStopReasons,
 //   GridRowId,
-  
+
 //   GridRowsProp,
 //   GridRowModesModel,
 // } from '@mui/x-data-grid';
 // import { GridActionsCellItem } from '@mui/x-data-grid-pro';
 
- 
+
 // declare module '@mui/x-data-grid' {
 //   interface ToolbarPropsOverrides {
 //     setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -267,6 +267,8 @@ import Grid2 from '@mui/material/Unstable_Grid2';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 import dayjs from 'dayjs';
 import {
@@ -295,6 +297,7 @@ export default function RegistrationListNew() {
     rejectedCount: 0,
     pendingCount: 0,
   });
+  const [tab, setTab] = useState<'kanya' | 'suvasini'>('kanya');
 
   useEffect(() => {
     async function fetchRegistrations() {
@@ -344,23 +347,28 @@ export default function RegistrationListNew() {
     }
   };
 
+  // Filter registrations based on tab
+  const filteredRegistrations = registrations.filter(
+    (reg) => reg.regType?.toLowerCase() === tab
+  );
+
   const columns: GridColDef[] = [
     { field: 'regId', headerName: 'ID', width: 50, type: 'number' },
     { field: 'regType', headerName: 'Type', width: 100 },
-    { field: 'attendeeAge', headerName: 'Age', width: 100, type: 'number'},
-    { field: 'motherToungue', headerName: 'Mother Tongue', width: 150,  },
+    { field: 'attendeeAge', headerName: 'Age', width: 100, type: 'number' },
+    { field: 'motherToungue', headerName: 'Mother Tongue', width: 150, },
     { field: 'fathersGothram', headerName: 'Father Gothram', width: 150, },
     { field: 'dayId', headerName: 'Day', width: 100 },
     {
       field: 'registeredAt',
       headerName: 'Registered On',
       width: 120,
-        valueFormatter: (value) => {
-          if (value) {
-            return dayjs(value).format('DD-MM-YYYY'); // Example format
-          }
-          return ''; // Return empty string or other fallback for null/invalid dates
-        },
+      valueFormatter: (value) => {
+        if (value) {
+          return dayjs(value).format('DD-MM-YYYY'); // Example format
+        }
+        return ''; // Return empty string or other fallback for null/invalid dates
+      },
     },
     { field: 'regStatus', headerName: 'Attendance', width: 120 },
     {
@@ -422,10 +430,10 @@ export default function RegistrationListNew() {
     <Box sx={{ padding: { xs: 1, md: 3 } }}>
       <Grid2 container spacing={2} direction={isWide ? 'row' : 'column'}>
         {/* Status Card */}
-        <Grid2 xs={12} md={3}  sx={{ mb: isWide ? 0 : 2 }}>
-          <Card sx={{ width: '100%', minWidth: 250, mt:10 }}>
+        <Grid2 xs={12} md={3} sx={{ mb: isWide ? 0 : 2 }}>
+          <Card sx={{ width: '100%', minWidth: 250, mt: 10 }}>
             <CardContent>
-              <Typography variant="h6" fontSize={{ xs: 18, md: 20  }}>
+              <Typography variant="h6" fontSize={{ xs: 18, md: 20 }}>
                 Registration Status
               </Typography>
               <Typography sx={{ color: 'text.secondary', fontSize: { xs: 12, md: 14 } }}>
@@ -455,21 +463,34 @@ export default function RegistrationListNew() {
             <Typography variant="h6" fontSize={{ xs: 18, md: 24 }} mb={1}>
               Registrations
             </Typography>
-            {registrations.length === 0 ? (
+
+            {/* Tabs for Kanya & Suvasini */}
+            <Tabs
+              value={tab}
+              onChange={(_, v) => setTab(v)}
+              sx={{ mb: 1 }}
+              textColor="primary"
+              indicatorColor="primary"
+            >
+              <Tab label="Kanya" value="kanya" />
+              <Tab label="Suvasini" value="suvasini" />
+            </Tabs>
+
+            {filteredRegistrations.length === 0 ? (
               <Typography>No registrations found.</Typography>
             ) : (
               <Box sx={{ width: '100%', overflowX: 'auto' }}>
                 <Box
-  sx={{
-    width: '100%',
-    height: 500,
-    minWidth: { xs: '100%', md: 600 },
-  }}
->
+                  sx={{
+                    width: '100%',
+                    height: 500,
+                    minWidth: { xs: '100%', md: 600 },
+                  }}
+                >
 
                   <DataGrid
                     getRowId={(row) => row.regId}
-                    rows={registrations}
+                    rows={filteredRegistrations}
                     columns={columns}
                     editMode="row"
                     onRowEditStop={handleRowEditStop}
