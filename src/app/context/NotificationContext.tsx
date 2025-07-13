@@ -41,7 +41,7 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
           },
         }}
         >
-        <Alert onClose={() => setOpen(false)} severity={severity} variant="filled">
+        <Alert onClose={() => setOpen(false)} severity={severity} >
           {message}
         </Alert>
       </Snackbar>
