@@ -29,7 +29,18 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
   return (
     <NotificationContext.Provider value={{ showSuccess, showError, showWarning }}>
       {children}
-      <Snackbar open={open} autoHideDuration={3000} onClose={() => setOpen(false)} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+      <Snackbar open={open} autoHideDuration={5000} onClose={() => setOpen(false)} anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ height: 200, width: 400, flexGrow: 0 }}
+        ContentProps={{
+          sx: {
+            backgroundColor: severity === "success" ? "#4caf50" : severity === "error" ? "#f44336" : severity === "warning" ? "#ff9800" : "#2196f3",
+            color: "#fff",
+            fontSize: "2rem",
+            padding: "16px",
+            borderRadius: "8px",
+          },
+        }}
+        >
         <Alert onClose={() => setOpen(false)} severity={severity} variant="filled">
           {message}
         </Alert>

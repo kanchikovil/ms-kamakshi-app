@@ -296,7 +296,7 @@ const NavratriRegistrationForm = () => {
 
     const data = await response.json();
     if (data.status === "success") {
-      showSuccess("Registration successful!");
+      showSuccess("Registration received successfully. Admin will review and approve your registration in 48hrs. You will receive an email confirmation once approved.");
     } else {
       showError("Registration failed: " + data.message);
     }
