@@ -116,7 +116,7 @@ const DecorativeImage: React.FC<RegistrationCardProps> = ({ regType }) => (
   <div className={styles.decorativeImageWrapper}>
     <Image
       src={regType === "kanya" ? "/images/kanya-card-home.png" : "/images/suvashini-card-home.png"}
-      alt={regType === "kanya" ? "Kanya illustration" : "Suvasini illustration"}
+      alt={regType === "kanya" ? "Kanya Registration" : "Suvasini Registration"}
       className={styles.decorativeImage}
       height={190}
       width={190}
