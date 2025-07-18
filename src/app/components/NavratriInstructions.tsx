@@ -22,9 +22,17 @@ interface RegistrationCardProps {
   regType: string;
 }
 
+
+export const NavratriInstructions: React.FC<RegistrationCardProps> = ({ regType }) => {
+  const isMobile = useMediaQuery('(max-width:1070px)');
+  const [open, setOpen] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+const handleDialogToggle = () => setDialogOpen(!dialogOpen);
 const instructionData = {
     titile: "Kroothi Nama Samvatsara Sharadha Navaratri Mahotsavam 2025",
-    summary: "Kanya who hasn’t started her menstrual cycle should enroll and adhere to the following guidelines",
+    summary:  regType === "kanya"
+        ? "Kanya who hasn’t started her menstrual cycle should enroll and adhere to the following guidelines."
+        : "Suvasini, ladies who are above 40 years and have completed menstrual cycle.",
     sections: [
         {
             content: `Fill in the Required Details:
@@ -43,12 +51,6 @@ const instructionData = {
     ]
 }
 
-export const NavratriInstructions: React.FC<RegistrationCardProps> = ({ }) => {
-  const isMobile = useMediaQuery('(max-width:1070px)');
-  const [open, setOpen] = React.useState(false);
-  const [dialogOpen, setDialogOpen] = React.useState(false);
-const handleDialogToggle = () => setDialogOpen(!dialogOpen);
-
 
   const toggleInstructions = () => setOpen(!open);
 
@@ -59,11 +61,15 @@ const handleDialogToggle = () => setDialogOpen(!dialogOpen);
   spacing={1}
   sx={{
     backgroundColor: '#FFFFFF',
-    marginLeft: isMobile ? '0%' : isMobile ? '0%' : '10%',
-    padding: isMobile ? '1em 0.5em' : isMobile ? '1em 1em' : '1.5em 3em',
-    paddingBottom: isMobile?'21px':'80px', 
+    minHeight: isMobile ? 'auto' : 'calc(100vh - 60px)', // adjust 60px as needed
+    marginLeft: isMobile ? '0%' : '10%',
+    padding: isMobile ? '1em 0.5em' : '17.5em 3em',
+    boxSizing: 'border-box',
   }}
 >
+
+
+
 
       {/* Title */}
       <Grid2 xs={12}>
@@ -72,7 +78,8 @@ const handleDialogToggle = () => setDialogOpen(!dialogOpen);
           fontSize={isMobile ? 16 : 18}
           fontWeight={700}
           textAlign={isMobile ? 'center' : 'left'}
-        >
+          
+                 >
           {instructionData.titile}
         </Typography>
       </Grid2>
@@ -84,6 +91,7 @@ const handleDialogToggle = () => setDialogOpen(!dialogOpen);
           fontSize={isMobile ? 14 : 16}
           fontWeight={900}
           textAlign={isMobile ? 'center' : 'left'}
+          
         >
           {instructionData.summary}
         </Typography>
@@ -179,6 +187,7 @@ const handleDialogToggle = () => setDialogOpen(!dialogOpen);
             padding: '10px 12px',
             border: '1px solid #e0e0e0',
             mb: 2,
+            
           }}
         >
           <Box
@@ -205,6 +214,7 @@ const handleDialogToggle = () => setDialogOpen(!dialogOpen);
             fontSize={13}
             fontWeight={400}
             lineHeight={1.6}
+           
           >
             {item.content}
           </Typography>
@@ -238,6 +248,7 @@ const handleDialogToggle = () => setDialogOpen(!dialogOpen);
           borderRadius: '8px',
           padding: '10px 12px',
           border: '1px solid #e0e0e0',
+          
         }}
       >
         <Box
@@ -264,6 +275,7 @@ const handleDialogToggle = () => setDialogOpen(!dialogOpen);
           fontSize={13}
           fontWeight={400}
           lineHeight={1.6}
+            
         >
           {item.content}
         </Typography>

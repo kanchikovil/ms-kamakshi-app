@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { TextField, Button, Grid, MenuItem, Typography, ToggleButtonGroup, ToggleButton, useMediaQuery } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  MenuItem,
+  Typography,
+  ToggleButtonGroup,
+  ToggleButton,
+  useMediaQuery,
+  Autocomplete,
+} from "@mui/material";
 import ReCAPTCHA from "react-google-recaptcha";
 import APP_CONFIG from "../utils/config";
 import { useNotification } from "../context/NotificationContext";
@@ -7,9 +17,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import axios_instance from "../utils/axiosInstance";
 import EventDaySelector, { EventDay } from "./EventDaySelector";
 import { Dayjs } from "dayjs";
-import { Collapse, IconButton } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { Collapse, IconButton } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box, margin } from "@mui/system";
 interface Event {
   eventId?: number;
@@ -34,7 +44,7 @@ interface EventDaysResponse {
 interface FormDataType {
   attendeeName: string;
   eventId: number;
-  dayId: number;
+  dayId: number | null;
   regType: string;
   attendeeAadharNumber: number;
   attendeePhone: number;
@@ -69,27 +79,28 @@ interface FormDataType {
 }
 
 const NavratriRegistrationForm = () => {
-
   //  const router = useRouter();
   const searchParams = useSearchParams();
 
   const recaptchaRef = useRef<ReCAPTCHA>(null);
-  const [openToggles, setOpenToggles] = React.useState<{ [key: string]: boolean }>({});
-
+  const [openToggles, setOpenToggles] = React.useState<{
+    [key: string]: boolean;
+  }>({});
 
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const registrationType = searchParams.get("registrationType") || "default";
-  const isMobile = useMediaQuery('(max-width:640px)');
+  const isMobile = useMediaQuery("(max-width:640px)");
 
   const [errors, setErrors] = useState<{ attendeeAge?: string }>({});
 
-  const [eventDays, setEventDays] = useState<EventDay[]>();
+  const [eventDays, setEventDays] = useState<EventDay[]>([]);
+
   const [eventDayError, setEventDayError] = useState(false);
   const [formData, setFormData] = useState<FormDataType>({
     attendeeName: "",
     eventId: 1,
-    dayId: 1,
+    dayId: null,
     attendeeAge: 0,
     regType: registrationType === "kanya" ? "kanya" : "suvasini",
     attendeeAadharNumber: 0,
@@ -123,22 +134,40 @@ const NavratriRegistrationForm = () => {
     bangleSize: 0,
   });
   const { showSuccess, showError } = useNotification();
-  const schoolStandards = [ 'PreKg', 'LKG', 'UKG',
-    '1st', '2nd', '3rd', '4th', '5th',
-    '6th', '7th', '8th', '9th', '10th',
-    '11th', '12th'
+  const schoolStandards = [
+    "PreKg",
+    "LKG",
+    "UKG",
+    "1st",
+    "2nd",
+    "3rd",
+    "4th",
+    "5th",
+    "6th",
+    "7th",
+    "8th",
+    "9th",
+    "10th",
+    "11th",
+    "12th",
   ];
   const [gothrams, setGothrams] = useState<string[]>([]);
   const [vedams, setVedams] = useState<string[]>([]);
-
+  const [ageFieldTouched, setAgeFieldTouched] = useState(false);
+  const [showAgeBeforeDayHelper, setShowAgeBeforeDayHelper] = useState(false);
+const router = useRouter();
   const [selectedDayId, setSelectedDayId] = useState<number | null>(null);
   const [ageLimits, setAgeLimits] = useState({ min: 1, max: 100 });
   const fetchGothramsAndVedams = async () => {
     try {
-      const gothramRes = await axios_instance.get(APP_CONFIG.apiBaseUrl + "/gothrams");
-      const vedamRes = await axios_instance.get(APP_CONFIG.apiBaseUrl + "/vedams");
+      const gothramRes = await axios_instance.get(
+        APP_CONFIG.apiBaseUrl + "/gothrams"
+      );
+      const vedamRes = await axios_instance.get(
+        APP_CONFIG.apiBaseUrl + "/vedams"
+      );
 
-      setGothrams(gothramRes.data ?? []);  // Make sure API returns an array
+      setGothrams(gothramRes.data ?? []); // Make sure API returns an array
       setVedams(vedamRes.data ?? []);
     } catch (error) {
       showError("Failed to fetch dropdown data: " + error);
@@ -148,9 +177,9 @@ const NavratriRegistrationForm = () => {
     fetchGothramsAndVedams();
   }, []);
 
-  const gothramFields = ['fathersGothram', 'mothersVedam', 'husbandsGothram'];
-  const vedamFields = ['fathersVedam', 'mothersVedam'];
-  const subCasteFields = ['subCaste'];
+  const gothramFields = ["fathersGothram", "mothersVedam", "husbandsGothram"];
+  const vedamFields = ["fathersVedam", "mothersVedam"];
+  const subCasteFields = ["subCaste"];
   const fieldOptions = {
     fathersGothram: gothrams,
     fathersVedam: vedams,
@@ -158,7 +187,7 @@ const NavratriRegistrationForm = () => {
     husbandsGothram: gothrams,
     husbandVedam: vedams,
     maternalGothram: gothrams,
-    subCaste: ['Iyer', 'Iyengar', 'Gurukal', 'Madhwa'], // Example sub-castes, replace with actual data
+    subCaste: ["Iyer", "Iyengar", "Gurukal", "Madhwa"], // Example sub-castes, replace with actual data
   };
 
   const handleFieldToggle = (fieldName: string) => {
@@ -173,37 +202,57 @@ const NavratriRegistrationForm = () => {
   };
   useEffect(() => {
     const age = Number(formData.attendeeAge);
-    if (
-      formData.attendeeAge &&
-      (age < ageLimits.min || age > ageLimits.max)
-    ) {
+    if (formData.attendeeAge && (age < ageLimits.min || age > ageLimits.max)) {
       setErrors((prev) => ({
         ...prev,
         attendeeAge: `Age must be between ${ageLimits.min} and ${ageLimits.max}`,
       }));
     } else {
-      setErrors((prev) => ({ ...prev, attendeeAge: '' }));
+      setErrors((prev) => ({ ...prev, attendeeAge: "" }));
     }
   }, [formData.attendeeAge, ageLimits]);
 
-
   const fetchEventDays = async () => {
     try {
-      const eventsListRes = await axios_instance.get<EventsResponse>(APP_CONFIG.apiBaseUrl + "/events");
+      const eventsListRes = await axios_instance.get(
+        APP_CONFIG.apiBaseUrl + "/events"
+      );
+      console.log("🧾 Full Events Response =", eventsListRes);
+
       const eventsList = eventsListRes.data;
+      // ✅
+
+      console.log("📦 eventsList =", eventsList); // ✅ Check if events are coming
+
       if (eventsList && Array.isArray(eventsList) && eventsList.length > 0) {
-        const eventId = eventsList[0].eventId
+        const suitableEvent = eventsList.find((e) =>
+          e.eventDays?.some(
+            (day: EventDay) => day.isKanyaDay === (registrationType === "kanya")
+          )
+        );
+        const eventId = suitableEvent?.eventId ?? eventsList[0]?.eventId ?? 1;
+
         setFormData({ ...formData, eventId });
-        //        const response = await axios_instance.get<EventDaysResponse>(APP_CONFIG.apiBaseUrl + `/events/${eventId}/days/${registrationType}/${formData.attendeeAge}`);
-        const response = await axios_instance.get<EventDaysResponse>(APP_CONFIG.apiBaseUrl + `/events/${eventId}/days/${registrationType}`);
+
+        const response = await axios_instance.get<EventDaysResponse>(
+          APP_CONFIG.apiBaseUrl + `/events/${eventId}/days/${registrationType}`
+        );
+
         const eventDays: EventDay[] = response.data.data ?? [];
+
+        console.log(
+          "🚀 Event Days fetched for",
+          registrationType,
+          "=",
+          eventDays
+        ); // ✅ Add this
+
         setEventDays(eventDays);
       }
     } catch (error) {
-      showError('Failed to get available slots: ' + error);
+      showError("Failed to get available slots: " + error);
     }
   };
-
 
   //   setSelectedDayId(dayId);
 
@@ -227,8 +276,8 @@ const NavratriRegistrationForm = () => {
     handleChange({
       target: {
         name: "regType",
-        value: registrationType
-      }
+        value: registrationType,
+      },
     });
   }, [registrationType]);
 
@@ -241,7 +290,7 @@ const NavratriRegistrationForm = () => {
   // Aadhaar validation
   const validateAadhaar = () => {
     const { attendeeAadharNumber } = formData;
-    const aadhar = attendeeAadharNumber + '';
+    const aadhar = attendeeAadharNumber + "";
     return /^\d{12}$/.test(aadhar);
   };
 
@@ -251,7 +300,7 @@ const NavratriRegistrationForm = () => {
 
   // Phone number validation
   const validatePhone = () => {
-    const phone = formData.attendeePhone + '';
+    const phone = formData.attendeePhone + "";
     return /^\d{10}$/.test(phone);
   };
 
@@ -261,7 +310,7 @@ const NavratriRegistrationForm = () => {
       return false;
     }
     return true;
-  }
+  };
 
   const validEmail = (): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -276,7 +325,9 @@ const NavratriRegistrationForm = () => {
       return;
     }
     if (!validateAadhaar()) {
-      showError("Invalid Aadhaar number. Please enter a valid 12-digit Aadhaar.");
+      showError(
+        "Invalid Aadhaar number. Please enter a valid 12-digit Aadhaar."
+      );
       return;
     }
     if (!validatePhone()) {
@@ -296,7 +347,11 @@ const NavratriRegistrationForm = () => {
 
     const data = await response.json();
     if (data.status === "success") {
-      showSuccess("Registration received successfully. Admin will review and approve your registration in 48hrs. You will receive an email confirmation once approved.");
+      showSuccess(
+        "Registration received successfully. Admin will review and approve your registration in 48hrs. You will receive an email confirmation once approved."
+      );
+      router.push('/');
+
     } else {
       showError("Registration failed: " + data.message);
     }
@@ -334,7 +389,6 @@ const NavratriRegistrationForm = () => {
             eventDays={eventDays ?? []}
             selectedDayId={formData.dayId}
             onChange={(id) => {
-              // Update dayId in formData
               handleChange({
                 target: {
                   name: "dayId",
@@ -342,286 +396,396 @@ const NavratriRegistrationForm = () => {
                 },
               });
 
-              // 👇 Find selected day using dayId and set age limits
-              const selectedDay = (eventDays ?? []).find((day) => day.dayId === id);
+              const selectedDay = eventDays.find((day) => day.dayId === id);
               if (selectedDay) {
                 setAgeLimits({
                   min: selectedDay.minAge,
                   max: selectedDay.maxAge,
                 });
+                setShowAgeBeforeDayHelper(false); // Hide helper once day is selected
               } else {
-                setAgeLimits({ min: 1, max: 100 }); // fallback
+                setAgeLimits({ min: 1, max: 100 });
               }
             }}
           />
+          {showAgeBeforeDayHelper && (
+            <Typography variant="caption" color="error" sx={{ mt: 1 }}>
+              Please select a day first to view allowed age range.
+            </Typography>
+          )}
         </Grid>
 
-        {formData.regType && (<>
-          {/* Aadhaar Number */}
-          <Grid item xs={4}>
-            <TextField required name="attendeeAadharNumber" label="Aadhaar Number" type="text" // Use "text" instead of "number" to control input manually
-              inputProps={{ maxLength: 12, inputMode: "numeric", pattern: "[0-9]*" }} value={formData.attendeeAadharNumber} onChange={handleChange} fullWidth />
-          </Grid>
-          {/* Phone Number */}
-          {/* <Grid item xs={3}>
+        {formData.regType && (
+          <>
+            {/* Aadhaar Number */}
+            <Grid item xs={4}>
+              <TextField
+                required
+                name="attendeeAadharNumber"
+                label="Aadhaar Number"
+                type="text" // Use "text" instead of "number" to control input manually
+                inputProps={{
+                  maxLength: 12,
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                }}
+                value={formData.attendeeAadharNumber}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+            {/* Phone Number */}
+            {/* <Grid item xs={3}>
           <TextField select name="countryCode" label="Country Code" value={formData.countryCode} onChange={handleChange} fullWidth>
             <MenuItem value="+91">+91 (India)</MenuItem>
             <MenuItem value="+1">+1 (USA)</MenuItem>
             <MenuItem value="+44">+44 (UK)</MenuItem>
           </TextField>
         </Grid> */}
-          <Grid item xs={4}>
-            <TextField required name="attendeePhone" label="Mobile Number" type="text" // Use "text" instead of "number" to control input manually
-              inputProps={{ maxLength: 10, inputMode: "numeric", pattern: "[0-9]*" }} value={formData.attendeePhone} onChange={handleChange} fullWidth />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField required name="attendeeEmail" label="Email" type="text" // Use "text" instead of "number" to control input manually
-              value={formData.attendeeEmail} onChange={handleChange} fullWidth />
-          </Grid>
+            <Grid item xs={4}>
+              <TextField
+                required
+                name="attendeePhone"
+                label="Mobile Number"
+                type="text" // Use "text" instead of "number" to control input manually
+                inputProps={{
+                  maxLength: 10,
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                }}
+                value={formData.attendeePhone}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                required
+                name="attendeeEmail"
+                label="Email"
+                type="text" // Use "text" instead of "number" to control input manually
+                value={formData.attendeeEmail}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
 
-          {/* Parents Details */}
-          {/* {(['attendeeName', 'attendeeAge', 'motherTongue', 'fathersName',
+            {/* Parents Details */}
+            {/* {(['attendeeName', 'attendeeAge', 'motherTongue', 'fathersName',
             'fathersGothram', 'fathersVedam', 'fathersProfession',
             'mothersName', 'mothersVedam', 'mothersProfession'] as Array<keyof FormDataType>).map((field, index) => (
               <Grid item xs={12} sm={4} key={index}>
                 <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
               </Grid>
             ))} */}
-          {([
-            'attendeeName', 'attendeeAge','motherTongue', 'fathersName',
-            'fathersGothram', 'fathersVedam', 'fathersProfession',
-            'mothersName', 'mothersVedam', 'mothersProfession'
-          ] as Array<keyof FormDataType>).map((field, index) => (
-            <Grid item xs={12} sm={4} key={index}>
-              {field === 'attendeeAge' ? (
-                // ✅ Custom handling for attendeeAge field
-                <TextField
-                  type="number"
-                  label="Attendee Age"
-                  name="attendeeAge"
-                  value={formData.attendeeAge || ''}
-                  onChange={handleChange}
-                  inputProps={{ min: ageLimits.min, max: ageLimits.max }}
-                  fullWidth
-                  error={Boolean(errors.attendeeAge)}
-                  helperText={errors.attendeeAge}
-                />
-              ) : fieldOptions[field as keyof typeof fieldOptions] ? (
-                // Dropdown (select) input
-                <TextField
-                  select
-                  label={field.replace(/([A-Z])/g, ' $1')}
-                  name={field}
-                  value={formData[field] || ''}
-                  onChange={handleChange}
-                  fullWidth
-                >
-                  {(fieldOptions[field as keyof typeof fieldOptions] as any[]).map((option) => {
-                    const value = typeof option === 'string' ? option : option.name;
-                    return (
-                      <MenuItem key={value} value={value}>
-                        {value}
-                      </MenuItem>
-                    );
-                  })}
-                </TextField>
-              ) : (
-                // Normal input for text fields
-                <TextField
-                  label={field.replace(/([A-Z])/g, ' $1')}
-                  name={field}
-                  value={formData[field] || ''}
-                  onChange={handleChange}
-                  fullWidth
-                />
-              )}
-            </Grid>
-          ))}
-
-          {/* Horoscope, Slogam, Classical Music */}
-          {(['horoscopeName', 'slogamKnown', 'classicalMusic'] as Array<keyof FormDataType>).map((field, index) => (
-            <Grid item xs={12} sm={4} key={index}>
-              <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
-            </Grid>
-          ))}
-
-          {/* kanya Details*/}
-          {formData.regType === 'kanya' &&
-            (['schoolStandard', 'schoolName'] as Array<keyof FormDataType>).map((field, index) => (
+            {(
+              [
+                "attendeeName",
+                "attendeeAge",
+                "motherTongue",
+                "fathersName",
+                "fathersGothram",
+                "fathersVedam",
+                "fathersProfession",
+                "mothersName",
+                "mothersVedam",
+                "mothersProfession",
+              ] as Array<keyof FormDataType>
+            ).map((field, index) => (
               <Grid item xs={12} sm={4} key={index}>
-                {field === 'schoolStandard' ? (
+                {field === "attendeeAge" ? (
+                  // ✅ Custom handling for attendeeAge field
                   <TextField
-                    select
-                    label="School Standard"
-                    name={field}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                    SelectProps={{
-                      MenuProps: {
-                        PaperProps: {
-                          style: {
-                            maxHeight: 250,
-                            width: 'auto',
-                          },
-                        },
-                      },
+                    type="number"
+                    label="Attendee Age"
+                    name="attendeeAge"
+                    value={formData.attendeeAge || ""}
+                    onChange={(e) => {
+                      handleChange(e);
+
+                      // Show warning if no day selected
+                      if (!formData.dayId) {
+                        setShowAgeBeforeDayHelper(true);
+                      } else {
+                        setShowAgeBeforeDayHelper(false);
+                      }
                     }}
-                  >
-                    {schoolStandards.map((option) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                    inputProps={{ min: ageLimits.min, max: ageLimits.max }}
+                    fullWidth
+                    error={Boolean(errors.attendeeAge)}
+                    helperText={errors.attendeeAge}
+                  />
+                ) : fieldOptions[field as keyof typeof fieldOptions] ? (
+                  // Dropdown (select) input
+                  <Autocomplete
+                    options={(
+                      fieldOptions[field as keyof typeof fieldOptions] as any[]
+                    ).map((option) =>
+                      typeof option === "string" ? option : option.name
+                    )}
+                    value={formData[field] || ""}
+                    onChange={(_, newValue) => {
+                      handleChange({
+                        target: { name: field, value: newValue || "" },
+                      });
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label={field.replace(/([A-Z])/g, " $1")}
+                        name={field}
+                        fullWidth
+                      />
+                    )}
+                    freeSolo={false}
+                  />
                 ) : (
+                  // Normal input for text fields
                   <TextField
-                    label="School Name"
+                    label={field.replace(/([A-Z])/g, " $1")}
                     name={field}
-                    value={formData[field]}
+                    value={formData[field] || ""}
                     onChange={handleChange}
                     fullWidth
-                    size="small"
-                    variant="outlined"
                   />
                 )}
               </Grid>
             ))}
 
-          {/* suvasini Details*/}
-          {formData.regType === 'suvasini' && (
-            [
-              'subCaste',
-              'maternalGothram',
-              'husbandsName',
-              'husbandsGothram',
-              'husbandsProfession',
-              'husbandVedam'
-            ] as Array<keyof FormDataType>
-          ).map((field, index) => (
-            <Grid item xs={12} sm={4} key={index}>
-              {fieldOptions[field as keyof typeof fieldOptions] ? (
+            {/* Horoscope, Slogam, Classical Music */}
+            {(
+              ["horoscopeName", "slogamKnown", "classicalMusic"] as Array<
+                keyof FormDataType
+              >
+            ).map((field, index) => (
+              <Grid item xs={12} sm={4} key={index}>
                 <TextField
-                  select
-                  label={field.replace(/([A-Z])/g, ' $1').trim()}
+                  label={field.replace(/([A-Z])/g, " $1")}
                   name={field}
-                  value={formData[field] || ''}
-                  onChange={handleChange}
-                  fullWidth
-                >
-                  <MenuItem value="" disabled>
-                    {`Select ${field.replace(/([A-Z])/g, ' ').trim()}`}
-                  </MenuItem>
-                  {(fieldOptions[field as keyof typeof fieldOptions] as any[]).map((option) => {
-                    const value = typeof option === 'string' ? option : option.name;
-                    return (
-                      <MenuItem key={value} value={value}>
-                        {value}
-                      </MenuItem>
-                    );
-                  })}
-                </TextField>
-              ) : (
-                <TextField
-                  label={field.replace(/([A-Z])/g, ' $1').trim()}
-                  name={field}
-                  value={formData[field] || ''}
+                  value={formData[field]}
                   onChange={handleChange}
                   fullWidth
                 />
-              )}
-            </Grid>
-          ))}
-
-
-
-          {/* Address & Devatha */}
-          {(['kulaDevatha', 'place', 'address'] as Array<keyof FormDataType>).map((field, index) => (
-            <Grid item xs={12} sm={4} key={index}>
-              <TextField label={field.replace(/([A-Z])/g, ' $1')} name={field} value={formData[field]} onChange={handleChange} fullWidth />
-            </Grid>
-          ))}
-
-          {/* Dress, Kolusu, Bangle Sizes */}
-          {formData.regType === 'kanya' &&
-            ([
-              { name: 'dressSize', label: 'Girls Dress Size', options: [16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38] },
-              { name: 'legchainSize', label: 'Leg Chain (Kolusu) Size', options: [5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5] },
-              { name: 'bangleSize', label: 'Bangle Size', options: [1.8, 1.10, 1.12, 2.0, 2.2, 2.4, 2.6, 2.8] }
-            ] as { name: keyof FormDataType; label: string; options: number[] }[]).map((item, index) => (
-              <Grid item xs={12} sm={12} key={index}>
-                <Typography fontSize={isMobile ? 13 : 14} fontWeight={600} mb={1} display="flex" alignItems="center">
-                  {item.label}
-                  {isMobile && (
-                    <IconButton size="small" onClick={() => handleFieldToggle(item.name)}>
-
-                    </IconButton>
-                  )}
-                </Typography>
-                {isMobile ? (
-
-                  <ToggleButtonGroup
-                    value={formData[item.name]}
-                    exclusive
-                    onChange={handleToggleChange(item.name)}
-                    sx={{ flexWrap: 'wrap' }}
-                  >
-                    {item.options.map((size) => (
-                      <ToggleButton
-                        key={size}
-                        value={size}
-                        sx={{
-                          mr: 0.5,
-                          mb: 0.5,
-                          minWidth: 36,
-                          padding: '4px 8px',
-                          backgroundColor: '#fff',
-                          '&.Mui-selected': {
-                            backgroundColor: '#693108',
-                            color: '#fff'
-                          }
-                        }}
-                      >
-                        <Typography variant="caption">{size}</Typography>
-                      </ToggleButton>
-                    ))}
-                  </ToggleButtonGroup>
-
-                ) : (
-                  <ToggleButtonGroup
-                    value={formData[item.name]}
-                    exclusive
-                    orientation="horizontal"
-                    onChange={handleToggleChange(item.name)}
-                  >
-                    {item.options.map((size) => (
-                      <ToggleButton
-                        key={size}
-                        value={size}
-                        sx={{
-                          mr: 0.5,
-                          minWidth: 36,
-                          padding: '4px 8px',
-                          '&.Mui-selected': {
-                            backgroundColor: '#693108',
-                            color: '#fff'
-                          }
-                        }}
-                      >
-                        <Typography variant="caption">{size}</Typography>
-                      </ToggleButton>
-                    ))}
-                  </ToggleButtonGroup>
-                )}
-
-
               </Grid>
             ))}
 
-          {/* CAPTCHA */}
-          {/* <Grid item xs={12}>
+            {/* kanya Details*/}
+            {formData.regType === "kanya" &&
+              (
+                ["schoolStandard", "schoolName"] as Array<keyof FormDataType>
+              ).map((field, index) => (
+                <Grid item xs={12} sm={4} key={index}>
+                  {field === "schoolStandard" ? (
+                    <TextField
+                      select
+                      label="School Standard"
+                      name={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      SelectProps={{
+                        MenuProps: {
+                          PaperProps: {
+                            style: {
+                              maxHeight: 250,
+                              width: "auto",
+                            },
+                          },
+                        },
+                      }}
+                    >
+                      {schoolStandards.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  ) : (
+                    <TextField
+                      label="School Name"
+                      name={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                    />
+                  )}
+                </Grid>
+              ))}
+
+            {/* suvasini Details*/}
+            {formData.regType === "suvasini" &&
+              (
+                [
+                  "subCaste",
+                  "maternalGothram",
+                  "husbandsName",
+                  "husbandsGothram",
+                  "husbandsProfession",
+                  "husbandVedam",
+                ] as Array<keyof FormDataType>
+              ).map((field, index) => (
+                <Grid item xs={12} sm={4} key={index}>
+                  {fieldOptions[field as keyof typeof fieldOptions] ? (
+                    <Autocomplete
+                      options={(
+                        fieldOptions[
+                          field as keyof typeof fieldOptions
+                        ] as any[]
+                      ).map((option) =>
+                        typeof option === "string" ? option : option.name
+                      )}
+                      value={formData[field] || ""}
+                      onChange={(event, newValue) => {
+                        handleChange({
+                          target: {
+                            name: field,
+                            value: newValue || "",
+                          },
+                        });
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={field.replace(/([A-Z])/g, " $1").trim()}
+                          fullWidth
+                        />
+                      )}
+                      disableClearable
+                      freeSolo={false}
+                    />
+                  ) : (
+                    <TextField
+                      label={field.replace(/([A-Z])/g, " $1").trim()}
+                      name={field}
+                      value={formData[field] || ""}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  )}
+                </Grid>
+              ))}
+
+            {/* Address & Devatha */}
+            {(
+              ["kulaDevatha", "place", "address"] as Array<keyof FormDataType>
+            ).map((field, index) => (
+              <Grid item xs={12} sm={4} key={index}>
+                <TextField
+                  label={field.replace(/([A-Z])/g, " $1")}
+                  name={field}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  fullWidth
+                />
+              </Grid>
+            ))}
+
+            {/* Dress, Kolusu, Bangle Sizes */}
+            {formData.regType === "kanya" &&
+              (
+                [
+                  {
+                    name: "dressSize",
+                    label: "Girls Dress Size",
+                    options: [16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38],
+                  },
+                  {
+                    name: "legchainSize",
+                    label: "Leg Chain (Kolusu) Size",
+                    options: [
+                      5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0,
+                      10.5,
+                    ],
+                  },
+                  {
+                    name: "bangleSize",
+                    label: "Bangle Size",
+                    options: [1.8, 1.1, 1.12, 2.0, 2.2, 2.4, 2.6, 2.8],
+                  },
+                ] as {
+                  name: keyof FormDataType;
+                  label: string;
+                  options: number[];
+                }[]
+              ).map((item, index) => (
+                <Grid item xs={12} sm={12} key={index}>
+                  <Typography
+                    fontSize={isMobile ? 13 : 14}
+                    fontWeight={600}
+                    mb={1}
+                    display="flex"
+                    alignItems="center"
+                  >
+                    {item.label}
+                    {isMobile && (
+                      <IconButton
+                        size="small"
+                        onClick={() => handleFieldToggle(item.name)}
+                      ></IconButton>
+                    )}
+                  </Typography>
+                  {isMobile ? (
+                    <ToggleButtonGroup
+                      value={formData[item.name]}
+                      exclusive
+                      onChange={handleToggleChange(item.name)}
+                      sx={{ flexWrap: "wrap" }}
+                    >
+                      {item.options.map((size) => (
+                        <ToggleButton
+                          key={size}
+                          value={size}
+                          sx={{
+                            mr: 0.5,
+                            mb: 0.5,
+                            minWidth: 36,
+                            padding: "4px 8px",
+                            backgroundColor: "#fff",
+                            "&.Mui-selected": {
+                              backgroundColor: "#693108",
+                              color: "#fff",
+                            },
+                          }}
+                        >
+                          <Typography variant="caption">{size}</Typography>
+                        </ToggleButton>
+                      ))}
+                    </ToggleButtonGroup>
+                  ) : (
+                    <ToggleButtonGroup
+                      value={formData[item.name]}
+                      exclusive
+                      orientation="horizontal"
+                      onChange={handleToggleChange(item.name)}
+                    >
+                      {item.options.map((size) => (
+                        <ToggleButton
+                          key={size}
+                          value={size}
+                          sx={{
+                            mr: 0.5,
+                            minWidth: 36,
+                            padding: "4px 8px",
+                            "&.Mui-selected": {
+                              backgroundColor: "#693108",
+                              color: "#fff",
+                            },
+                          }}
+                        >
+                          <Typography variant="caption">{size}</Typography>
+                        </ToggleButton>
+                      ))}
+                    </ToggleButtonGroup>
+                  )}
+                </Grid>
+              ))}
+
+            {/* CAPTCHA */}
+            {/* <Grid item xs={12}>
             <ReCAPTCHA
               sitekey={APP_CONFIG.recaptchaSiteKey}
               onChange={handleCaptchaChange}
@@ -629,13 +793,12 @@ const NavratriRegistrationForm = () => {
             />
           </Grid> */}
 
-          {/* Submit Button */}
-          <Grid item xs={12} sx={{ margin: '2px' }}>
-            <Button type="submit">Register</Button>
-          </Grid>
-
-        </>)
-        }
+            {/* Submit Button */}
+            <Grid item xs={12} sx={{ margin: "2px" }}>
+              <Button type="submit">Register</Button>
+            </Grid>
+          </>
+        )}
       </Grid>
     </form>
   );

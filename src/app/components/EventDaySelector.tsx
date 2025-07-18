@@ -37,6 +37,8 @@ const EventDaySelector: React.FC<Props> = ({
   error = false,
   helperText = "Please select an available date.",
 }) => {
+  console.log("🚀 Event Days received by EventDaySelector:", eventDays);
+
   return (
     <FormControl
       component="fieldset"

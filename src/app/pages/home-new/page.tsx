@@ -59,7 +59,7 @@ export default function HomePage() {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // 0 - 600
   const isTabletOnly = useMediaQuery('(min-width:601px) and (max-width:1024px)'); // 601 - 1024
   const isMidDesktop = useMediaQuery('(min-width:1025px) and (max-width:1276px)'); // 1025 - 1275
-  const isDesktopOnly = useMediaQuery('(min-width:1276px)'); // 1276+  
+  const isDesktopOnly = useMediaQuery('(min-width:1277px)'); // 1276+  
 
   const [carouselTab, setCarouselTab] = React.useState(0);
   const router = useRouter();
@@ -286,13 +286,17 @@ export default function HomePage() {
               </Typography>
             </Grid>
           </Grid>
+          <Grid item xs={12}><FullWidthMessage message="Past Events ..." /></Grid>
+          
           <Box sx={{ width: '100%', maxWidth: 600 }}>
+            
             <Tabs value={carouselTab} onChange={(_, v) => setCarouselTab(v)} variant="scrollable" scrollButtons="auto">
               {carouselCategories.map((cat, idx) => (
                 <Tab key={cat.label} label={cat.label} />
               ))}
             </Tabs>
             <Box sx={{ mt: 2 }}>
+              
               <ImageList cols={isMobile ? 1 : 3} gap={8}>
                 {carouselCategories[carouselTab].images.map((img, idx) => (
 <ImageListItem key={img.src} style={{ cursor: 'pointer' }}>

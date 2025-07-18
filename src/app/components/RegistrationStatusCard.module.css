@@ -1,8 +1,9 @@
 .cardContainer {
   background: #fff;
-  padding: 20px;
+  padding: 50px;
+  margin-right: -10px;
   border-radius: 0;
-  max-width: 500px;
+  max-width: 436px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   font-family: "Arima Madurai", sans-serif;
   z-index: 100;
@@ -146,14 +147,18 @@
   margin-left: 10%;
 }
 
-@media (max-width: 1257px) and (min-width: 1020px) {
+@media (max-width: 1285) and (min-width: 1020px) {
   .cardContainer {
     max-width: 400px;
     padding: 40px;
     margin-top: 50px;
-    margin-left: 50px;
+    margin-left: 90px;
+    
   }
-
+  .eventCard img {
+    max-height: 100px !important;
+    object-fit: contain !important;
+  }
   .title {
     font-size: 18px;
   }
@@ -234,25 +239,121 @@
 
 @media (max-width: 1250px) {
   .cardContainer {
-    max-width: 300px;
-    padding: 40px;
+    max-width: 350px;
+    padding: 50px;
     margin-top: 30px;
     margin-left: 100px;
+  }
+  .eventCard img {
+    max-height: 250px; /* Bigger image on large screens */
+    width: 500px;       /* Keep original width */
+    max-width: 100%;   /* Don't overflow container */
+  }
+
+}
+@media (max-width: 1100px) and (min-width: 1020px) {
+  .eventCard img {
+    width: 100px !important;
+    max-height: 200px !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block;
+    margin: 0 auto;
+  }
+}
+@media (min-width: 1086px) and (max-width: 1090px) {
+  .cardContainer {
+    /* styles for screen widths roughly around 1975px */
+    max-width: 350px !important;
+    padding: 50px;
+    margin-left: 60px;
   }
 }
 
 @media (max-width: 1025px) {
   .cardContainer {
-    padding: 20px;
-    margin-right: 100px;
+    padding: 50px;
+    margin-right: -15px;
     align-items: center;
+    align-content: center;
     border-radius: 0;
-    max-width: 500px;
+    max-width: 430px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     font-family: "Arima Madurai", sans-serif;
     z-index: 100;
   }
+ .eventCard img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    border-radius: 0 !important;
+  }
+
+  .eventCard .MuiCardContent-root {
+    text-align: center;
+    padding-top: 10px !important;
+  }
+
+  .eventCard .MuiTypography-subtitle1 {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    margin-bottom: 5px;
+  }
+
+  .eventCard .MuiTypography-body2 {
+    font-size: 13px !important;
+    color: #555;
+  }
+
 }
+
+@media (max-width: 1250px) and (min-width: 1200px) {
+  .cardContainer {
+    max-width: 380px;
+    margin: 30px auto; /* Center it */
+    padding: 30px;
+  }
+
+  .eventCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .eventCard img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;  /* Crop to fill box neatly */
+    border-radius: 6px;
+  }
+
+  .eventCard .MuiCardContent-root {
+    text-align: center;
+    padding: 12px;
+  }
+
+  .eventCard .MuiTypography-subtitle1 {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .eventCard .MuiTypography-body2 {
+    font-size: 14px;
+    color: #444;
+  }
+
+  .scheduledStatus {
+    margin: 0 auto;
+  }
+
+  .footerHeaderHolder,
+  .footerDecorHolder {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 
 @media (max-width: 599px) {
   .cardContainer {
