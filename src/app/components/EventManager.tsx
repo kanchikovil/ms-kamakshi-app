@@ -21,6 +21,7 @@ import {
   IconButton,
   FormControlLabel,
   Switch,
+  Chip,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -34,9 +35,14 @@ import APP_CONFIG from "../utils/config";
 import { useNotification } from "../context/NotificationContext";
 import axios_instance from "../utils/axiosInstance";
 import { useMediaQuery } from "@mui/material";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore"; 
+
 
 
 dayjs.extend(isBetween);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 interface Event {
   eventId?: number;
@@ -90,6 +96,7 @@ export default function EventManager() {
       showError('Failed to get Events' + error);
     }
   };
+
 
   const validateForm = () => {
     const tempErrors: { [key: string]: string } = {};
@@ -382,13 +389,15 @@ export default function EventManager() {
                       <TableCell>
                         {event.endDate ? dayjs(event.endDate).format("DD-MM-YYYY") : ""}
                       </TableCell>
-                      <TableCell>
-                        {dayjs().isBetween(event.startDate, event.endDate, "day", "[]")
-                          ? "Active"
-                          : dayjs().isAfter(event.endDate, "day")
-                            ? "Inactive"
-                            : "Inactive"}
-                      </TableCell>
+                     <TableCell>
+                      {dayjs().isSameOrAfter(event.startDate, 'day') &&
+                      dayjs().isSameOrBefore(event.endDate, 'day') ? (
+                        <Chip label="Active" color="success" />
+                      ) : (
+                        <Chip label="Inactive" color="error" />
+                      )}
+                    </TableCell>
+
                       <TableCell>
                         <Button onClick={() => handleEdit(event)}>Edit</Button>
                       </TableCell>
