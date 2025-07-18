@@ -67,7 +67,7 @@ interface EventDay {
 }
 
 export default function EventManager() {
-  const { showError } = useNotification();
+const { showError, showSuccess } = useNotification();
   const defaultEventDetails: Event = {
     eventName: "",
     startDate: null,
@@ -154,9 +154,11 @@ export default function EventManager() {
     try {
       if (editingEventId) {
         await axios_instance.put(`${APP_CONFIG.apiBaseUrl}/events/${editingEventId}`, payload);
+        showSuccess("Event updated successfully");
       } else {
         await axios_instance.post(`${APP_CONFIG.apiBaseUrl}/events`, payload);
       }
+       showSuccess("Event created successfully");
 
       fetchEvents();
       setShowForm(false);
@@ -203,12 +205,17 @@ export default function EventManager() {
     }));
   };
 
-  const removeEventDay = (index: number) => {
-    setForm(prev => ({
-      ...prev,
-      eventDays: prev.eventDays?.filter((_, i) => i !== index) || [],
-    }));
-  };
+const removeEventDay = (index: number) => {
+  setForm(prev => ({
+    ...prev,
+    eventDays: prev.eventDays?.filter((_, i) => i !== index) || [],
+  }));
+
+  // Notify user
+  showSuccess("Event day removed. Click 'Update Event' to save changes.");
+};
+
+
 
 
   return (
