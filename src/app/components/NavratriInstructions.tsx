@@ -63,7 +63,7 @@ const instructionData = {
     backgroundColor: '#FFFFFF',
     minHeight: isMobile ? 'auto' : 'calc(100vh - 60px)', // adjust 60px as needed
     marginLeft: isMobile ? '0%' : '10%',
-    padding: isMobile ? '1em 0.5em' : '17.5em 3em',
+    padding: isMobile ? '1em 0.5em' : '6.5em 3em',
     boxSizing: 'border-box',
   }}
 >

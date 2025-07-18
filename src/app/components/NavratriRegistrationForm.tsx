@@ -622,7 +622,6 @@ const router = useRouter();
               (
                 [
                   "subCaste",
-                  "maternalGothram",
                   "husbandsName",
                   "husbandsGothram",
                   "husbandsProfession",
