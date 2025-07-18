@@ -245,7 +245,7 @@ const router = useRouter();
           registrationType,
           "=",
           eventDays
-        ); // ✅ Add this
+        );
 
         setEventDays(eventDays);
       }
@@ -490,11 +490,12 @@ const router = useRouter();
                 "mothersName",
                 "mothersVedam",
                 "mothersProfession",
+                "maternalGothram",
               ] as Array<keyof FormDataType>
             ).map((field, index) => (
               <Grid item xs={12} sm={4} key={index}>
                 {field === "attendeeAge" ? (
-                  // ✅ Custom handling for attendeeAge field
+                 
                   <TextField
                     type="number"
                     label="Attendee Age"
@@ -570,62 +571,104 @@ const router = useRouter();
             ))}
 
             {/* kanya Details*/}
-           {formData.regType === "kanya" &&
-  (
-    ["maternalGothram", "schoolStandard", "schoolName"] as Array<
-      keyof FormDataType
-    >
-  ).map((field, index) => (
-    <Grid item xs={12} sm={4} key={index}>
-      {field === "schoolStandard" ? (
-        <TextField
-          select
-          label="School Standard"
-          name={field}
-          value={formData[field]}
-          onChange={handleChange}
-          fullWidth
-        >
-          {schoolStandards.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </TextField>
-      ) : fieldOptions[field as keyof typeof fieldOptions] ? (
-                  <Autocomplete
-                    options={(
-                      fieldOptions[field as keyof typeof fieldOptions] as any[]
-                    ).map((option) =>
-                      typeof option === "string" ? option : option.name
-                    )}
-                    value={formData[field] || ""}
-                    onChange={(_, newValue) => {
-                      handleChange({
-                        target: { name: field, value: newValue || "" },
-                      });
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label={field.replace(/([A-Z])/g, " $1")}
-                        name={field}
-                        fullWidth
-                      />
-                    )}
-                    freeSolo={false}
-                  />
-      ) : (
-        <TextField
-          label={field.replace(/([A-Z])/g, " $1").trim()}
-          name={field}
-          value={formData[field] || ""}
-          onChange={handleChange}
-          fullWidth
-        />
-      )}
-    </Grid>
-  ))}
+            {formData.regType === "kanya" &&
+              (
+                ["schoolStandard", "schoolName"] as Array<keyof FormDataType>
+              ).map((field, index) => (
+                <Grid item xs={12} sm={4} key={index}>
+                  {field === "schoolStandard" ? (
+                    <TextField
+                      select
+                      label="School Standard"
+                      name={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      SelectProps={{
+                        MenuProps: {
+                          PaperProps: {
+                            style: {
+                              maxHeight: 250,
+                              width: "auto",
+                            },
+                          },
+                        },
+                      }}
+                    >
+                      {schoolStandards.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  ) : (
+                    <TextField
+                      label="School Name"
+                      name={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                    />
+                  )}
+                </Grid>
+              ))}
+
+            {/* suvasini Details*/}
+            {formData.regType === "suvasini" &&
+              (
+                [
+                  "subCaste",
+                  "maternalGothram",
+                  "husbandsName",
+                  "husbandsGothram",
+                  "husbandsProfession",
+                  "husbandVedam",
+                ] as Array<keyof FormDataType>
+              ).map((field, index) => (
+                <Grid item xs={12} sm={4} key={index}>
+                  {fieldOptions[field as keyof typeof fieldOptions] ? (
+                    <Autocomplete
+                      options={(
+                        fieldOptions[
+                          field as keyof typeof fieldOptions
+                        ] as any[]
+                      ).map((option) =>
+                        typeof option === "string" ? option : option.name
+                      )}
+                      value={formData[field] || ""}
+                      onChange={(event, newValue) => {
+                        handleChange({
+                          target: {
+                            name: field,
+                            value: newValue || "",
+                          },
+                        });
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={field.replace(/([A-Z])/g, " $1").trim()}
+                          fullWidth
+                        />
+                      )}
+                      disableClearable
+                      freeSolo={false}
+                    />
+                  ) : (
+                    <TextField
+                      label={field.replace(/([A-Z])/g, " $1").trim()}
+                      name={field}
+                      value={formData[field] || ""}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  )}
+                </Grid>
+              ))}
 
             {/* Address & Devatha */}
             {(
