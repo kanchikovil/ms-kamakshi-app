@@ -555,7 +555,7 @@ const router = useRouter();
 
             {/* Horoscope, Slogam, Classical Music */}
             {(
-              ["horoscopeName", "slogamKnown", "classicalMusic"] as Array<
+              ["horoscopeName"] as Array<
                 keyof FormDataType
               >
             ).map((field, index) => (
@@ -573,7 +573,7 @@ const router = useRouter();
             {/* kanya Details*/}
             {formData.regType === "kanya" &&
               (
-                ["schoolStandard", "schoolName"] as Array<keyof FormDataType>
+                ["schoolStandard", "schoolName","slogamKnown", "classicalMusic"] as Array<keyof FormDataType>
               ).map((field, index) => (
                 <Grid item xs={12} sm={4} key={index}>
                   {field === "schoolStandard" ? (
@@ -603,16 +603,26 @@ const router = useRouter();
                         </MenuItem>
                       ))}
                     </TextField>
-                  ) : (
+                  ) :  (
                     <TextField
-                      label="School Name"
-                      name={field}
-                      value={formData[field]}
-                      onChange={handleChange}
-                      fullWidth
-                      size="small"
-                      variant="outlined"
-                    />
+                label={
+                  field === "schoolName"
+                    ? "School Name"
+                    : field === "slogamKnown"
+                    ? "Slogam Known"
+                    : field === "classicalMusic"
+                    ? "Classical Music"
+                    : field
+                }
+                name={field}
+                value={formData[field]}
+                onChange={handleChange}
+                fullWidth
+                size="small"
+                variant="outlined"
+              />
+
+                    
                   )}
                 </Grid>
               ))}
