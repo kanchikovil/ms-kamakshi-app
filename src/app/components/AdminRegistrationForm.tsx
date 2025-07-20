@@ -79,7 +79,7 @@ interface FormDataType {
   referredBy: string;
 }
 
-const NavratriRegistrationForm = () => {
+const AdminRegistrationForm = () => {
   //  const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -133,7 +133,7 @@ const NavratriRegistrationForm = () => {
     dressSize: 0,
     legchainSize: 0,
     bangleSize: 0,
-    referredBy: "SELF",
+    referredBy: "ADMIN",
   });
   const { showSuccess, showError } = useNotification();
   const schoolStandards = [
@@ -362,31 +362,23 @@ const router = useRouter();
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
+         <Grid container xs={12}>
         {/* Registration Type */}
-        {/* <Grid item xs={12}>
-          <TextField select name="regType" label="Registration Type" value={formData.regType} onChange={handleChange} fullWidth>
-            <MenuItem value="" disabled>
-              <em>Select Registration Type</em>
-            </MenuItem>
+        <Grid item xs={3}>
+          <TextField
+            select
+            name="regType"
+            label="Registration Type"
+            value={formData.regType}
+            onChange={handleChange}
+            fullWidth
+          >
             <MenuItem value="kanya">Kanya</MenuItem>
             <MenuItem value="suvasini">Suvasini</MenuItem>
           </TextField>
-        </Grid> */}
-        {/* <Grid item xs={12}>
-          <EventDaySelector
-            eventDays={eventDays ?? []}
-            selectedDayId={formData.dayId}
-            onChange={(id) => {
-              handleChange({
-                target: {
-                  name: "dayId",
-                  value: id
-                }
-              });
-            }}
-          />
-        </Grid> */}
-        <Grid item xs={12}>
+        </Grid>
+         {/* Registration Day */}
+        <Grid item xs={9}>
           <EventDaySelector
             eventDays={eventDays ?? []}
             selectedDayId={formData.dayId}
@@ -415,6 +407,7 @@ const router = useRouter();
               Please select a day first to view allowed age range.
             </Typography>
           )}
+        </Grid>
         </Grid>
 
         {formData.regType && (
@@ -484,14 +477,14 @@ const router = useRouter();
               [
                 "attendeeName",
                 "attendeeAge",
-                "motherTongue",
-                "fathersName",
-                "fathersGothram",
-                "fathersVedam",
-                "fathersProfession",
+               // "motherTongue",
+               // "fathersName",
+               // "fathersGothram",
+               // "fathersVedam",
+               // "fathersProfession",
                 "mothersName",
                 "mothersVedam",
-                "mothersProfession",
+               // "mothersProfession",
                 "maternalGothram",
               ] as Array<keyof FormDataType>
             ).map((field, index) => (
@@ -556,7 +549,7 @@ const router = useRouter();
             ))}
 
             {/* Horoscope, Slogam, Classical Music */}
-            {(
+            {/* {(
               ["horoscopeName"] as Array<
                 keyof FormDataType
               >
@@ -570,12 +563,17 @@ const router = useRouter();
                   fullWidth
                 />
               </Grid>
-            ))}
+            ))} */}
 
             {/* kanya Details*/}
             {formData.regType === "kanya" &&
               (
-                ["schoolStandard", "schoolName","slogamKnown", "classicalMusic"] as Array<keyof FormDataType>
+                [
+                 // "schoolStandard", 
+                 // "schoolName",
+                 // "slogamKnown",
+                 //  "classicalMusic"
+                  ] as Array<keyof FormDataType>
               ).map((field, index) => (
                 <Grid item xs={12} sm={4} key={index}>
                   {field === "schoolStandard" ? (
@@ -682,7 +680,7 @@ const router = useRouter();
               ))}
 
             {/* Address & Devatha */}
-            {(
+            {/* {(
               ["kulaDevatha", "place", "address"] as Array<keyof FormDataType>
             ).map((field, index) => (
               <Grid item xs={12} sm={4} key={index}>
@@ -694,10 +692,104 @@ const router = useRouter();
                   fullWidth
                 />
               </Grid>
-            ))}
+            ))} */}
 
             {/* Dress, Kolusu, Bangle Sizes */}
-            {formData.regType === "kanya" &&
+            {formData.regType === "suvasini" &&
+              (
+                [
+                  {
+                    name: "legchainSize",
+                    label: "Leg Chain (Kolusu) Size",
+                    options: [
+                      5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0,
+                      10.5,
+                    ],
+                  },
+                  {
+                    name: "bangleSize",
+                    label: "Bangle Size",
+                    options: [1.8, 1.1, 1.12, 2.0, 2.2, 2.4, 2.6, 2.8],
+                  },
+                ] as {
+                  name: keyof FormDataType;
+                  label: string;
+                  options: number[];
+                }[]
+              ).map((item, index) => (
+                <Grid item xs={12} sm={12} key={index}>
+                  <Typography
+                    fontSize={isMobile ? 13 : 14}
+                    fontWeight={600}
+                    mb={1}
+                    display="flex"
+                    alignItems="center"
+                  >
+                    {item.label}
+                    {isMobile && (
+                      <IconButton
+                        size="small"
+                        onClick={() => handleFieldToggle(item.name)}
+                      ></IconButton>
+                    )}
+                  </Typography>
+                  {isMobile ? (
+                    <ToggleButtonGroup
+                      value={formData[item.name]}
+                      exclusive
+                      onChange={handleToggleChange(item.name)}
+                      sx={{ flexWrap: "wrap" }}
+                    >
+                      {item.options.map((size) => (
+                        <ToggleButton
+                          key={size}
+                          value={size}
+                          sx={{
+                            mr: 0.5,
+                            mb: 0.5,
+                            minWidth: 36,
+                            padding: "4px 8px",
+                            backgroundColor: "#fff",
+                            "&.Mui-selected": {
+                              backgroundColor: "#693108",
+                              color: "#fff",
+                            },
+                          }}
+                        >
+                          <Typography variant="caption">{size}</Typography>
+                        </ToggleButton>
+                      ))}
+                    </ToggleButtonGroup>
+                  ) : (
+                    <ToggleButtonGroup
+                      value={formData[item.name]}
+                      exclusive
+                      orientation="horizontal"
+                      onChange={handleToggleChange(item.name)}
+                    >
+                      {item.options.map((size) => (
+                        <ToggleButton
+                          key={size}
+                          value={size}
+                          sx={{
+                            mr: 0.5,
+                            minWidth: 36,
+                            padding: "4px 8px",
+                            "&.Mui-selected": {
+                              backgroundColor: "#693108",
+                              color: "#fff",
+                            },
+                          }}
+                        >
+                          <Typography variant="caption">{size}</Typography>
+                        </ToggleButton>
+                      ))}
+                    </ToggleButtonGroup>
+                  )}
+                </Grid>
+              ))}
+
+                         {formData.regType === "kanya" &&
               (
                 [
                   {
@@ -796,6 +888,7 @@ const router = useRouter();
                 </Grid>
               ))}
 
+
             {/* CAPTCHA */}
             {/* <Grid item xs={12}>
             <ReCAPTCHA
@@ -816,4 +909,4 @@ const router = useRouter();
   );
 };
 
-export default NavratriRegistrationForm;
+export default AdminRegistrationForm;

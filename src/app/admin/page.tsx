@@ -6,11 +6,13 @@ import { Box } from '@mui/material';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 // import RegistrationList from '../components/RegistrationList.xst';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import EventManager from '../components/EventManager';
 // import { useNotification } from '../context/NotificationContext';
 import QRScanner from '../components/controls/QRScanner/QRScanner';
 import withAuth from '../utils/withAuth';
 import RegistrationListNew from '../components/RegistrationListNew';
+import AdminRegistrationForm from '../components/AdminRegistrationForm';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -55,28 +57,28 @@ const AdminPage = () => {
 
     <Box sx={{ width: '100%', height: '100hv' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(1)} />
-          <Tab icon={<HowToRegIcon />} iconPosition="start" label="Registerations" {...a11yProps(0)} />
-          {/* <Tab icon={<SupportAgentIcon />} iconPosition="start" label="Vendors" {...a11yProps(1)} /> */}
-          {/* <Tab label="Donors" {...a11yProps(2)} /> */}
-          <Tab label="Entry Scan" {...a11yProps(2)} />
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ minHeight: "60px", height: "60px", marginTop: "-10px" }}>
+          <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(0)} />
+          <Tab icon={<AppRegistrationIcon />} iconPosition="start" label="Registerations" {...a11yProps(1)} />
+          <Tab icon={<HowToRegIcon />} iconPosition="start" label="Approvals" {...a11yProps(2)} />
+          <Tab label="Entry Scan" {...a11yProps(3)} />
+          <Tab label="Event Calendar" {...a11yProps(4)} />
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={1}>
-        <RegistrationListNew />
-      </CustomTabPanel>
-      {/* <CustomTabPanel value={value} index={1}>
-        <VendorOrderList />
-      </CustomTabPanel> */}
-      {/* <CustomTabPanel value={value} index={2}>
-        Donors
-      </CustomTabPanel> */}
       <CustomTabPanel value={value} index={0}>
         <EventManager />
       </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <AdminRegistrationForm />
+      </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
+        <RegistrationListNew />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
         <QRScanner />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={4}>
+        Event Calendar
       </CustomTabPanel>
     </Box>
 
