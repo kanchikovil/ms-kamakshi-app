@@ -58,7 +58,10 @@ const AdminPage = () => {
 
     <Box sx={{ width: '100%', height: '100hv' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ minHeight: "60px", height: "60px", marginTop: "-10px" }}>
+        <Tabs value={value} onChange={handleChange} aria-label="scrollable force tabs" sx={{ minHeight: "60px", height: "60px", marginTop: "-10px" }}
+          variant="scrollable"
+          allowScrollButtonsMobile
+        >
           <Tab icon={<SettingsApplicationsIcon />} iconPosition="start" label="Settings" {...a11yProps(0)} />
           <Tab icon={<AppRegistrationIcon />} iconPosition="start" label="Registerations" {...a11yProps(1)} />
           <Tab icon={<HowToRegIcon />} iconPosition="start" label="Approvals" {...a11yProps(2)} />
