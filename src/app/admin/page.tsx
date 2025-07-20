@@ -13,6 +13,7 @@ import QRScanner from '../components/controls/QRScanner/QRScanner';
 import withAuth from '../utils/withAuth';
 import RegistrationListNew from '../components/RegistrationListNew';
 import AdminRegistrationForm from '../components/AdminRegistrationForm';
+import KovilCalendar from '../components/KovilCalendar';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -78,7 +79,7 @@ const AdminPage = () => {
         <QRScanner />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        Event Calendar
+        <KovilCalendar />
       </CustomTabPanel>
     </Box>
 
