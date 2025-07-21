@@ -697,7 +697,7 @@ const router = useRouter();
             ))}
 
             {/* Dress, Kolusu, Bangle Sizes */}
-            {formData.regType === "kanya" &&
+            {formData.regType === "kanya" || formData.regType === "suvasini" &&
               (
                 [
                   {

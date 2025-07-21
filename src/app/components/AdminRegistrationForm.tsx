@@ -103,7 +103,7 @@ const AdminRegistrationForm = () => {
     eventId: 1,
     dayId: null,
     attendeeAge: 0,
-    regType: registrationType === "kanya" ? "kanya" : "suvasini",
+    regType: "",
     attendeeAadharNumber: 0,
     attendeePhone: 0,
     attendeeEmail: "",
@@ -199,9 +199,18 @@ const router = useRouter();
     }));
   };
   // Handle form changes
-  const handleChange = (e: any) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const handleChange = async (e: any) => {
+  const { name, value } = e.target;
+  setFormData({ ...formData, [name]: value });
+
+  // If registration type changes, re-fetch event days
+  if (name === "regType") {
+    await fetchEventDays(value); // pass new type
+  }
+};
+
+
+
   useEffect(() => {
     const age = Number(formData.attendeeAge);
     if (formData.attendeeAge && (age < ageLimits.min || age > ageLimits.max)) {
@@ -214,47 +223,34 @@ const router = useRouter();
     }
   }, [formData.attendeeAge, ageLimits]);
 
-  const fetchEventDays = async () => {
-    try {
-      const eventsListRes = await axios_instance.get(
-        APP_CONFIG.apiBaseUrl + "/events"
+const fetchEventDays = async (type = registrationType) => {
+  try {
+    const eventsListRes = await axios_instance.get(
+      APP_CONFIG.apiBaseUrl + "/events"
+    );
+
+    const eventsList = eventsListRes.data;
+
+    if (eventsList && Array.isArray(eventsList) && eventsList.length > 0) {
+      const suitableEvent = eventsList.find((e) =>
+        e.eventDays?.some((day: EventDay) => day.isKanyaDay === (type === "kanya"))
       );
-      console.log("🧾 Full Events Response =", eventsListRes);
 
-      const eventsList = eventsListRes.data;
-      // ✅
+      const eventId = suitableEvent?.eventId ?? eventsList[0]?.eventId ?? 1;
 
-      console.log("📦 eventsList =", eventsList); // ✅ Check if events are coming
+      setFormData((prev) => ({ ...prev, eventId }));
 
-      if (eventsList && Array.isArray(eventsList) && eventsList.length > 0) {
-        const suitableEvent = eventsList.find((e) =>
-          e.eventDays?.some(
-            (day: EventDay) => day.isKanyaDay === (registrationType === "kanya")
-          )
-        );
-        const eventId = suitableEvent?.eventId ?? eventsList[0]?.eventId ?? 1;
+      const response = await axios_instance.get<EventDaysResponse>(
+        APP_CONFIG.apiBaseUrl + `/events/${eventId}/days/${type}`
+      );
 
-        setFormData({ ...formData, eventId });
-
-        const response = await axios_instance.get<EventDaysResponse>(
-          APP_CONFIG.apiBaseUrl + `/events/${eventId}/days/${registrationType}`
-        );
-
-        const eventDays: EventDay[] = response.data.data ?? [];
-
-        console.log(
-          "🚀 Event Days fetched for",
-          registrationType,
-          "=",
-          eventDays
-        );
-
-        setEventDays(eventDays);
-      }
-    } catch (error) {
-      showError("Failed to get available slots: " + error);
+      setEventDays(response.data.data ?? []);
     }
-  };
+  } catch (error) {
+    showError("Failed to get available slots: " + error);
+  }
+};
+
 
   //   setSelectedDayId(dayId);
 
@@ -270,18 +266,24 @@ const router = useRouter();
   //   }
   // };
 
+  // useEffect(() => {
+  //   fetchEventDays();
+  // }, []);
   useEffect(() => {
-    fetchEventDays();
-  }, []);
+    if (formData.regType) {
+        fetchEventDays(formData.regType);
+    }
+}, [formData.regType]);
 
-  useEffect(() => {
-    handleChange({
-      target: {
-        name: "regType",
-        value: registrationType,
-      },
-    });
-  }, [registrationType]);
+
+  // useEffect(() => {
+  //   handleChange({
+  //     target: {
+  //       name: "regType",
+  //       value: registrationType,
+  //     },
+  //   });
+  // }, [registrationType]);
 
   const handleToggleChange = (name: any) => (event: any, value: any) => {
     if (value !== null) {
@@ -362,23 +364,29 @@ const router = useRouter();
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
-         <Grid container xs={12}>
-        {/* Registration Type */}
-        <Grid item xs={3}>
-          <TextField
-            select
-            name="regType"
-            label="Registration Type"
-            value={formData.regType}
-            onChange={handleChange}
-            fullWidth
-          >
-            <MenuItem value="kanya">Kanya</MenuItem>
-            <MenuItem value="suvasini">Suvasini</MenuItem>
-          </TextField>
-        </Grid>
+<Grid container spacing={2} alignItems="center">
+          {/* Registration Type */}
+        <Grid item xs={12} sm={4} md={3}>
+  <TextField
+    select
+    name="regType"
+    label="Registration Type"
+    value={formData.regType}
+    onChange={handleChange}
+    fullWidth
+    helperText={!formData.regType ? "Please select registration type to fill the form" : ""}
+    sx={{
+      mb: 2,       // margin-bottom: adds spacing below the dropdown
+      mt: 1        // margin-top: adds spacing above the dropdown
+    }}
+  >
+    <MenuItem value="kanya">Kanya</MenuItem>
+    <MenuItem value="suvasini">Suvasini</MenuItem>
+  </TextField>
+</Grid>
+
          {/* Registration Day */}
-        <Grid item xs={9}>
+        {/* <Grid item xs={12} sm={8} md={9}>
           <EventDaySelector
             eventDays={eventDays ?? []}
             selectedDayId={formData.dayId}
@@ -407,7 +415,36 @@ const router = useRouter();
               Please select a day first to view allowed age range.
             </Typography>
           )}
-        </Grid>
+        </Grid> */}
+        {formData.regType && (
+  <Grid item xs={12} sm={8} md={9}>
+    <EventDaySelector
+      eventDays={eventDays ?? []}
+      selectedDayId={formData.dayId}
+      onChange={(id) => {
+        handleChange({ target: { name: "dayId", value: id } });
+
+        const selectedDay = eventDays.find((day) => day.dayId === id);
+        if (selectedDay) {
+          setAgeLimits({ min: selectedDay.minAge, max: selectedDay.maxAge });
+        } else {
+          setAgeLimits({ min: 1, max: 100 });
+        }
+
+        setShowAgeBeforeDayHelper(false);
+      }}
+    />
+
+    {!formData.dayId && showAgeBeforeDayHelper && (
+      <Typography variant="caption" color="error" sx={{ mt: 1 }}>
+        Please select a day first to view allowed age range.
+      </Typography>
+    )}
+  </Grid>
+)}
+
+
+
         </Grid>
 
         {formData.regType && (
