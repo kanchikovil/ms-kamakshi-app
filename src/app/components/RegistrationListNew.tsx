@@ -355,7 +355,7 @@ export default function RegistrationListNew() {
   // Define columns for both tabs
   const baseColumns: GridColDef[] = [
     { field: 'regId', headerName: 'ID', width: 50, type: 'number' },
-    { field: 'regType', headerName: 'Type', width: 100 },
+   // { field: 'regType', headerName: 'Type', width: 100 },
     { field: 'attendeeAge', headerName: 'Age', width: 100, type: 'number' },
     { field: 'fathersGothram', headerName: 'Father Gothram', width: 150 },
     { field: 'dayId', headerName: 'Day', width: 100 },
@@ -426,7 +426,7 @@ export default function RegistrationListNew() {
 
   // Insert subCaste column only for Suvasini
   const columns =
-    tab === 'suvasini'
+    tab === 'suvasini' || tab === 'kanya'
       ? [
           baseColumns[0],
           baseColumns[1],

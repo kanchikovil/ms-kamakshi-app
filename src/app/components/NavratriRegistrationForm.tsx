@@ -493,6 +493,7 @@ const router = useRouter();
                 "mothersVedam",
                 "mothersProfession",
                 "maternalGothram",
+                "subCaste",
               ] as Array<keyof FormDataType>
             ).map((field, index) => (
               <Grid item xs={12} sm={4} key={index}>
@@ -697,13 +698,13 @@ const router = useRouter();
             ))}
 
             {/* Dress, Kolusu, Bangle Sizes */}
-            {formData.regType === "kanya" || formData.regType === "suvasini" &&
+            {formData.regType === "kanya"  &&
               (
                 [
                   {
                     name: "dressSize",
                     label: "Girls Dress Size",
-                    options: [16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38],
+                    options: [16, 18, 20, 22, 24, 26, 28, 30, 32, 34],
                   },
                   {
                     name: "legchainSize",
@@ -794,8 +795,104 @@ const router = useRouter();
                     </ToggleButtonGroup>
                   )}
                 </Grid>
-              ))}
+              ))
+              }
 
+             {/* Suvasini dress & kolusu sizes */} 
+            {formData.regType === "suvasini" &&
+              (
+                [
+                  {
+                    name: "legchainSize",
+                    label: "Leg Chain (Kolusu) Size",
+                    options: [
+                      5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0,
+                      10.5,
+                    ],
+                  },
+                  {
+                    name: "bangleSize",
+                    label: "Bangle Size",
+                    options: [1.8, 1.1, 1.12, 2.0, 2.2, 2.4, 2.6, 2.8],
+                  },
+                ] as {
+                  name: keyof FormDataType;
+                  label: string;
+                  options: number[];
+                }[]
+              ).map((item, index) => (
+                <Grid item xs={12} sm={12} key={index}>
+                  <Typography
+                    fontSize={isMobile ? 13 : 14}
+                    fontWeight={600}
+                    mb={1}
+                    display="flex"
+                    alignItems="center"
+                  >
+                    {item.label}
+                    {isMobile && (
+                      <IconButton
+                        size="small"
+                        onClick={() => handleFieldToggle(item.name)}
+                      ></IconButton>
+                    )}
+                  </Typography>
+                  {isMobile ? (
+                    <ToggleButtonGroup
+                      value={formData[item.name]}
+                      exclusive
+                      onChange={handleToggleChange(item.name)}
+                      sx={{ flexWrap: "wrap" }}
+                    >
+                      {item.options.map((size) => (
+                        <ToggleButton
+                          key={size}
+                          value={size}
+                          sx={{
+                            mr: 0.5,
+                            mb: 0.5,
+                            minWidth: 36,
+                            padding: "4px 8px",
+                            backgroundColor: "#fff",
+                            "&.Mui-selected": {
+                              backgroundColor: "#693108",
+                              color: "#fff",
+                            },
+                          }}
+                        >
+                          <Typography variant="caption">{size}</Typography>
+                        </ToggleButton>
+                      ))}
+                    </ToggleButtonGroup>
+                  ) : (
+                    <ToggleButtonGroup
+                      value={formData[item.name]}
+                      exclusive
+                      orientation="horizontal"
+                      onChange={handleToggleChange(item.name)}
+                    >
+                      {item.options.map((size) => (
+                        <ToggleButton
+                          key={size}
+                          value={size}
+                          sx={{
+                            mr: 0.5,
+                            minWidth: 36,
+                            padding: "4px 8px",
+                            "&.Mui-selected": {
+                              backgroundColor: "#693108",
+                              color: "#fff",
+                            },
+                          }}
+                        >
+                          <Typography variant="caption">{size}</Typography>
+                        </ToggleButton>
+                      ))}
+                    </ToggleButtonGroup>
+                  )}
+                </Grid>
+              ))
+              }
             {/* CAPTCHA */}
             {/* <Grid item xs={12}>
             <ReCAPTCHA
