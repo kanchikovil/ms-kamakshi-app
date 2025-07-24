@@ -1,0 +1,141 @@
+/* Dialog Overlay */
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Dialog Box */
+.dialogBox {
+  background: #ffffff;
+  width: 700px;
+  max-width: 90%;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  transform: scale(0.8);
+  opacity: 0;
+  animation: popupIn 0.3s ease forwards;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Type-based colors */
+.dialogBox.success { border-top: 6px solid #4caf50; }
+.dialogBox.error { border-top: 6px solid #f44336; }
+.dialogBox.info { border-top: 6px solid #2196f3; }
+.dialogBox.loading { border-top: 6px solid #ff9800; }
+
+/* Dialog Content */
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  color: #333;
+}
+
+/* Loader */
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  align-self: center;
+  animation: spin 1s linear infinite;
+}
+
+/* Main Details */
+.decodedDetails {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.decodedDetails h3 {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+.decodedDetails ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+
+.decodedDetails ul li {
+  padding: 4px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* Additional Details Table */
+.decodedDetails table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.decodedDetails td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Buttons */
+.primaryBtn, .secondaryBtn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s ease;
+}
+
+.primaryBtn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.primaryBtn:hover { background-color: #43a047; }
+
+.secondaryBtn {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.secondaryBtn:hover { background-color: #e0e0e0; }
+
+/* Animations */
+@keyframes popupIn {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes spin {  
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
