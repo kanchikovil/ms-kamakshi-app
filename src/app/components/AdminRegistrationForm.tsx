@@ -133,7 +133,6 @@ const AdminRegistrationForm = () => {
     dressSize: 0,
     legchainSize: 0,
     bangleSize: 0,
-    subCaste: "",
     referredBy: "ADMIN",
   });
   const { showSuccess, showError } = useNotification();
