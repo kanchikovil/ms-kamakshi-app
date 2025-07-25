@@ -133,6 +133,7 @@ const AdminRegistrationForm = () => {
     dressSize: 0,
     legchainSize: 0,
     bangleSize: 0,
+    subCaste: "",
     referredBy: "ADMIN",
   });
   const { showSuccess, showError } = useNotification();
@@ -523,6 +524,7 @@ const fetchEventDays = async (type = registrationType) => {
                 "mothersVedam",
                // "mothersProfession",
                 "maternalGothram",
+                "subCaste",
               ] as Array<keyof FormDataType>
             ).map((field, index) => (
               <Grid item xs={12} sm={4} key={index}>
@@ -606,7 +608,6 @@ const fetchEventDays = async (type = registrationType) => {
             {formData.regType === "kanya" &&
               (
                 [
-                 // "schoolStandard", 
                  // "schoolName",
                  // "slogamKnown",
                  //  "classicalMusic"
@@ -668,7 +669,7 @@ const fetchEventDays = async (type = registrationType) => {
             {formData.regType === "suvasini" &&
               (
                 [
-                  "subCaste",
+                 // "subCaste",
                   "husbandsName",
                   "husbandsGothram",
                   "husbandsProfession",

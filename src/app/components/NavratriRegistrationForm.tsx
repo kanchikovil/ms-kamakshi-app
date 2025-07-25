@@ -634,7 +634,7 @@ const router = useRouter();
             {formData.regType === "suvasini" &&
               (
                 [
-                  "subCaste",
+                //  "subCaste",
                   "husbandsName",
                   "husbandsGothram",
                   "husbandsProfession",

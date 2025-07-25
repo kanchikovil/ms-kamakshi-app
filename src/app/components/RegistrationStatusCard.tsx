@@ -287,8 +287,13 @@ const RegistrationStatusCard: React.FC = () => {
                 <strong style={{ color: "#8B0000" }}>
                   {registrationStatus.toUpperCase()}
                 </strong>{" "}
-                Please wait for confirmation. You will receive an email with
-                more details shortly.
+                {registrationStatus.toUpperCase() === "PENDING"
+                  ? "Please wait for confirmation. You will receive an email with more details shortly." :""}
+                {registrationStatus.toUpperCase() === "APPROVED"
+                  ? "Thank you for Registering." :""}
+                {registrationStatus.toUpperCase() === "REJECTED"
+                  ? "Please Contact Admin." :""}
+                
               </Typography>
 
               <Divider sx={{ my: 2 }} />
